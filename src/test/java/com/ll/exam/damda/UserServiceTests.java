@@ -1,5 +1,6 @@
 package com.ll.exam.damda;
 
+import com.ll.exam.damda.exception.user.SignupNicknameDuplicatedException;
 import com.ll.exam.damda.service.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ public class UserServiceTests {
 
     @Test
     @DisplayName("유저 생성 기능")
-    public void t1() {
+    public void t1() throws SignupNicknameDuplicatedException {
         userService.create("user2","nick2","user2@email.com", "1234");
     }
 }

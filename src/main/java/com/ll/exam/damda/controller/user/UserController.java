@@ -1,5 +1,8 @@
 package com.ll.exam.damda.controller.user;
 
+import com.ll.exam.damda.exception.user.SignupEmailDuplicatedException;
+import com.ll.exam.damda.exception.user.SignupNicknameDuplicatedException;
+import com.ll.exam.damda.exception.user.SignupUsernameDuplicatedException;
 import com.ll.exam.damda.form.user.UserCreateForm;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +38,19 @@ public class UserController {
             return "signup_form";
         }
 
-        userService.create(userCreateForm.getUsername(),userCreateForm.getNickname(),
-                userCreateForm.getEmail(), userCreateForm.getPassword());
-
+        try {
+            userService.create(userCreateForm.getUsername(),userCreateForm.getNickname(),
+                    userCreateForm.getEmail(), userCreateForm.getPassword());
+        } catch (SignupEmailDuplicatedException e) {
+            bindingResult.reject("signupEmailDuplicated", e.getMessage());
+            return "signup_form";
+        } catch (SignupNicknameDuplicatedException e) {
+            bindingResult.reject("signupUsernameDuplicated", e.getMessage());
+            return "signup_form";
+        } catch (SignupUsernameDuplicatedException e) {
+            bindingResult.reject("signupUsernameDuplicated", e.getMessage());
+            return "signup_form";
+        }
         return "redirect:/";
     }
 

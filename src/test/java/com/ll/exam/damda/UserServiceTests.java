@@ -1,6 +1,6 @@
 package com.ll.exam.damda;
 
-import com.ll.exam.damda.exception.user.SignupNicknameDuplicatedException;
+import com.ll.exam.damda.config.user.SignupNicknameDuplicatedException;
 import com.ll.exam.damda.service.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

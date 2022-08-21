@@ -1,4 +1,4 @@
-package com.ll.exam.damda.role.user;
+package com.ll.exam.damda.config.user;
 
 import lombok.Getter;
 

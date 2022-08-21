@@ -1,9 +1,9 @@
 package com.ll.exam.damda.service.user;
 
 import com.ll.exam.damda.entity.user.SiteUser;
-import com.ll.exam.damda.exception.user.SignupEmailDuplicatedException;
-import com.ll.exam.damda.exception.user.SignupNicknameDuplicatedException;
-import com.ll.exam.damda.exception.user.SignupUsernameDuplicatedException;
+import com.ll.exam.damda.config.user.SignupEmailDuplicatedException;
+import com.ll.exam.damda.config.user.SignupNicknameDuplicatedException;
+import com.ll.exam.damda.config.user.SignupUsernameDuplicatedException;
 import com.ll.exam.damda.repository.user.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;

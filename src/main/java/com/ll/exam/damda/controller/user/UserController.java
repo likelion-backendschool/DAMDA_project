@@ -1,8 +1,8 @@
 package com.ll.exam.damda.controller.user;
 
-import com.ll.exam.damda.exception.user.SignupEmailDuplicatedException;
-import com.ll.exam.damda.exception.user.SignupNicknameDuplicatedException;
-import com.ll.exam.damda.exception.user.SignupUsernameDuplicatedException;
+import com.ll.exam.damda.config.user.SignupEmailDuplicatedException;
+import com.ll.exam.damda.config.user.SignupNicknameDuplicatedException;
+import com.ll.exam.damda.config.user.SignupUsernameDuplicatedException;
 import com.ll.exam.damda.form.user.UserCreateForm;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;

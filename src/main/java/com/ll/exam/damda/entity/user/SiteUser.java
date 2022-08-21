@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Entity
@@ -29,6 +31,5 @@ public class SiteUser {
 
     private String method;
 
-    @DateTimeFormat
-    private String join_date;
+    private LocalDateTime createDate;
 }

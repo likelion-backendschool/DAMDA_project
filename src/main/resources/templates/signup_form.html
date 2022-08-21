@@ -14,7 +14,11 @@
         <div th:replace="form_errors :: formErrorsFragment"></div>
 
         <div class="mb-3">
-            <label class="form-label">사용자ID</label>
+            <label class="form-label">아이디</label>
+            <input type="text" th:field="*{username}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">닉네임</label>
             <input type="text" th:field="*{username}" class="form-control">
         </div>
         <div class="mb-3">

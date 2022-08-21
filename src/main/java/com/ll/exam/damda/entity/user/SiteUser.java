@@ -22,6 +22,9 @@ public class SiteUser {
     private Long id;
 
     @Column(unique = true)
+    private String username;
+
+    @Column(unique = true)
     private String nickname;
 
     private String password;

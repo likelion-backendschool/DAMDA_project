@@ -14,6 +14,6 @@ public class UserServiceTests {
     @Test
     @DisplayName("유저 생성 기능")
     public void t1() {
-        userService.create("user1","user1@email.com","1234");
+        userService.create("user2","nick2","user2@email.com", "1234");
     }
 }

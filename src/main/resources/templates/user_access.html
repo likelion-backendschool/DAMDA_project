@@ -9,7 +9,12 @@
 </head>
 <body>
 <div class="container">
-    <h1>테스트</h1>
+    <li class="nav-item">
+        <!-- sec:authorize="isAnonymous()" : 로그아웃 상태일 때 만 렌더링 -->
+        <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+        <!-- sec:authorize="isAuthenticated()" : 로그인 상태일 때 만 렌더링 -->
+        <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+    </li>
     <br/>
 </div>
 </body>

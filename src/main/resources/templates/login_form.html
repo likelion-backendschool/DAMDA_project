@@ -13,7 +13,7 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">사용자ID</label>
+            <label class="form-label">아이디</label>
             <input type="text" name="username" class="form-control">
         </div>
 
@@ -23,7 +23,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary">로그인</button>
-        <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/user/signup}'|">회원가입하기</button>
+        <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/user/signup}'|">회원가입</button>
+        <button type="button" class="btn btn-primary">아이디/비밀번호 찾기</button>
     </form>
 </div>
 </html>

@@ -21,7 +21,10 @@
             <label class="form-label">비밀번호</label>
             <input type="password" name="password" class="form-control">
         </div>
-
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="formCheckDefault" checked="">
+            <label class="form-check-label" for="formCheckDefault">자동로그인</label>
+        </div>
         <button type="submit" class="btn btn-primary">로그인</button>
         <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/user/signup}'|">회원가입</button>
         <button type="button" class="btn btn-primary">아이디/비밀번호 찾기</button>

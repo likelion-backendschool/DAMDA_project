@@ -32,6 +32,17 @@
 
     <img width="694" alt="스크린샷 2022-08-22 오후 10 33 21" src="https://user-images.githubusercontent.com/97084128/185933615-54b1c9c8-b1a2-4027-a725-1cbe088a8732.png">
 
+    - 박재현
+    - 공통 템플릿 적용
+        - 여행지 검색 페이지의 경우 카드 형식으로 여행지 노출 방식 선택
+    - 여행지 DB 초기화 방식 구현 (테스트 데이터 100개)
+    - 여행지 / 리뷰 / 태그 엔티티 구현
+    - 여행지 이름 검색 기능 구현
+        - 기본 정렬 방식 : 리뷰 갯수 내림차순 정렬
+    - 여행지 태그 검색 기능 구현
+        - 관련 태그 합계로 검색 리스트 정렬
+    - 스프링 부트 페이징 기능 적용
+    
     
 - 김민재
     - spring, thymeleaf 공부 중
@@ -68,6 +79,16 @@
 - 회원가입 페이지
 
 <img width="451" alt="스크린샷 2022-08-22 오후 10 35 10" src="https://user-images.githubusercontent.com/97084128/185934011-f6fa0f0c-c474-4977-b379-4578bce33369.png">
+
+- 여행지 검색 페이지_1
+
+<img width="740" alt="스크린샷 2022-08-23 오후 5 58 23" src="https://user-images.githubusercontent.com/97084128/186117122-9e372660-fae9-443e-88bd-44cc0a0f1bf4.png">
+
+
+- 여행지 검색 페이지_2
+
+<img width="733" alt="스크린샷 2022-08-23 오후 5 58 44" src="https://user-images.githubusercontent.com/97084128/186117201-6e2192b7-8311-4881-98ce-9197f0707a6a.png">
+
 
 <img width="706" alt="스크린샷 2022-08-22 오후 10 35 29" src="https://user-images.githubusercontent.com/97084128/185934080-aa11912d-f504-4ceb-8758-c86938961ab6.png">
 

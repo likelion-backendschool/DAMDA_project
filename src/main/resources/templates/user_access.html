@@ -15,6 +15,9 @@
         <!-- sec:authorize="isAuthenticated()" : 로그인 상태일 때 만 렌더링 -->
         <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
     </li>
+    <li sec:authorize="isAuthenticated()">
+        <a class="nav-link" th:href="@{/user/mypage}">마이페이지</a>
+    </li>
     <br/>
 </div>
 </body>

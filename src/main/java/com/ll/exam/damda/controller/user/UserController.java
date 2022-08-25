@@ -63,4 +63,9 @@ public class UserController {
     public String user() {
         return "user_access";
     }
+
+    @GetMapping("/mypage")
+    public String mypage() {
+        return "my_page_form";
+    }
 }

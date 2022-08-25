@@ -1,0 +1,16 @@
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>마이페이지</h4>
+        </div>
+    </div>
+    <form th:action="@{/user/my_page}" th:object="${userEditForm}" method="post">
+        <button type="submit" class="btn btn-primary">정보 수정</button>
+    </form>
+</div>
+</html>

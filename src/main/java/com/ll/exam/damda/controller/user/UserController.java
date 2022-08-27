@@ -79,7 +79,7 @@ public class UserController {
             return "my_page_form";
         }
 
-        userService.edit(userEditForm.getNickname(), userEditForm.getEmail(), userEditForm.getPassword());
+        userService.edit(siteUser, userEditForm.getNickname(), userEditForm.getEmail(), userEditForm.getPassword());
 
         return "my_page_form";
     }

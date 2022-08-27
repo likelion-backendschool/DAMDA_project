@@ -47,8 +47,10 @@ public class UserService {
         return user;
     }
 
-    public void edit(String nickname, String email, String password) {
-
+    public void edit(SiteUser siteUser, String nickname, String email, String password) {
+        siteUser.setNickname(nickname);
+        siteUser.setEmail(email);
+        siteUser.setPassword(password);
     }
 
     public SiteUser getUser(String username) {

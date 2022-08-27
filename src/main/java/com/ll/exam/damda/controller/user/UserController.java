@@ -3,7 +3,9 @@ package com.ll.exam.damda.controller.user;
 import com.ll.exam.damda.config.user.SignupEmailDuplicatedException;
 import com.ll.exam.damda.config.user.SignupNicknameDuplicatedException;
 import com.ll.exam.damda.config.user.SignupUsernameDuplicatedException;
+import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.form.user.UserCreateForm;
+import com.ll.exam.damda.form.user.UserEditForm;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RequiredArgsConstructor
 @Controller
@@ -33,7 +36,7 @@ public class UserController {
         }
 
         if (!userCreateForm.getPassword().equals(userCreateForm.getPassword_check())) {
-            bindingResult.rejectValue("password2", "passwordInCorrect",
+            bindingResult.rejectValue("password_check", "passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
             return "signup_form";
         }
@@ -65,7 +68,19 @@ public class UserController {
     }
 
     @GetMapping("/mypage")
-    public String mypage() {
+    public String mypage(Principal principal, @Valid UserEditForm userEditForm, BindingResult bindingResult) {
+        SiteUser siteUser = userService.getUser(principal.getName());
+
+        if (bindingResult.hasErrors())
+            return "my_page_form";
+        if (!userEditForm.getPassword().equals(userEditForm.getPassword_check())) {
+            bindingResult.rejectValue("password_check", "passwordInCorrect",
+                    "2개의 패스워드가 일치하지 않습니다.");
+            return "my_page_form";
+        }
+
+        userService.edit(userEditForm.getNickname(), userEditForm.getEmail(), userEditForm.getPassword());
+
         return "my_page_form";
     }
 }

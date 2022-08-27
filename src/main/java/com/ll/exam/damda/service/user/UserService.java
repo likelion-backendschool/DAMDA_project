@@ -1,10 +1,13 @@
 package com.ll.exam.damda.service.user;
 
+import com.ll.exam.damda.config.user.DataNotFoundException;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.config.user.SignupEmailDuplicatedException;
 import com.ll.exam.damda.config.user.SignupNicknameDuplicatedException;
 import com.ll.exam.damda.config.user.SignupUsernameDuplicatedException;
 import com.ll.exam.damda.repository.user.UserRepository;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 
 @Service
+@Getter
+@Setter
 @RequiredArgsConstructor
 public class UserService {
 
@@ -40,5 +45,13 @@ public class UserService {
             }
         }
         return user;
+    }
+
+    public void edit(String nickname, String email, String password) {
+
+    }
+
+    public SiteUser getUser(String username) {
+        return (SiteUser) this.userRepository.findByUsername(username).orElseThrow(() -> new DataNotFoundException("siteuser not found"));
     }
 }

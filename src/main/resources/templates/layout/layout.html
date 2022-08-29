@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <!-- 공통 헤드-->
+    <th:block th:replace="/layout/fragments/head :: headFragment"></th:block>
+
+    <body class="h-100">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Main Sidebar -->
+                <th:block th:replace="/layout/fragments/sidebar :: sidebarFragment"></th:block>
+
+                <!-- 기본 템플릿 안에 삽입될 내용 Start -->
+                <div class="main-content-container container-fluid px-4 my-3">
+                    <th:block layout:fragment="content"></th:block>
+                </div>
+                <!-- 기본 템플릿 안에 삽입될 내용 End -->
+
+                <!-- 공통 하단-->
+                <th:block th:replace="/layout/fragments/footer :: footerFragment"></th:block>
+
+            </div>
+        </div>
+
+        <!-- 공통 스크립트-->
+        <th:block th:replace="/layout/fragments/script :: scriptFragment"></th:block>
+    </body>
+</html>

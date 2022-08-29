@@ -1,0 +1,6 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content" class="container my-3">
+    <img th:each="spotImage : ${spotDto.spotImageList}" th:src="${spotImage.URL}" />
+    <span th:each="spotReview : ${spotDto.reviewList}" th:text="${spotReview.content}"></span>
+</div>
+</html>

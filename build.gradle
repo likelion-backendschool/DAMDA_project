@@ -39,6 +39,9 @@ dependencies {
 
 	/* validation dependency for form */
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	/* thymeleaf dependency */
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 }
 
 tasks.named('test') {

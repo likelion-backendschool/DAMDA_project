@@ -8,11 +8,15 @@ import com.ll.exam.damda.form.user.UserCreateForm;
 import com.ll.exam.damda.form.user.UserEditForm;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -42,7 +46,7 @@ public class UserController {
         }
 
         try {
-            userService.create(userCreateForm.getUsername(),userCreateForm.getNickname(),
+            userService.create(userCreateForm.getUsername(), userCreateForm.getNickname(),
                     userCreateForm.getEmail(), userCreateForm.getPassword());
         } catch (SignupEmailDuplicatedException e) {
             bindingResult.reject("signupEmailDuplicated", e.getMessage());
@@ -67,8 +71,19 @@ public class UserController {
         return "user_access";
     }
 
+
     @GetMapping("/mypage")
-    public String mypage(Principal principal, @Valid UserEditForm userEditForm, BindingResult bindingResult) {
+    public String mypage(@Valid UserEditForm userEditForm, BindingResult bindingResult) {
+
+
+        return "my_page_form";
+    }
+
+    @PostMapping("/mypage")
+    public String mypage_post(Principal principal, @Valid UserEditForm userEditForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "my_page_form";
+        }
         SiteUser siteUser = userService.getUser(principal.getName());
 
         if (bindingResult.hasErrors())
@@ -78,9 +93,7 @@ public class UserController {
                     "2개의 패스워드가 일치하지 않습니다.");
             return "my_page_form";
         }
-
         userService.edit(siteUser, userEditForm.getNickname(), userEditForm.getEmail(), userEditForm.getPassword());
-
-        return "my_page_form";
+        return String.format("redirect:/user/mypage");
     }
 }

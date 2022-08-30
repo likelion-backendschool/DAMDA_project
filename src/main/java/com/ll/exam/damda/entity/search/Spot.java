@@ -1,8 +1,7 @@
 package com.ll.exam.damda.entity.search;
 
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
@@ -11,6 +10,9 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Spot {
 
     @Id
@@ -32,6 +34,7 @@ public class Spot {
     private String description;
 
     @OneToMany(mappedBy = "spot")
+    @Builder.Default
     private List<SpotImage> spotImageURLList = new ArrayList<>();
 
     @OneToMany(mappedBy = "spot")
@@ -39,18 +42,6 @@ public class Spot {
 
     @Column(columnDefinition = "integer default 0")
     private int reviewCnt;
-
-    //==생성 메서드==//
-    public static Spot createSpot(String name, String city, String address, String description) {
-        Spot spot = new Spot();
-        spot.setName(name);
-        spot.setCity(city);
-        spot.setAddress(address);
-        spot.setDescription(description);
-        return spot;
-    }
-
-    //==비즈니스 로직==//
 
     //==조회 로직==//
     public Map<Tag, Integer> getTagMap() {

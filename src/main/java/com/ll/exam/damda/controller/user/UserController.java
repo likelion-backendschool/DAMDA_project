@@ -8,6 +8,7 @@ import com.ll.exam.damda.form.user.UserCreateForm;
 import com.ll.exam.damda.form.user.UserEditForm;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -73,8 +74,11 @@ public class UserController {
 
 
     @GetMapping("/mypage")
-    public String mypage(@Valid UserEditForm userEditForm, BindingResult bindingResult) {
+    public String mypage(Principal principal, UserEditForm userEditForm, BindingResult bindingResult) {
+        SiteUser siteUser = userService.getUser(principal.getName());
 
+        userEditForm.setNickname(siteUser.getNickname());
+        userEditForm.setEmail(siteUser.getEmail());
 
         return "my_page_form";
     }

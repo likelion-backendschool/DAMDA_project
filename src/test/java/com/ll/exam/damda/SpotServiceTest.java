@@ -22,7 +22,7 @@ public class SpotServiceTest {
     SpotService spotService;
 
     @Test
-    @DisplayName("Spot여러개 조회시 Review가 N1 쿼리가_발생한다")
+    @DisplayName("Spot 여러개 조회")
     public void findAllTest() throws Exception {
         //given
         Page<SpotDto> spotList = spotService.getSpotListBy("", new ArrayList<>(), 0);

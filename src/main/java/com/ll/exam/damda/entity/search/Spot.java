@@ -38,6 +38,7 @@ public class Spot {
     private List<SpotImage> spotImageURLList = new ArrayList<>();
 
     @OneToMany(mappedBy = "spot")
+    @Builder.Default
     private List<Review> reviewList = new ArrayList<>();
 
     @Column(columnDefinition = "integer default 0")

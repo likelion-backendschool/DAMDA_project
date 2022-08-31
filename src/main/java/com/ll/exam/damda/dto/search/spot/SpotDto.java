@@ -29,17 +29,17 @@ public class SpotDto {
 
     /* Page<Entity> -> Page<Dto> 변환처리 */
     public Page<SpotDto> toDtoList(Page<Spot> spotList) {
-        Page<SpotDto> spotDtoList = spotList.map(m ->
+        Page<SpotDto> spotDtoList = spotList.map(spot ->
                 SpotDto.builder()
-                        .id(m.getId())
-                        .name(m.getName())
-                        .city(m.getCity())
-                        .address(m.getAddress())
-                        .description(m.getDescription())
-                        .tagInfo(m.getTagMap())
-                        .mostTagList(m.getMostTagList())
-                        .reviewList(m.getReviewList())
-                        .spotImageList(m.getSpotImageURLList())
+                        .id(spot.getId())
+                        .name(spot.getName())
+                        .city(spot.getCity())
+                        .address(spot.getAddress())
+                        .description(spot.getDescription())
+                        .tagInfo(spot.getTagMap())
+                        .mostTagList(spot.getMostTagList())
+                        .reviewList(spot.getReviewList())
+                        .spotImageList(spot.getSpotImageURLList())
                         .tagCnt(0)
                         .build()
         );

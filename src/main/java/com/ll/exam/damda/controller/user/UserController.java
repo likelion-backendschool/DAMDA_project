@@ -73,8 +73,8 @@ public class UserController {
     }
 
 
-    @GetMapping("/mypage")
-    public String mypage(Principal principal, UserEditForm userEditForm, BindingResult bindingResult) {
+    @GetMapping("/my_page")
+    public String mypage(Principal principal, UserEditForm userEditForm) {
         SiteUser siteUser = userService.getUser(principal.getName());
 
         userEditForm.setNickname(siteUser.getNickname());
@@ -83,21 +83,24 @@ public class UserController {
         return "my_page_form";
     }
 
-    @PostMapping("/mypage")
-    public String mypage_post(Principal principal, @Valid UserEditForm userEditForm, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "my_page_form";
-        }
+    @PostMapping("/my_page")
+    public String mypage(Principal principal, @Valid UserEditForm userEditForm, BindingResult bindingResult) {
+//        if (bindingResult.hasErrors()) {
+//            return "my_page_form";
+//        }
         SiteUser siteUser = userService.getUser(principal.getName());
 
-        if (bindingResult.hasErrors())
-            return "my_page_form";
-        if (!userEditForm.getPassword().equals(userEditForm.getPassword_check())) {
-            bindingResult.rejectValue("password_check", "passwordInCorrect",
-                    "2개의 패스워드가 일치하지 않습니다.");
+//        if (!userEditForm.getPassword().equals(userEditForm.getPassword_check())) {
+//            bindingResult.rejectValue("password_check", "passwordInCorrect",
+//                    "2개의 패스워드가 일치하지 않습니다.");
+//            return "my_page_form";
+//        }
+
+        try {
+            userService.edit(siteUser, userEditForm.getNickname(), userEditForm.getEmail(), userEditForm.getPassword());
+        } catch (RuntimeException e) {
             return "my_page_form";
         }
-        userService.edit(siteUser, userEditForm.getNickname(), userEditForm.getEmail(), userEditForm.getPassword());
-        return String.format("redirect:/user/mypage");
+        return "redirect:/user/my_page";
     }
 }

@@ -1,5 +1,6 @@
 <html layout:decorate="~{layout/layout}">
 <div layout:fragment="content">
+    <link th:href="@{/styles/image-slide-show.css}" rel="stylesheet" />
     <div class="main-content-container container-fluid px-4">
         <!-- Page Header -->
         <div class="page-header row no-gutters py-4">
@@ -8,6 +9,20 @@
             </div>
         </div>
         <!-- End Page Header -->
+        <div id="slideShow">
+            <ul class="slides">
+                <li><img th:src="@{/images/avatars/0.jpg}" alt=""></li>
+                <li><img th:src="@{/images/avatars/1.jpg}" alt=""></li>
+                <li><img th:src="@{/images/avatars/2.jpg}" alt=""></li>
+                <li><img th:src="@{/images/avatars/3.jpg}" alt=""></li>
+            </ul>
+            <p class="controller">
+                <!-- &lang: 왼쪽 방향 화살표
+                &rang: 오른쪽 방향 화살표 -->
+                <span class="prev">&lang;</span>
+                <span class="next">&rang;</span>
+            </p>
+        </div>
         <!-- Default Light Table -->
         <div class="row">
             <div class="col-lg-8">
@@ -70,7 +85,4 @@
         <!-- End Default Light Table -->
     </div>
 </div>
-<script>
-
-</script>
 </html>

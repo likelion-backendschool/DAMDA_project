@@ -75,12 +75,14 @@ public class InitDB {
 
             /*여행지 이미지 생성*/
             for (Spot spot : spotRepository.findAll()) {
-                SpotImage spotImage = SpotImage.builder()
-                        .URL("https://picsum.photos/800")
-                        .spot(spot)
-                        .build();
-                spot.getSpotImageURLList().add(spotImage);
-                em.persist(spotImage);
+                for (int i = 0; i < 3; i++) {
+                    SpotImage spotImage = SpotImage.builder()
+                            .URL("https://picsum.photos/800")
+                            .spot(spot)
+                            .build();
+                    spot.getSpotImageURLList().add(spotImage);
+                    em.persist(spotImage);
+                }
             }
 
             /*여행지 리뷰 생성*/

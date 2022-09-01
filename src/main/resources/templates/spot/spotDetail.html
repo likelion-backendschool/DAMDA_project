@@ -4,87 +4,73 @@
         <!-- Page Header -->
         <div class="page-header row no-gutters py-4">
             <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                <span class="page-subtitle">여행지</span>
-                <h3 class="page-title">User Profile</h3>
+                <h3 class="page-title">Spot Detail Infomation</h3>
             </div>
         </div>
         <!-- End Page Header -->
         <!-- Default Light Table -->
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-8">
                 <div class="card card-small mb-4" style="height: 600px;">
-                    <div class="card-post__image" style="background-image: url(https://picsum.photos/200); height: 400px;"></div>
+                    <div th:each="image : ${spotDto.spotImageList}">
+                        <div class="card-post__image" th:style="'background-image: url('+@{${image.URL}}+'); height: 400px;'"></div>
+                    </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item p-4 text-center">
                             <strong class="text-muted d-block mb-2">Description</strong>
-                            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio eaque, quidem, commodi soluta qui quae minima obcaecati quod dolorum sint alias, possimus illum assumenda eligendi cumque?</span>
+                            <span th:text="|${spotDto.description}|"></span>
                             <br/>
-                            <button type="button" class="mt-2 mb-2 btn btn-sm btn-pill btn-outline-primary mx-auto" style="width: 70px;">
-                                <i class="material-icons mr-1">person_add</i>담기</button>
+                            <button type="button" class="mt-2 mb-2 btn btn-sm btn-pill btn-outline-primary mx-auto" style="width: 70px;">담기</button>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="card card-small mb-4" style="height: 600px;">
+            <div class="col-lg-4">
+                <div class="card card-small blog-comments" style="height: 600px;">
                     <div class="card-header border-bottom">
-                        <h6 class="m-0">Account Details</h6>
+                        <h6 class="m-0">Spot Review</h6>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item p-3">
-                            <div class="row">
-                                <div class="col">
-                                    <form>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="feFirstName">First Name</label>
-                                                <input type="text" class="form-control" id="feFirstName" placeholder="First Name" value="Sierra"> </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="feLastName">Last Name</label>
-                                                <input type="text" class="form-control" id="feLastName" placeholder="Last Name" value="Brooks"> </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="feEmailAddress">Email</label>
-                                                <input type="email" class="form-control" id="feEmailAddress" placeholder="Email" value="sierra@example.com"> </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="fePassword">Password</label>
-                                                <input type="password" class="form-control" id="fePassword" placeholder="Password"> </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="feInputAddress">Address</label>
-                                            <input type="text" class="form-control" id="feInputAddress" placeholder="1234 Main St"> </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="feInputCity">City</label>
-                                                <input type="text" class="form-control" id="feInputCity"> </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="feInputState">State</label>
-                                                <select id="feInputState" class="form-control">
-                                                    <option selected>Choose...</option>
-                                                    <option>...</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-2">
-                                                <label for="inputZip">Zip</label>
-                                                <input type="text" class="form-control" id="inputZip"> </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-12">
-                                                <label for="feDescription">Description</label>
-                                                <textarea class="form-control" name="feDescription" rows="5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio eaque, quidem, commodi soluta qui quae minima obcaecati quod dolorum sint alias, possimus illum assumenda eligendi cumque?</textarea>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-accent">Update Account</button>
-                                    </form>
+                    <div class="card-body p-0" style="overflow:scroll; width:400px;">
+                        <div th:each="review : ${spotDto.reviewList}" class="blog-comments__item d-flex p-3">
+                            <div class="blog-comments__content">
+                                <div class="blog-comments__meta text-muted">
+                                    <span th:text="|${review.title}|" class="text-secondary"></span>
+                                    <span class="text-muted">– 3 days ago</span>
+                                </div>
+                                <p th:text="|${review.content}|" class="m-0 my-1 mb-2 text-muted"></p>
+                                <div class="blog-comments__actions">
+                                    <div class="btn-group btn-group-sm">
+                                        <button type="button" class="btn btn-white">
+                                            <span class="text-success">
+                                                <i class="material-icons">check</i>
+                                            </span> Like </button>
+                                        <button type="button" class="btn btn-white">
+                                            <span class="text-danger">
+                                                <i class="material-icons">clear</i>
+                                            </span> Delete </button>
+                                        <button type="button" class="btn btn-white">
+                                            <span class="text-light">
+                                                <i class="material-icons">more_vert</i>
+                                            </span> Edit </button>
+                                    </div>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer border-top">
+                        <div class="row">
+                            <div class="col text-center view-report">
+                                <button type="submit" class="btn btn-white">View More Reviews</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- End Default Light Table -->
     </div>
 </div>
+<script>
+
+</script>
 </html>

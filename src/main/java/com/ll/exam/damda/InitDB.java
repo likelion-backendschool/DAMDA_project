@@ -76,7 +76,7 @@ public class InitDB {
             /*여행지 이미지 생성*/
             for (Spot spot : spotRepository.findAll()) {
                 SpotImage spotImage = SpotImage.builder()
-                        .URL("https://picsum.photos/200")
+                        .URL("https://picsum.photos/800")
                         .spot(spot)
                         .build();
                 spot.getSpotImageURLList().add(spotImage);

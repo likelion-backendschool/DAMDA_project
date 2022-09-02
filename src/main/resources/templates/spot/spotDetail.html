@@ -23,7 +23,7 @@
                             <img class="d-block w-100" th:src="${spotDto.spotImageList[0].URL}" alt="First slide">
                         </div>
                         <th:block th:each="image, index : ${spotDto.spotImageList}">
-                            <div class="carousel-item">
+                            <div th:if="${index.index} > 0" class="carousel-item">
                                 <img class="d-block w-100" th:src="${image.URL}">
                             </div>
                         </th:block>

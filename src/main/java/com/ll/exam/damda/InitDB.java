@@ -77,7 +77,7 @@ public class InitDB {
             for (Spot spot : spotRepository.findAll()) {
                 for (int i = 0; i < 3; i++) {
                     SpotImage spotImage = SpotImage.builder()
-                            .URL("https://picsum.photos/800")
+                            .URL("https://picsum.photos/400")
                             .spot(spot)
                             .build();
                     spot.getSpotImageURLList().add(spotImage);

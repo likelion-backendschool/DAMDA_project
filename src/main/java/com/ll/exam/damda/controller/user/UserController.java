@@ -85,20 +85,27 @@ public class UserController {
 
     @PostMapping("/my_page")
     public String mypage(Principal principal, @Valid UserEditForm userEditForm, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return "my_page_form";
-//        }
+        if (bindingResult.hasErrors()) {
+            return "my_page_form";
+        }
         SiteUser siteUser = userService.getUser(principal.getName());
 
-//        if (!userEditForm.getPassword().equals(userEditForm.getPassword_check())) {
-//            bindingResult.rejectValue("password_check", "passwordInCorrect",
-//                    "2개의 패스워드가 일치하지 않습니다.");
-//            return "my_page_form";
-//        }
+        if (!userEditForm.getPassword().equals(userEditForm.getPassword_check())) {
+            bindingResult.rejectValue("password_check", "passwordInCorrect",
+                    "2개의 패스워드가 일치하지 않습니다.");
+            return "my_page_form";
+        }
 
         try {
             userService.edit(siteUser, userEditForm.getNickname(), userEditForm.getEmail(), userEditForm.getPassword());
-        } catch (RuntimeException e) {
+        } catch (SignupEmailDuplicatedException e) {
+            bindingResult.reject("signupEmailDuplicated", e.getMessage());
+            return "my_page_form";
+        } catch (SignupNicknameDuplicatedException e) {
+            bindingResult.reject("signupUsernameDuplicated", e.getMessage());
+            return "my_page_form";
+        } catch (SignupUsernameDuplicatedException e) {
+            bindingResult.reject("signupUsernameDuplicated", e.getMessage());
             return "my_page_form";
         }
         return "redirect:/user/my_page";

@@ -11,6 +11,8 @@
     </div>
     <form th:action="@{/user/my_page}" th:object="${userEditForm}" method="post">
 
+        <div th:replace="form_errors :: formErrorsFragment"></div>
+
         <div class="mb-3">
             <label class="form-label">닉네임</label>
             <input type="text" th:field="*{nickname}" class="form-control">

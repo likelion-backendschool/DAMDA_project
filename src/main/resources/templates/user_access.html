@@ -1,24 +1,15 @@
 <!--테스트용 기본 페이지-->
-<!-- user_access.html-->
-<!DOCTYPE html>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
-<div class="container">
-    <li class="nav-item">
-        <!-- sec:authorize="isAnonymous()" : 로그아웃 상태일 때 만 렌더링 -->
-        <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
-        <!-- sec:authorize="isAuthenticated()" : 로그인 상태일 때 만 렌더링 -->
-        <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
-    </li>
-    <li sec:authorize="isAuthenticated()">
-        <a class="nav-link" th:href="@{/user/my_page}">마이페이지</a>
-    </li>
-    <br/>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>메인페이지</h4>
+        </div>
+    </div>
 </div>
-</body>
+
 </html>

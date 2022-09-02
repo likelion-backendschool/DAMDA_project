@@ -3,21 +3,16 @@ package com.ll.exam.damda.controller.user;
 import com.ll.exam.damda.config.user.SignupEmailDuplicatedException;
 import com.ll.exam.damda.config.user.SignupNicknameDuplicatedException;
 import com.ll.exam.damda.config.user.SignupUsernameDuplicatedException;
+import com.ll.exam.damda.dto.user.MessageDto;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.form.user.UserCreateForm;
 import com.ll.exam.damda.form.user.UserEditForm;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -84,7 +79,7 @@ public class UserController {
     }
 
     @PostMapping("/my_page")
-    public String mypage(Principal principal, @Valid UserEditForm userEditForm, BindingResult bindingResult) {
+    public String mypage(Principal principal, Model model, @Valid UserEditForm userEditForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "my_page_form";
         }
@@ -108,6 +103,15 @@ public class UserController {
             bindingResult.reject("signupUsernameDuplicated", e.getMessage());
             return "my_page_form";
         }
-        return "redirect:/user/my_page";
+
+        MessageDto message = new MessageDto("정보 변경이 완료되었습니다.", "/user/my_page", RequestMethod.POST, null);
+        return showMessageAndRedirect(message, model);
     }
+
+    // 사용자에게 메시지를 전달하고, 페이지를 리다이렉트 한다.
+    private String showMessageAndRedirect(final MessageDto params, Model model) {
+        model.addAttribute("params", params);
+        return "user/messageRedirect";
+    }
+
 }

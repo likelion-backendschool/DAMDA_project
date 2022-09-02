@@ -22,7 +22,7 @@ public class ReviewController {
     @PostMapping("/create")
     public String questionCreate(String subject, String content) {
         ReviewService.create(subject, content);
-        return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
+        return "redirect:/review/list"; // 리뷰 저장후 리뷰목록으로 이동
     }
 
 }

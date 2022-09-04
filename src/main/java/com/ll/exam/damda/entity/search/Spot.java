@@ -19,18 +19,16 @@ public class Spot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    @NotNull
+    @Column(name = "spot_name", nullable = false)
     private String name;
 
-    @Column
-    @NotNull
+    @Column(name = "spot_city", nullable = false)
     private String city;
 
-    @Column
+    @Column(name = "spot_address")
     private String address;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "spot_description", columnDefinition = "TEXT")
     private String description;
 
     @OneToMany(mappedBy = "spot")
@@ -41,8 +39,8 @@ public class Spot {
     @Builder.Default
     private List<Review> reviewList = new ArrayList<>();
 
-    @Column(columnDefinition = "integer default 0")
-    private int reviewCnt;
+    @Column(name = "spot_review_cnt", nullable = false)
+    private int reviewCnt = 0;
 
     //==조회 로직==//
     public Map<Tag, Integer> getTagMap() {

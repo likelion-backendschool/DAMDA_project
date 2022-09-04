@@ -16,11 +16,11 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
 
     List<Spot> findAll(Specification<Spot> spec);
 
-    @EntityGraph(attributePaths = "reviewList")
+    @EntityGraph(attributePaths = {"reviewList", "spotImageURLList"})
     @Query("select s from Spot s")
     Page<Spot> findAllEntityGraph(Pageable pageable);
 
-    @EntityGraph(attributePaths = "reviewList")
+    @EntityGraph(attributePaths = {"reviewList", "spotImageURLList"})
     @Query("select s from Spot s")
     List<Spot> findAllEntityGraph();
 }

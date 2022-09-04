@@ -21,21 +21,25 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "review_title", nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "review_content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne
+    @Column(name = "review_travel_start_date")
+    private LocalDateTime start_date;
+
+    @Column(name = "review_travel_end_date")
+    private LocalDateTime end_date;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id")
     private Spot spot;
 
-    private LocalDateTime start_date;
-
-    private LocalDateTime end_date;
-
     @OneToMany(mappedBy = "review")
-    private List<ReviewTag> reviewTag = new ArrayList<>();
+    @Builder.Default
+    private List<ReviewTag> reviewTagList = new ArrayList<>();
 
     //==연관관계 메서드==//
     public void setSpot(Spot spot) {
@@ -47,7 +51,7 @@ public class Review {
     public Map<Tag, Integer> getTagInfo() {
         Map<Tag, Integer> tagInfo = new HashMap<>();
 
-        for (ReviewTag _reviewTag : this.reviewTag) {
+        for (ReviewTag _reviewTag : this.reviewTagList) {
             Tag tag = _reviewTag.getTag();
             if (tagInfo.containsKey(tag)) {
                 tagInfo.put(tag, tagInfo.get(tag) + 1);

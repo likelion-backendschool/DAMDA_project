@@ -17,11 +17,10 @@ public class SpotImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    @NotNull
-    private String URL;
+    @Column(name = "spot_image_url", nullable = false)
+    private String URL = "";
 
-    @ManyToOne
-    @JoinColumn(name = "Spot_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "spot_id")
     private Spot spot;
 }

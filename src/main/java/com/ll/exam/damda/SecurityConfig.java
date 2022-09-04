@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .key("rem-me-key")
                 .rememberMeParameter("remember") //Name of checkbox at login page
                 .rememberMeCookieName("rememberlogin") //Cookie name
-                .tokenValiditySeconds(300); //Remember login credentials for number of seconds
+                .tokenValiditySeconds(7 * 24 * 60 * 60); // expiration time: 7 days // Remember login credentials for number of seconds
     }
 
     @Bean
@@ -51,4 +51,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
 }

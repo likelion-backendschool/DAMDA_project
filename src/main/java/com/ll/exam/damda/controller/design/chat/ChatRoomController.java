@@ -1,6 +1,6 @@
 package com.ll.exam.damda.controller.design.chat;
 
-import com.ll.exam.damda.dto.design.chat.ChatRoom;
+import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
 import com.ll.exam.damda.service.design.chat.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,13 +23,13 @@ public class ChatRoomController {
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
     @ResponseBody
-    public List<ChatRoom> room() {
+    public List<ChatRoomDto> room() {
         return chatService.findAllRoom();
     }
     // 채팅방 생성
     @PostMapping("/room")
     @ResponseBody
-    public ChatRoom createRoom(@RequestParam String name) {
+    public ChatRoomDto createRoom(@RequestParam String name) {
         return chatService.createRoom(name);
     }
     // 채팅방 입장 화면
@@ -41,7 +41,7 @@ public class ChatRoomController {
     // 특정 채팅방 조회
     @GetMapping("/room/{roomId}")
     @ResponseBody
-    public ChatRoom roomInfo(@PathVariable String roomId) {
+    public ChatRoomDto roomInfo(@PathVariable Long roomId) {
         return chatService.findById(roomId);
     }
 }

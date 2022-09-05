@@ -1,45 +1,66 @@
 package com.ll.exam.damda.service.design.chat;
 
-import com.ll.exam.damda.dto.design.chat.ChatRoom;
+import com.ll.exam.damda.dto.design.chat.ChatMessageDto;
+import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
+import com.ll.exam.damda.entity.design.chat.ChatRoom;
+import com.ll.exam.damda.repository.design.chat.ChatMessageRepository;
+import com.ll.exam.damda.repository.design.chat.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class ChatService {
+    private final ChatMessageRepository chatMessageRepository;
 
-    private Map<String, ChatRoom> chatRooms;
+    private final ChatRoomRepository chatRoomRepository;
 
-    @PostConstruct
-    //의존관게 주입완료되면 실행되는 코드
-    private void init() {
-        chatRooms = new ConcurrentHashMap<>();
-    }
 
     //채팅방 불러오기
-    public List<ChatRoom> findAllRoom() {
+    @Transactional(readOnly = true)
+    public List<ChatRoomDto> findAllRoom() {
         //채팅방 최근 생성 순으로 반환
-        List<ChatRoom> result = new ArrayList<>(chatRooms.values());
-        Collections.reverse(result);
+        List<ChatRoomDto> result = chatRoomRepository.findAll()
+                .stream()
+                .map(ChatRoom::toDto)
+                .collect(Collectors.toList());
 
         return result;
     }
 
     //채팅방 하나 불러오기
-    public ChatRoom findById(String roomId) {
-        return chatRooms.get(roomId);
+    @Transactional(readOnly = true)
+    public ChatRoomDto findById(Long roomId) {
+        return chatRoomRepository.findById(roomId)
+                .orElseThrow(() -> new NoSuchElementException("채팅방이 존재하지 않습니다."))
+                .toDto();
     }
 
     //채팅방 생성
-    public ChatRoom createRoom(String name) {
-        ChatRoom chatRoom = ChatRoom.create(name);
-        chatRooms.put(chatRoom.getRoomId(), chatRoom);
-        return chatRoom;
+    public ChatRoomDto createRoom(String name) {
+        ChatRoom chatRoom = ChatRoom.builder()
+                .planId(1L)
+                .roomTitle(name)
+                .build();
+
+        chatRoom = chatRoomRepository.save(chatRoom);
+
+        ChatRoomDto chatRoomDto = chatRoom.toDto();
+        return chatRoomDto;
+    }
+
+    //채팅 메시지 DB 저장
+    public void saveChatMessage(ChatMessageDto chatMessageDto) {
+        ChatRoom chatRoom = chatRoomRepository.findById(chatMessageDto.getRoomId())
+                .orElseThrow(() -> new NoSuchElementException("채팅방이 존재하지 않습니다."));
+
+        chatRoom.getChatMessages().add(chatMessageDto.toEntity(chatRoom));
     }
 }

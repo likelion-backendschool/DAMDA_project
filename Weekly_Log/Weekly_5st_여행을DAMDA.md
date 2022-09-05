@@ -1,9 +1,3 @@
-### 파일 명: [N주차] idea_n팀 진행상황 공유
-
-<aside>
-✔️ 하단의 내용을 복사하여 .md 파일을 제작해주시길 바랍니다.
-
-</aside>
 
 ## 팀 구성원, 개인 별 역할
 
@@ -38,7 +32,7 @@
 - 박재현
     - 여행지 상세 페이지 내 사진 슬라이드 기능 구현
     
-<img width="687" alt="스크린샷 2022-09-05 오후 11 18 32" src="https://user-images.githubusercontent.com/97084128/188469830-1246faba-7a11-40df-98ac-636a25ea877b.png">
+    <img width="687" alt="스크린샷 2022-09-05 오후 11 18 32" src="https://user-images.githubusercontent.com/97084128/188469830-1246faba-7a11-40df-98ac-636a25ea877b.png">
 
     - 여행지 / 리뷰 / 태그 엔티티의 column name, nullable, fetch.LAZY 설정 변경
     - devbranch 수정

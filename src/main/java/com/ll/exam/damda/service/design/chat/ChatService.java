@@ -2,6 +2,7 @@ package com.ll.exam.damda.service.design.chat;
 
 import com.ll.exam.damda.dto.design.chat.ChatMessageDto;
 import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
+import com.ll.exam.damda.entity.design.chat.ChatMessage;
 import com.ll.exam.damda.entity.design.chat.ChatRoom;
 import com.ll.exam.damda.repository.design.chat.ChatMessageRepository;
 import com.ll.exam.damda.repository.design.chat.ChatRoomRepository;
@@ -41,6 +42,15 @@ public class ChatService {
         return chatRoomRepository.findById(roomId)
                 .orElseThrow(() -> new NoSuchElementException("채팅방이 존재하지 않습니다."))
                 .toDto();
+    }
+
+    //채팅방 메시지들 불러오기
+    @Transactional(readOnly = true)
+    public List<ChatMessageDto> findAllMessages(Long roomId) {
+        return chatMessageRepository.findAllByChatRoom_idOrderByIdDesc(roomId)
+                .stream()
+                .map(ChatMessage::toDto)
+                .collect(Collectors.toList());
     }
 
     //채팅방 생성

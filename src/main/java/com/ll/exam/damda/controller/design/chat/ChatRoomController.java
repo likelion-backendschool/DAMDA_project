@@ -1,5 +1,6 @@
 package com.ll.exam.damda.controller.design.chat;
 
+import com.ll.exam.damda.dto.design.chat.ChatMessageDto;
 import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
 import com.ll.exam.damda.service.design.chat.ChatService;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,12 @@ public class ChatRoomController {
     @ResponseBody
     public ChatRoomDto roomInfo(@PathVariable Long roomId) {
         return chatService.findById(roomId);
+    }
+
+    // 특정 채팅방 메시지 조회
+    @GetMapping("/room/messages/{roomId}")
+    @ResponseBody
+    public List<ChatMessageDto> roomMessages(@PathVariable Long roomId) {
+        return chatService.findAllMessages(roomId);
     }
 }

@@ -1,5 +1,6 @@
 package com.ll.exam.damda.entity.design.chat;
 
+import com.ll.exam.damda.dto.design.chat.ChatMessageDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,4 +27,12 @@ public class ChatMessage {
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
+
+    public ChatMessageDto toDto() {
+        ChatMessageDto message = new ChatMessageDto();
+        message.setRoomId(chatRoom.getId());
+        message.setUser(userId);
+        message.setContent(content);
+        return message;
+    }
 }

@@ -23,14 +23,14 @@
         <div class="input-group-prepend">
             <label class="input-group-text">내용</label>
         </div>
-        <input type="text" class="form-control" v-model="message" v-on:keypress.enter="sendMessage">
+        <input type="text" class="form-control" v-model="content" v-on:keypress.enter="sendMessage">
         <div class="input-group-append">
             <button class="btn btn-primary" type="button" @click="sendMessage">보내기</button>
         </div>
     </div>
     <ul class="list-group">
         <li class="list-group-item" v-for="message in messages">
-            {{message.sender}} - {{message.message}}
+            {{message.user}} - {{message.content}}
         </li>
     </ul>
     <div></div>
@@ -52,25 +52,29 @@
         data: {
             roomId: '',
             room: {},
-            sender: '',
-            message: '',
+            user: '',
+            content: '',
             messages: []
         },
         created() {
             this.roomId = localStorage.getItem('wschat.roomId');
-            this.sender = localStorage.getItem('wschat.sender');
+            this.user = localStorage.getItem('wschat.user');
             this.findRoom();
+            this.findMessages();
         },
         methods: {
             findRoom: function() {
                 axios.get('/chat/room/'+this.roomId).then(response => { this.room = response.data; });
             },
+            findMessages: function() {
+                axios.get('/chat/room/messages/'+this.roomId).then(response => { this.messages = response.data; });
+            },
             sendMessage: function() {
-                ws.send("/app/chat/message", {}, JSON.stringify({type:'TALK', roomId:this.roomId, sender:this.sender, message:this.message}));
-                this.message = '';
+                ws.send("/app/chat/message", {}, JSON.stringify({roomId:this.roomId, user:this.user, content:this.content}));
+                this.content = '';
             },
             recvMessage: function(recv) {
-                this.messages.unshift({"type":recv.type,"sender":recv.type=='ENTER'?'[알림]':recv.sender,"message":recv.message})
+                this.messages.unshift({"user":recv.user,"content":recv.content})
             }
         }
     });
@@ -82,7 +86,7 @@
                 var recv = JSON.parse(message.body);
                 vm.recvMessage(recv);
             });
-            ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:vm.$data.roomId, sender:vm.$data.sender}));
+            ws.send("/app/chat/message", {}, JSON.stringify({roomId:vm.$data.roomId, user:vm.$data.user, content:vm.$data.user + "가 채팅방에 입장했습니다."}));
         }, function(error) {
             if(reconnect++ <= 5) {
                 setTimeout(function() {

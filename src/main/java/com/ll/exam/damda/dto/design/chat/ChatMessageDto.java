@@ -2,33 +2,26 @@ package com.ll.exam.damda.dto.design.chat;
 
 import com.ll.exam.damda.entity.design.chat.ChatMessage;
 import com.ll.exam.damda.entity.design.chat.ChatRoom;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ChatMessageDto {
-    public enum MessageType {
-        ENTER, TALK
-    }
-
-    private MessageType type;
     //채팅방 ID
     private Long roomId;
     //보내는 사람
-    private String sender;
+    private String user;
     //내용
-    private String message;
+    private String content;
 
     public ChatMessage toEntity(ChatRoom chatRoom) {
         return ChatMessage.builder()
                 .chatRoom(chatRoom)
-                .userId(sender)
-                .content(message)
+                .userId(user)
+                .content(content)
                 .build();
     }
 }

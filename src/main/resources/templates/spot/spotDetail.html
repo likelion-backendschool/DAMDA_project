@@ -20,11 +20,11 @@
                     </ol>
                     <div class="carousel-inner" style="height: 600px;">
                         <div class="carousel-item active">
-                            <img class="d-block w-100" th:src="${spotDto.spotImageList[0].URL}" alt="First slide">
+                            <img class="d-block w-100" th:src="${spotDto.spotImageList[0].URL}" alt="First slide" style="border-radius: 10px;object-fit: cover;">
                         </div>
                         <th:block th:each="image, index : ${spotDto.spotImageList}">
                             <div th:if="${index.index} > 0" class="carousel-item">
-                                <img class="d-block w-100" th:src="${image.URL}">
+                                <img class="d-block w-100" th:src="${image.URL}" style="border-radius: 10px;object-fit: cover;">
                             </div>
                         </th:block>
                     </div>

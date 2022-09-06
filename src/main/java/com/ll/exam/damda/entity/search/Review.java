@@ -4,10 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 @Getter
@@ -39,7 +36,7 @@ public class Review {
 
     @OneToMany(mappedBy = "review")
     @Builder.Default
-    private List<ReviewTag> reviewTagList = new ArrayList<>();
+    private Set<ReviewTag> reviewTags = new LinkedHashSet<>();
 
     //==연관관계 메서드==//
     public void setSpot(Spot spot) {
@@ -51,7 +48,7 @@ public class Review {
     public Map<Tag, Integer> getTagInfo() {
         Map<Tag, Integer> tagInfo = new HashMap<>();
 
-        for (ReviewTag _reviewTag : this.reviewTagList) {
+        for (ReviewTag _reviewTag : this.reviewTags) {
             Tag tag = _reviewTag.getTag();
             if (tagInfo.containsKey(tag)) {
                 tagInfo.put(tag, tagInfo.get(tag) + 1);

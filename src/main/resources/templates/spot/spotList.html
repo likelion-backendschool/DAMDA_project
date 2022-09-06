@@ -60,14 +60,14 @@
                         <div class="form-row">
                             <h5 class="card-title col">
                                 <a class="text-fiord-blue" th:href="@{/spot/detail (spot=${spot.id})}" th:text="${spot.name}"></a>
-                                <span th:text="|(${spot.reviewList.size()})|" class="text-danger small ms-2"></span>
+                                <span th:text="|(${spot.reviews.size()})|" class="text-danger small ms-2"></span>
                             </h5>
                             <span th:text="${spot.city}" class="d-inline-block float-right"></span>
                         </div>
                         <p th:text="${spot.description}" class="card-text"></p>
                     </div>
                     <div class="card-footer text-muted border-top py-3">
-                        <span th:each="tag : ${spot.MostTagList}" th:text="|${tag.name} |"></span>
+                        <span th:each="tag : ${spot.MostTags}" th:text="|${tag.name} |"></span>
                     </div>
                 </div>
             </div>

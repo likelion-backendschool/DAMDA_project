@@ -71,7 +71,7 @@ public class SpotService {
             @Override
             public Predicate toPredicate(Root<Spot> s, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거
-                Join<Spot, Review> r = s.join("reviewList", JoinType.LEFT);
+                Join<Spot, Review> r = s.join("reviews", JoinType.LEFT);
                 return cb.or(cb.like(s.get("name"), "%" + kw + "%"),
                         cb.like(s.get("city"), "%" + kw + "%"),
                         cb.like(s.get("address"), "%" + kw + "%"),

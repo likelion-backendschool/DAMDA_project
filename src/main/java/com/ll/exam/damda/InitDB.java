@@ -80,7 +80,7 @@ public class InitDB {
                             .URL("https://picsum.photos/400")
                             .spot(spot)
                             .build();
-                    spot.getSpotImageURLList().add(spotImage);
+                    spot.getSpotImageURLs().add(spotImage);
                     em.persist(spotImage);
                 }
             }
@@ -88,13 +88,14 @@ public class InitDB {
             /*여행지 리뷰 생성*/
             for (Spot spot : spotRepository.findAll()) {
                 for (int i = 0; i < rand.nextInt(10); i++) {
-                    em.persist(Review.builder()
-                            .spot(spot)
+                    Review review = Review.builder()
                             .title("good")
                             .content("so fun")
                             .start_date(LocalDateTime.of(2022, Month.APRIL, 1, 0, 0))
                             .end_date(LocalDateTime.of(2022, Month.APRIL, 2, 0, 0))
-                            .build());
+                            .build();
+                    review.setSpot(spot);
+                    em.persist(review);
                 }
             }
 

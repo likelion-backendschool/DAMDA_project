@@ -14,15 +14,15 @@
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <th:block th:each="image, index : ${spotDto.spotImageList}">
+                        <th:block th:each="image, index : ${spotDto.spotImages}">
                             <li th:if="${index.index} > 0" data-target="#carouselExampleIndicators" th:data-slide-to="${index.index}"></li>
                         </th:block>
                     </ol>
                     <div class="carousel-inner" style="height: 600px;">
                         <div class="carousel-item active">
-                            <img class="d-block w-100" th:src="${spotDto.spotImageList[0].URL}" alt="First slide" style="border-radius: 10px;object-fit: cover;">
+                            <img class="d-block w-100" th:src="${spotDto.spotImages[0].URL}" alt="First slide" style="border-radius: 10px;object-fit: cover;">
                         </div>
-                        <th:block th:each="image, index : ${spotDto.spotImageList}">
+                        <th:block th:each="image, index : ${spotDto.spotImages}">
                             <div th:if="${index.index} > 0" class="carousel-item">
                                 <img class="d-block w-100" th:src="${image.URL}" style="border-radius: 10px;object-fit: cover;">
                             </div>
@@ -54,7 +54,7 @@
                         <h6 class="m-0">Spot Review</h6>
                     </div>
                     <div class="card-body p-0" style="overflow:scroll;">
-                        <div th:each="review : ${spotDto.reviewList}" class="blog-comments__item d-flex p-3">
+                        <div th:each="review : ${spotDto.reviews}" class="blog-comments__item d-flex p-3">
                             <div class="blog-comments__content">
                                 <div class="blog-comments__meta text-muted">
                                     <span th:text="|${review.title}|" class="text-secondary"></span>

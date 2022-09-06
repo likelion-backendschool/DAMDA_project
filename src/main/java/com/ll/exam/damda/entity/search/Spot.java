@@ -1,6 +1,5 @@
 package com.ll.exam.damda.entity.search;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,11 +32,11 @@ public class Spot {
 
     @OneToMany(mappedBy = "spot")
     @Builder.Default
-    private List<SpotImage> spotImageURLList = new ArrayList<>();
+    private Set<SpotImage> spotImageURLs = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "spot")
     @Builder.Default
-    private List<Review> reviewList = new ArrayList<>();
+    private Set<Review> reviews = new LinkedHashSet<>();
 
     @Column(name = "spot_review_cnt", nullable = false)
     private int reviewCnt = 0;
@@ -46,7 +45,7 @@ public class Spot {
     public Map<Tag, Integer> getTagMap() {
         Map<Tag, Integer> tagInfo = new HashMap<>();
 
-        for (Review review : this.reviewList) {
+        for (Review review : this.reviews) {
             for (Map.Entry<Tag, Integer> entry : review.getTagInfo().entrySet()) {
                 if (!tagInfo.containsKey(entry.getKey())) {
                     tagInfo.put(entry.getKey(), entry.getValue());

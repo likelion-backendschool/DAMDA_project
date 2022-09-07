@@ -46,4 +46,17 @@ public class PlanService {
     public void delete(Plan plan) {
         planRepository.delete(plan);
     }
+
+    public void modifyBasic(long planId, String title, long size, String memo) {
+        Optional<Plan> optionalPlan = planRepository.findById(planId);
+        if(optionalPlan.isPresent()) {
+            Plan plan = optionalPlan.get();
+            plan.setTitle(title);
+            plan.setSize(size);
+            plan.setMemo(memo);
+            planRepository.save(plan);
+        } else {
+            return;
+        }
+    }
 }

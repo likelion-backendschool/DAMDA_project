@@ -1,6 +1,7 @@
 package com.ll.exam.damda;
 
 
+import com.ll.exam.damda.service.user.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private UserSecurityService userSecurityService;
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
@@ -54,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .rememberMe()
                 .key("rem-me-key")
+                .userDetailsService(userSecurityService)
                 .rememberMeParameter("remember-me") //Name of checkbox at login page
                 .rememberMeCookieName("remember-login") //Cookie name
                 .tokenRepository(persistentTokenRepository()) //DataSource 추가

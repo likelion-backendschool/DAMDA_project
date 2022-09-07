@@ -1,0 +1,17 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+  <div class="justify-content-center container w-25">
+    <form th:action="@{/search/design/new}" method="post">
+      <div class="card card my-2">
+        <span class="text-center">여행이름</span>
+        <input type="text" name="title" id="title" style="border-radius: 5px;">
+      </div>
+      <div class="card card mb-2" >
+        <span class="text-center">여행일수</span>
+        <input style="border-radius: 5px;" type="text" name="size" id="size">
+      </div>
+      <button type="submit" class="btn btn-primary mb-2">저장</button>
+    </form>
+  </div>
+</div>
+</html>

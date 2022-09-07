@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,12 +16,13 @@ public class PlanService {
     private final PlanRepository planRepository;
     private final CourseService courseService;
 
-    public Plan create(String title, long size) {
+    public Plan create(String title, long size, String memo) {
         Plan plan = new Plan();
         plan.setTitle(title);
-        plan.setFirstCreatedDate(LocalDateTime.now());
+        plan.setCreatedDate(LocalDateTime.now());
         plan.setFirstCreator("user");
         plan.setSize(size);
+        plan.setMemo(memo);
         planRepository.save(plan);
         for(long i = 1; i <= size; i++) {
             courseService.create(plan, i);
@@ -35,5 +37,13 @@ public class PlanService {
         } else {
             return null;
         }
+    }
+
+    public List<Plan> getAllPlan() {
+        return planRepository.findAll();
+    }
+
+    public void delete(Plan plan) {
+        planRepository.delete(plan);
     }
 }

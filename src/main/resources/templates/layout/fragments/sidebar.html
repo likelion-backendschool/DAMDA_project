@@ -19,14 +19,20 @@
             <div class="nav-wrapper">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/spot/show}">
+                        <a class="nav-link" th:href="@{/spot/show}">
                             <i class="material-icons">vertical_split</i>
 
                             <span>여행지 탐색</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " th:href="@{/travel/design/list}">
+                        <a class="nav-link " th:href="@{/travel/design/plan/list}">
+                            <i class="material-icons">edit</i>
+                            <span>내 여행 계획</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " th:href="@{/travel/design/new}">
                             <i class="material-icons">edit</i>
                             <span>여행 계획 세우기</span>
                         </a>

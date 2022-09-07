@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/travel/design")
@@ -23,18 +25,21 @@ public class PlanController {
     private final SpotService spotService;
 
 
-    @GetMapping("/list")
-    @ResponseBody
-    public String list() {
-        return "list";
+    @GetMapping("/plan/list")
+    public String list(Model model) {
+        List<Plan> planList = planService.getAllPlan();
+        model.addAttribute("planList", planList);
+        return "/design/map/plan_list";
     }
     @GetMapping("/new")
     public String createPlan() {
         return "/design/map/new_plan";
     }
     @PostMapping("/new")
-    public String createPlan(@RequestParam(value = "title") String title, @RequestParam(value = "size") long size) {
-        Plan plan = planService.create(title, size);
+    public String createPlan(@RequestParam(value = "title") String title,
+                             @RequestParam(value = "size") long size,
+                             @RequestParam(value = "memo") String memo) {
+        Plan plan = planService.create(title, size, memo);
         return "redirect:/travel/design/modification/%d?order=%d".formatted(plan.getId(), 1);
     }
     @GetMapping("/modification/{planId}")
@@ -61,5 +66,11 @@ public class PlanController {
         System.out.println(spotJson);
         return spotJson;
 
+    }
+    @GetMapping("/plan/delete/{planId}")
+    public String deletePlan(@PathVariable long planId) {
+        Plan plan = planService.getPlan(planId);
+        planService.delete(plan);
+        return "redirect:/travel/design/plan/list";
     }
 }

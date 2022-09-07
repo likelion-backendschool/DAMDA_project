@@ -1,5 +1,5 @@
 <html layout:decorate="~{layout/layout}">
-<div layout:fragment="content" class=" d-flex justify-content-around"
+<div layout:fragment="content" class=" d-flex justify-content-around mt-3"
      style="width:95%; height:100%; position:absolute;">
   <div class="busket card card text-center py-3" style="width:20%; height:80%;">
     장바구니
@@ -7,14 +7,14 @@
   <div class="mx-2" style="width: 65%; height: 80%">
     <div class="d-flex container justify-content-around mb-2">
       <a class="px-5 card card"
-         th:if="${course.id - 1 > 0}"
+         th:if="${course.orders - 1 > 0}"
          th:href="@{|?order=${course.orders - 1}|}"
          th:text="|${course.orders - 1}일차|"
       >
       </a>
       <a class="px-5 card card" th:text="|${course.orders}일차|"></a>
       <a class="px-5 card card"
-         th:if="${course.id + 1 <= plan.size}"
+         th:if="${course.orders + 1 <= plan.size}"
          th:text="|${course.orders + 1}일차|"
          th:href="@{|?order=${course.orders + 1}|}"></a>
     </div>

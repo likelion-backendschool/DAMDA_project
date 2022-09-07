@@ -23,13 +23,16 @@ public class Plan {
     private Long size;
 
     @CreatedDate
-    private LocalDateTime firstCreatedDate;
+    private LocalDateTime CreatedDate;
 
     private LocalDateTime lastModifiedDate;
 
     private String firstCreator;
 
     private String lastModifier;
+
+    @Column(columnDefinition = "TEXT")
+    private String memo;
 
     @OneToMany(mappedBy = "plan", cascade = CascadeType.REMOVE)
     private List<Course> courseList;

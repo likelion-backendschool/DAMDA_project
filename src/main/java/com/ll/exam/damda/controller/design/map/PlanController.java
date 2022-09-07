@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/search/design")
+@RequestMapping("/travel/design")
 public class PlanController {
     private final ObjectMapper objectMapper;
     private final PlanService planService;
@@ -35,7 +35,7 @@ public class PlanController {
     @PostMapping("/new")
     public String createPlan(@RequestParam(value = "title") String title, @RequestParam(value = "size") long size) {
         Plan plan = planService.create(title, size);
-        return "redirect:/search/design/modification/%d?order=%d".formatted(plan.getId(), 1);
+        return "redirect:/travel/design/modification/%d?order=%d".formatted(plan.getId(), 1);
     }
     @GetMapping("/modification/{planId}")
     public String modifyPlan(Model model, @PathVariable("planId") long planId, @RequestParam(value = "order") long order) {

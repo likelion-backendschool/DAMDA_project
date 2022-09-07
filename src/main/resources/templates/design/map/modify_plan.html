@@ -190,7 +190,7 @@
         // fetch(`/search/design/insertSpot/${course.id}`)
         $.ajax({
           type: "post", //요청타입
-          url: `/search/design/insertSpot`, //url
+          url: `/travel/design/insertSpot`, //url
           data: {
             name: place_name,
             address: place_address,
@@ -298,7 +298,7 @@
   <div class="text-center py-3" style="width:20%; height:80%;">
     <div class="card card text-center py-3 mb-3" style="width:100%; height:90%;">채팅방</div>
     <a class="btn btn-primary py-4" style="width:100%;"
-       th:href="@{|/search/design/detail/${plan.id}?order=1|}"
+       th:href="@{|/travel/design/detail/${plan.id}?order=1|}"
     >저장</a>
   </div>
 </div>

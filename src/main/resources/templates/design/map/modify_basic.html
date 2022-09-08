@@ -1,7 +1,24 @@
 <html layout:decorate="~{layout/layout}">
 <div layout:fragment="content">
+  <script>
+    function submitForm(form) {
+      form.title.value = form.title.value.trim();
+      if (form.title.value.length == 0) {
+        alert('여행이름을 입력해주세요.');
+        form.title.focus();
+        return false;
+      }
+      form.size.value = form.size.value.trim();
+      if (form.size.value.length == 0) {
+        alert('여행일수를 입력해주세요.');
+        form.size.focus();
+        return false;
+      }
+      form.submit();
+    }
+  </script>
   <div class="justify-content-center container w-25">
-    <form th:action="@{|/travel/design/modification/basic/${plan.id}|}" method="post" class="card card mt-2">
+    <form onsubmit="submitForm(this); return false;" th:action="@{|/travel/design/modification/basic/${plan.id}|}" method="post" class="card card mt-2">
       <div class="m-4">
         <span class="text-center mb-2">여행이름</span>
         <br>

@@ -1,5 +1,6 @@
 package com.ll.exam.damda.entity.search;
 
+import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.sun.istack.NotNull;
 import lombok.*;
@@ -44,6 +45,8 @@ public class Spot {
 
     private String y;
 
+    @ManyToOne
+    private Busket busket;
 //    @OneToMany(mappedBy = "spot")
 //    @Builder.Default
 //    private List<SpotImage> spotImageURLList = new ArrayList<>();

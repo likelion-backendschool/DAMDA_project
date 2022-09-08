@@ -1,5 +1,6 @@
 package com.ll.exam.damda.entity.design.map;
 
+import com.ll.exam.damda.entity.SiteUser;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -36,6 +37,9 @@ public class Plan {
 
     @OneToMany(mappedBy = "plan", cascade = CascadeType.REMOVE)
     private List<Course> courseList;
+
+    @ManyToOne
+    private SiteUser siteUser;
 
 //    @Column
 //    private List<SpotDto> spotBusket;

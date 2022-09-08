@@ -19,7 +19,7 @@ public class Busket {
     private Long Id;
 
     @OneToMany
-    private List<Spot> spotList = new LinkedList<>();
+    private List<Spot> spotList;
 
     @OneToOne
     private Plan plan;

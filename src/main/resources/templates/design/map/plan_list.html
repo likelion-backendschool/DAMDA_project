@@ -13,21 +13,37 @@
                                    th:text="${plan.title}"></a>
                             </h4>
                         </div>
-                        <div class="text-right justify-content-end">
-                            <h5 class="card-title col">
-                                <span th:text="5명" class="text-danger small ms-2"></span> <!-- |${plan.member.size()}명| 구성원수-->
-                                <span th:text="|${plan.size}일|" class="text-dark small ms-2"></span>
-                            </h5>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="card-title col">
+                                    <span th:text="5명" class="text-danger small ms-2"></span> <!-- |${plan.member.size()}명| 구성원수-->
+                                    <span th:text="|${plan.size}일|" class="text-dark small ms-2"></span>
+                                </h5>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    option
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item"
+                                           th:href="@{|/travel/design/modification/basic/${plan.id}|}">수정</a></li>
+                                    <li><a class="dropdown-item"
+                                           th:href="@{|/travel/design/detail/${plan.id}?order=1|}">상세</a></li>
+                                    <li> <a class="dropdown-item"
+                                            onclick="if(!confirm('정말로 삭제하시겠습니까?')) return false;"
+                                            th:href="@{|/travel/design/plan/delete/${plan.id}|}">삭제</a></li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-around border-bottom-1 mb-2">
-                            <a class="btn btn-outline-secondary p-2 px-4 mx-1"
-                               th:href="@{|/travel/design/modification/basic/${plan.id}|}">수정</a>
-                            <a class="btn btn-outline-secondary p-2 px-4 mx-1"
-                               th:href="@{|/travel/design/detail/${plan.id}?order=1|}">상세</a>
-                            <a class="btn btn-outline-secondary p-2 px-4 mx-1"
-                               onclick="if(!confirm('정말로 삭제하시겠습니까?')) return false;"
-                               th:href="@{|/travel/design/plan/delete/${plan.id}|}">삭제</a>
-                        </div>
+<!--                        <div class="d-flex justify-content-around border-bottom-1 mb-2">-->
+<!--                            <a class="btn btn-outline-secondary p-2 px-4 mx-1"-->
+<!--                               th:href="@{|/travel/design/modification/basic/${plan.id}|}">수정</a>-->
+<!--                            <a class="btn btn-outline-secondary p-2 px-4 mx-1"-->
+<!--                               th:href="@{|/travel/design/detail/${plan.id}?order=1|}">상세</a>-->
+<!--                            <a class="btn btn-outline-secondary p-2 px-4 mx-1"-->
+<!--                               onclick="if(!confirm('정말로 삭제하시겠습니까?')) return false;"-->
+<!--                               th:href="@{|/travel/design/plan/delete/${plan.id}|}">삭제</a>-->
+<!--                        </div>-->
                         <p th:text="${plan.memo}" class="card-text"></p>
                     </div>
                 </div>

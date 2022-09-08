@@ -6,26 +6,28 @@
             <div th:each="plan : ${planList}" class="col-lg-3 col-md-6 col-sm-12 mb-4">
                 <div class="card card-small card-post h-100 mt-3">
                     <div class="card-post__image" th:style="'background-image: url(https://picsum.photos/800);'"></div>
-                    <div class="card-body">
-                        <div class="form-row">
+                    <div class="card-footer text-muted border-top py-3">
+                        <div>
                             <h4 class="card-title col">
                                 <a class="text-fiord-blue" th:href="@{|/plan/detail/${plan.id}|}"
                                    th:text="${plan.title}"></a>
-                                <span th:text="5명" class="text-danger small ms-2"></span> <!-- |${plan.member.size()}명| 구성원수-->
                             </h4>
                         </div>
-<!--                        <span th:text="5일 동안" class="text-danger small ms-2"></span> &lt;!&ndash; 여행일수 &ndash;&gt;-->
-                        <div class="d-flex justify-content-around">
+                        <div class="text-right justify-content-end">
+                            <h5 class="card-title col">
+                                <span th:text="5명" class="text-danger small ms-2"></span> <!-- |${plan.member.size()}명| 구성원수-->
+                                <span th:text="|${plan.size}일|" class="text-dark small ms-2"></span>
+                            </h5>
+                        </div>
+                        <div class="d-flex justify-content-around border-bottom-1 mb-2">
                             <a class="btn btn-outline-secondary p-2 px-4 mx-1"
-                                    th:href="@{|/travel/design/modification/basic/${plan.id}|}">수정</a>
+                               th:href="@{|/travel/design/modification/basic/${plan.id}|}">수정</a>
                             <a class="btn btn-outline-secondary p-2 px-4 mx-1"
-                                    th:href="@{|/travel/design/detail/${plan.id}?order=1|}">상세</a>
+                               th:href="@{|/travel/design/detail/${plan.id}?order=1|}">상세</a>
                             <a class="btn btn-outline-secondary p-2 px-4 mx-1"
                                onclick="if(!confirm('정말로 삭제하시겠습니까?')) return false;"
-                                    th:href="@{|/travel/design/plan/delete/${plan.id}|}">삭제</a>
+                               th:href="@{|/travel/design/plan/delete/${plan.id}|}">삭제</a>
                         </div>
-                    </div>
-                    <div class="card-footer text-muted border-top py-3">
                         <p th:text="${plan.memo}" class="card-text"></p>
                     </div>
                 </div>

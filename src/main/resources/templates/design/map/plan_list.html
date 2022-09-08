@@ -36,7 +36,7 @@
     </div>
     <!-- end -->
     <!-- 페이징처리 시작 -->
-    <div th:if="${!paging.isEmpty()}">
+    <div th:if="${!paging.isEmpty()}" class="my-5">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
                 <a class="page-link"

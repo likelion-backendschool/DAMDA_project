@@ -49,7 +49,7 @@ public class ChatService {
     public List<ChatMessageDto> findAllMessages(Long roomId) {
         return chatMessageRepository.findAllByChatRoom_idOrderByIdDesc(roomId)
                 .stream()
-                .map(ChatMessage::toDtoq)
+                .map(ChatMessage::toDto)
                 .collect(Collectors.toList());
     }
 

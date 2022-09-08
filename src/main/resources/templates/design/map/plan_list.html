@@ -13,7 +13,7 @@
                                    th:text="${plan.title}"></a>
                             </h4>
                         </div>
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between border-bottom border-1 pb-2 mb-2">
                             <div>
                                 <h5 class="card-title col">
                                     <span th:text="5명" class="text-danger small ms-2"></span> <!-- |${plan.member.size()}명| 구성원수-->
@@ -44,7 +44,7 @@
 <!--                               onclick="if(!confirm('정말로 삭제하시겠습니까?')) return false;"-->
 <!--                               th:href="@{|/travel/design/plan/delete/${plan.id}|}">삭제</a>-->
 <!--                        </div>-->
-                        <p th:text="${plan.memo}" class="card-text"></p>
+                        <div><p th:text="${plan.memo}" class="card-text"></p></div>
                     </div>
                 </div>
             </div>

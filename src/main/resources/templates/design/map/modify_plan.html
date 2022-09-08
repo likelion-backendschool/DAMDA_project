@@ -6,9 +6,10 @@
         <div class="text-center mb-3">장바구니</div>
         <div class="busket row justify-content-center">
             <div th:each="spot : ${plan.busket.spotList}"
-                 class="card card p-2 w-75 mb-1"
+                 class="p-2 border-bottom border-1 my-1"
                  onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>
                 <a class="font-weight-bold" th:text="${spot.name}"></a>
+                <br>
                 <span th:text="${spot.address}"></span>
             </div>
         </div>
@@ -213,14 +214,19 @@
                     dataType: "json", //http통신 후 응답 데이터 타입
                     success: function (spot) {
                         console.log(spot);
+                        // if ()
                         const html = `
-                        <div class="card card p-2 w-75 mb-1" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>
+                        <div class="p-2 border-bottom border-1 my-1" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>
                         <a class="font-weight-bold">${spot.name}</a>
+                        <br>
                         <span>${spot.address}</span>
                         </div>
                         `;
                         $('.busket').append(html);
-                    } // ajax성공 후 실행할 함수, 서버에서 response 값을 받아서 처리할 수 있다.
+                    }, // ajax성공 후 실행할 함수, 서버에서 response 값을 받아서 처리할 수 있다.
+                    error: function (error) {
+                        alert('이미 바구니에 있습니다.');
+                    }
                 });
             }
 

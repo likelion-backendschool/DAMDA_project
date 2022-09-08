@@ -22,17 +22,18 @@ public class BusketService {
         return busket;
     }
 
-    public void addSpotAtBusket(Spot spot, Plan plan) {
+    public boolean addSpotAtBusket(Spot spot, Plan plan) {
         Busket busket = busketRepository.findByPlan(plan);
         List<Spot> spotList = busket.getSpotList();
         for(Spot spot2 : spotList) {
             if(spot.getUrlId().equals(spot2.getUrlId())) {
                 spotService.delete(spot);
-                return;
+                return false;
             }
         }
         spotList.add(spot);
 
         busketRepository.save(busket);
+        return true;
     }
 }

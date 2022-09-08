@@ -89,13 +89,20 @@ public class PlanController {
         Spot spot = spotService.create(name, address, urlId, x, y);
         Plan plan = planService.getPlan(planId);
 
-        busketService.addSpotAtBusket(spot, plan);
+        boolean success = busketService.addSpotAtBusket(spot, plan);
         //장바구니에 추가
+        if(success) {
+            String spotJson = objectMapper.writeValueAsString(spot);
+            System.out.println(spotJson);
+            return spotJson;
+        }
+        return null;
 
-        String spotJson = objectMapper.writeValueAsString(spot);
-        System.out.println(spotJson);
-        return spotJson;
-
+    }
+    @GetMapping("/getFinalSpot")
+    @ResponseBody
+    public String getFinalSpot() {
+        return "spotJson";
     }
     //플래너 삭제
     @GetMapping("/plan/delete/{planId}")

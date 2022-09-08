@@ -4,6 +4,9 @@ import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.repository.design.map.PlanRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -41,6 +44,10 @@ public class PlanService {
 
     public List<Plan> getAllPlan() {
         return planRepository.findAll();
+    }
+    public Page<Plan> getPlanList(int page) {
+        Pageable pageable = PageRequest.of(page, 8);
+        return planRepository.findAll(pageable);
     }
 
     public void delete(Plan plan) {

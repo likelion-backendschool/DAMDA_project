@@ -9,6 +9,7 @@ import com.ll.exam.damda.service.design.map.CourseService;
 import com.ll.exam.damda.service.design.map.PlanService;
 import com.ll.exam.damda.service.design.map.SpotService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,9 @@ public class PlanController {
 
     //플래너 리스트
     @GetMapping("/plan/list")
-    public String list(Model model) {
-        List<Plan> planList = planService.getAllPlan();
-        model.addAttribute("planList", planList);
+    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {
+        Page<Plan> paging = planService.getPlanList(page);
+        model.addAttribute("paging", paging);
         return "/design/map/plan_list";
     }
     //새로운 플래너

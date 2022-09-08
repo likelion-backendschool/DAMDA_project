@@ -1,23 +1,41 @@
 <html layout:decorate="~{layout/layout}">
 <div layout:fragment="content">
-  <div class="justify-content-center container w-25">
-    <form th:action="@{/travel/design/new}" method="post" class="card card mt-2">
-      <div class="m-4">
-        <span class="text-center mb-2">여행이름</span>
-        <br>
-        <input type="text" name="title" id="title" style="border-radius: 5px;">
-      </div>
-      <div class="m-4" >
-        <span class="text-center mb-2">여행일수</span>
-        <br>
-        <input style="border-radius: 5px;" type="text" name="size" id="size">
-      </div>
-      <div class="m-4">
-        <span class="text-center mb-2">Memo</span>
-      <textarea name="memo" id="memo" cols="25" rows="10"></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary mb-2 mx-2">저장</button>
-    </form>
-  </div>
+    <div class="justify-content-center container w-25">
+        <script>
+            function submitForm(form) {
+                form.title.value = form.title.value.trim();
+                if (form.title.value.length == 0) {
+                    alert('여행이름을 입력해주세요.');
+                    form.title.focus();
+                    return false;
+                }
+                form.size.value = form.size.value.trim();
+                if (form.size.value.length == 0) {
+                    alert('여행일수를 입력해주세요.');
+                    form.size.focus();
+                    return false;
+                }
+                form.submit();
+            }
+        </script>
+        <form onsubmit="submitForm(this); return false;" th:action="@{/travel/design/new}" method="post"
+              class="card card mt-2">
+            <div class="m-4">
+                <span class="text-center mb-2">여행이름</span>
+                <br>
+                <input type="text" name="title" id="title" style="border-radius: 5px;">
+            </div>
+            <div class="m-4">
+                <span class="text-center mb-2">여행일수</span>
+                <br>
+                <input style="border-radius: 5px;" type="text" name="size" id="size">
+            </div>
+            <div class="m-4">
+                <span class="text-center mb-2">Memo</span>
+                <textarea name="memo" id="memo" cols="25" rows="10"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mb-2 mx-2">저장</button>
+        </form>
+    </div>
 </div>
 </html>

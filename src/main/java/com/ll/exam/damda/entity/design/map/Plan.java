@@ -23,7 +23,7 @@ public class Plan {
     private Long size;
 
     @CreatedDate
-    private LocalDateTime CreatedDate;
+    private LocalDateTime createdDate;
 
     private LocalDateTime lastModifiedDate;
 

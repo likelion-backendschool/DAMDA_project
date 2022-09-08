@@ -38,8 +38,11 @@ public class Plan {
     @OneToMany(mappedBy = "plan", cascade = CascadeType.REMOVE)
     private List<Course> courseList;
 
-    @ManyToOne
-    private SiteUser siteUser;
+    @OneToOne
+    private Busket busket;
+
+//    @ManyToOne
+//    private SiteUser siteUser;
 
 //    @Column
 //    private List<SpotDto> spotBusket;

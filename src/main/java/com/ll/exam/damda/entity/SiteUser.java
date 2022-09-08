@@ -15,9 +15,9 @@ public class SiteUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @OneToOne
-    private Busket busket;
+//    @OneToOne
+//    private Busket busket;
 
-    @OneToMany
-    private Plan plan;
+//    @OneToMany
+//    private Plan plan;
 }

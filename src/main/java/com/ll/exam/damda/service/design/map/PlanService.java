@@ -1,5 +1,6 @@
 package com.ll.exam.damda.service.design.map;
 
+import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.repository.design.map.PlanRepository;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PlanService {
+    private final BusketService busketService;
     private final PlanRepository planRepository;
     private final CourseService courseService;
 
@@ -29,9 +31,15 @@ public class PlanService {
         plan.setSize(size);
         plan.setMemo(memo);
         planRepository.save(plan);
+
+        Busket busket = busketService.create(plan);
+        plan.setBusket(busket);
+        planRepository.save(plan);
+
         for(long i = 1; i <= size; i++) {
             courseService.create(plan, i);
         }
+        planRepository.save(plan);
         return plan;
     }
 

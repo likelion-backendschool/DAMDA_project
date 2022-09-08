@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
+import com.ll.exam.damda.service.design.map.BusketService;
 import com.ll.exam.damda.service.design.map.CourseService;
 import com.ll.exam.damda.service.design.map.PlanService;
 import com.ll.exam.damda.service.design.map.SpotService;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/travel/design")
 public class PlanController {
+    private final BusketService busketService;
     private final ObjectMapper objectMapper;
     private final PlanService planService;
     private final CourseService courseService;
@@ -80,10 +82,16 @@ public class PlanController {
             @RequestParam(value = "address") String address,
             @RequestParam(value = "urlId") String urlId,
             @RequestParam(value = "x") String x,
-            @RequestParam(value = "y") String y) throws JsonProcessingException {
+            @RequestParam(value = "y") String y,
+            @RequestParam(value = "planId") long planId) throws JsonProcessingException {
         System.out.println("insertBusket 수행");
-//        Course course = courseService.getCourseById(courseId);
+
         Spot spot = spotService.create(name, address, urlId, x, y);
+        Plan plan = planService.getPlan(planId);
+
+        busketService.addSpotAtBusket(spot, plan);
+        //장바구니에 추가
+
         String spotJson = objectMapper.writeValueAsString(spot);
         System.out.println(spotJson);
         return spotJson;

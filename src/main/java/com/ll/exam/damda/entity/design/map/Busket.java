@@ -18,4 +18,7 @@ public class Busket {
 
     @OneToMany
     private Set<Spot> spotList = new LinkedHashSet<>();
+
+    @OneToOne
+    private Plan plan;
 }

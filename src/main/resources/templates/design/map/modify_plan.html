@@ -1,10 +1,16 @@
 <html layout:decorate="~{layout/layout}">
 <div layout:fragment="content" class=" d-flex justify-content-around mt-3"
      style="width:95%; height:100%; position:absolute;">
+    <input type="hidden" name="plan_id" th:value="${plan.id}">
     <div class="card card py-3" style="width:20%; height:80%;">
-        <div class="text-center py-3 mb-3">장바구니</div>
-        <div class="busket">
-
+        <div class="text-center mb-3">장바구니</div>
+        <div class="busket row justify-content-center">
+            <div th:each="spot : ${plan.busket.spotList}"
+                 class="card card p-2 w-75 mb-1"
+                 onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>
+                <a class="font-weight-bold" th:text="${spot.name}"></a>
+                <span th:text="${spot.address}"></span>
+            </div>
         </div>
     </div>
     <div class="mx-2" style="width: 65%; height: 80%">
@@ -43,6 +49,7 @@
         <script type="text/javascript"
                 src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c67e5e4d2bd37b972933cf07ff9ec9a7&libraries=services"></script>
         <script>
+            var plan_id = $('input[name=plan_id]').val();
             // var courseId =
             // 마커를 담을 배열입니다
             var markers = [];
@@ -190,6 +197,7 @@
 
             function planInsert(place_name, place_address, place_urlId, place_x, place_y) {
                 console.log("name : " + place_name, "address : " + place_address, "urlId : " + place_urlId);
+                console.log(plan_id);
                 // fetch(`/search/design/insertSpot/${course.id}`)
                 $.ajax({
                     type: "post", //요청타입
@@ -199,13 +207,14 @@
                         address: place_address,
                         urlId: place_urlId,
                         x: place_x,
-                        y: place_y
+                        y: place_y,
+                        planId: plan_id
                     },  //보낼 파라미터 데이터
                     dataType: "json", //http통신 후 응답 데이터 타입
                     success: function (spot) {
                         console.log(spot);
                         const html = `
-                        <div class="card card my-1 mx-2" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>
+                        <div class="card card p-2 w-75 mb-1" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>
                         <a class="font-weight-bold">${spot.name}</a>
                         <span>${spot.address}</span>
                         </div>
@@ -301,7 +310,7 @@
     </div>
     <div style="width:20%; height:80%;">
         <div class="card card py-3 mb-4" style="width:100%; height:85%;">
-            <div class="text-center py-3 mb-2">채팅방</div>
+            <div class="text-center mb-2">채팅방</div>
             <div class="chat">
 
             </div>

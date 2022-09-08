@@ -22,4 +22,8 @@ public class SpotService {
         spotRepository.save(spot);
         return spot;
     }
+
+    public void delete(Spot spot) {
+        spotRepository.delete(spot);
+    }
 }

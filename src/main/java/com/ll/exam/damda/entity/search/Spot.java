@@ -36,8 +36,8 @@ public class Spot {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @ManyToOne
-    private Course course;
+//    @ManyToOne
+//    private Course course;
 
     private String urlId;
 
@@ -45,8 +45,9 @@ public class Spot {
 
     private String y;
 
-    @ManyToOne
-    private Busket busket;
+//    @ManyToOne
+//    private Busket busket;
+
 //    @OneToMany(mappedBy = "spot")
 //    @Builder.Default
 //    private List<SpotImage> spotImageURLList = new ArrayList<>();

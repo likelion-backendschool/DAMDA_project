@@ -7,9 +7,12 @@ import com.ll.exam.damda.repository.design.map.BusketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BusketService {
+    private final SpotService spotService;
     private final BusketRepository busketRepository;
 
     public Busket create(Plan plan) {
@@ -21,7 +24,15 @@ public class BusketService {
 
     public void addSpotAtBusket(Spot spot, Plan plan) {
         Busket busket = busketRepository.findByPlan(plan);
-        busket.getSpotList().add(spot);
+        List<Spot> spotList = busket.getSpotList();
+        for(Spot spot2 : spotList) {
+            if(spot.getUrlId().equals(spot2.getUrlId())) {
+                spotService.delete(spot);
+                return;
+            }
+        }
+        spotList.add(spot);
+
         busketRepository.save(busket);
     }
 }

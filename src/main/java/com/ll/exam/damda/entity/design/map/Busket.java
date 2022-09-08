@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -17,7 +19,7 @@ public class Busket {
     private Long Id;
 
     @OneToMany
-    private Set<Spot> spotList = new LinkedHashSet<>();
+    private List<Spot> spotList = new LinkedList<>();
 
     @OneToOne
     private Plan plan;

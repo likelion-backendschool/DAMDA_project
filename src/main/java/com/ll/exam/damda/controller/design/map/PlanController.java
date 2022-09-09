@@ -2,6 +2,7 @@ package com.ll.exam.damda.controller.design.map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
@@ -110,5 +111,15 @@ public class PlanController {
         Plan plan = planService.getPlan(planId);
         planService.delete(plan);
         return "redirect:/travel/design/plan/list";
+    }
+    @GetMapping("/getBusket")
+    @ResponseBody
+    public String getBusket(@RequestParam long planId) throws JsonProcessingException {
+        Plan plan = planService.getPlan(planId);
+        Busket busket = busketService.getBusket(plan);
+        List<Spot> busketList = busket.getSpotList();
+        String result = objectMapper.writeValueAsString(busketList.get(busketList.size() - 1));
+        System.out.println(result);
+        return result;
     }
 }

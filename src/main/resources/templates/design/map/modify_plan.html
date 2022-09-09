@@ -116,6 +116,34 @@
                 }
             }
 
+            function getBusket(plan_id) {
+                console.log('getBusket');
+                $.ajax({
+                    url: `/travel/design/getBusket`, //url
+                    data: {
+                        planId: plan_id
+                    },  //보낼 파라미터 데이터
+                    dataType: "json", //http통신 후 응답 데이터 타입
+                    success: function (spot) {
+                        console.log(spot);
+                        const html = `
+                        <div class="p-2 border-bottom border-1 my-1">
+                        <a class="font-weight-bold" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>${spot.name}</a>
+                        <br>
+                        <span class="mb-1">${spot.address}</span>
+                        <br>
+                        <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
+                             <button type="button" class="btn btn-outline-primary">+</button>
+                             <button type="button" class="btn btn-outline-primary">x</button>
+                         </div>
+                        </div>
+                        `;
+                        $('.busket').append(html);
+
+                    }, // ajax성공 후 실행할 함수, 서버에서 response 값을 받아서 처리할 수 있다.
+                });
+            }
+
             // 검색 결과 목록과 마커를 표출하는 함수입니다
             function displayPlaces(places) {
 
@@ -219,20 +247,20 @@
                     dataType: "json", //http통신 후 응답 데이터 타입
                     success: function (spot) {
                         console.log(spot);
-                        // if ()
-                        const html = `
-                        <div class="p-2 border-bottom border-1 my-1">
-                        <a class="font-weight-bold" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>${spot.name}</a>
-                        <br>
-                        <span class="mb-1">${spot.address}</span>
-                        <br>
-                        <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
-                             <button type="button" class="btn btn-outline-primary">+</button>
-                             <button type="button" class="btn btn-outline-primary">x</button>
-                         </div>
-                        </div>
-                        `;
-                        $('.busket').append(html);
+                        getBusket(plan_id);
+                        // const html = `
+                        // <div class="p-2 border-bottom border-1 my-1">
+                        // <a class="font-weight-bold" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>${spot.name}</a>
+                        // <br>
+                        // <span class="mb-1">${spot.address}</span>
+                        // <br>
+                        // <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
+                        //      <button type="button" class="btn btn-outline-primary">+</button>
+                        //      <button type="button" class="btn btn-outline-primary">x</button>
+                        //  </div>
+                        // </div>
+                        // `;
+                        // $('.busket').append(html);
                     }, // ajax성공 후 실행할 함수, 서버에서 response 값을 받아서 처리할 수 있다.
                     error: function (error) {
                         alert('이미 바구니에 있습니다.');

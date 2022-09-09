@@ -36,4 +36,8 @@ public class BusketService {
         busketRepository.save(busket);
         return true;
     }
+
+    public Busket getBusket(Plan plan) {
+        return busketRepository.findByPlan(plan);
+    }
 }

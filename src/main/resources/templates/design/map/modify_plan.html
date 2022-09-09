@@ -4,13 +4,18 @@
     <input type="hidden" name="plan_id" th:value="${plan.id}">
     <div class="card card py-3" style="width:20%; height:80%;">
         <div class="text-center mb-3">장바구니</div>
-        <div class="busket row justify-content-center">
+        <div class="busket row justify-content-center" style="overflow: scroll;">
             <div th:each="spot : ${plan.busket.spotList}"
                  class="p-2 border-bottom border-1 my-1"
                  onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>
                 <a class="font-weight-bold" th:text="${spot.name}"></a>
                 <br>
                 <span th:text="${spot.address}"></span>
+                <br>
+                <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary">+</button>
+                    <button type="button" class="btn btn-outline-primary">x</button>
+                </div>
             </div>
         </div>
     </div>
@@ -216,10 +221,15 @@
                         console.log(spot);
                         // if ()
                         const html = `
-                        <div class="p-2 border-bottom border-1 my-1" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>
-                        <a class="font-weight-bold">${spot.name}</a>
+                        <div class="p-2 border-bottom border-1 my-1">
+                        <a class="font-weight-bold" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>${spot.name}</a>
                         <br>
-                        <span>${spot.address}</span>
+                        <span class="mb-1">${spot.address}</span>
+                        <br>
+                        <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
+                             <button type="button" class="btn btn-outline-primary">+</button>
+                             <button type="button" class="btn btn-outline-primary">x</button>
+                         </div>
                         </div>
                         `;
                         $('.busket').append(html);

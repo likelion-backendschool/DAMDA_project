@@ -114,13 +114,21 @@ public class PlanController {
     }
     @GetMapping("/getBusket")
     @ResponseBody
-    public String getBusket(@RequestParam long planId) throws JsonProcessingException {
+    public String getFinalBusket(@RequestParam long planId) throws JsonProcessingException {
         Plan plan = planService.getPlan(planId);
         Busket busket = busketService.getBusket(plan);
         List<Spot> busketList = busket.getSpotList();
         String result = objectMapper.writeValueAsString(busketList.get(busketList.size() - 1));
         System.out.println(result);
         return result;
+    }
+    @GetMapping("/getAllBusket")
+    @ResponseBody
+    public List<Spot> getAllBusket(@RequestParam long planId) throws JsonProcessingException {
+        Plan plan = planService.getPlan(planId);
+        Busket busket = busketService.getBusket(plan);
+        List<Spot> busketList = busket.getSpotList();
+        return busketList;
     }
     @GetMapping("/removeSpot")
     @ResponseBody

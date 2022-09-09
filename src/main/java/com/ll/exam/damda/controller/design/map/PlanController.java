@@ -122,4 +122,18 @@ public class PlanController {
         System.out.println(result);
         return result;
     }
+    @GetMapping("/removeSpot")
+    @ResponseBody
+    public String removeSpotAtBusket(@RequestParam long planId, @RequestParam long spotId) {
+        Spot spot = spotService.getSpot(spotId);
+        //Busket에서 삭제
+        Plan plan = planService.getPlan(planId);
+        Busket busket = plan.getBusket();
+        busket.getSpotList().remove(spot);
+        //spot삭제
+        spotService.delete(spot);
+        System.out.println("삭제는 됨");
+        return "success";
+    }
+
 }

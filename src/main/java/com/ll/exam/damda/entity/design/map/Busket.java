@@ -18,7 +18,7 @@ public class Busket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Spot> spotList;
 
     @OneToOne

@@ -6,15 +6,15 @@
         <div class="text-center mb-3">장바구니</div>
         <div class="busket row justify-content-center" style="overflow: scroll;">
             <div th:each="spot : ${plan.busket.spotList}"
-                 class="p-2 border-bottom border-1 my-1"
-                 onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>
-                <a class="font-weight-bold" th:text="${spot.name}"></a>
+                 class="p-2 border-bottom border-1 my-1">
+                <input type="hidden" name="spot_id" th:value="${spot.id}">
+                <a class="font-weight-bold" onclick=window.open("http://place.map.kakao.com/\${spot.urlId}") th:text="${spot.name}"></a>
                 <br>
                 <span th:text="${spot.address}"></span>
                 <br>
                 <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
                     <button type="button" class="btn btn-outline-primary">+</button>
-                    <button type="button" class="btn btn-outline-primary">x</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="removeAtBusket(spot_id, this);">x</button>
                 </div>
             </div>
         </div>
@@ -134,7 +134,7 @@
                         <br>
                         <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
                              <button type="button" class="btn btn-outline-primary">+</button>
-                             <button type="button" class="btn btn-outline-primary">x</button>
+                             <button type="button" class="btn btn-outline-primary" onclick="removeAtBusket(${spot.id}, this);">x</button>
                          </div>
                         </div>
                         `;
@@ -267,11 +267,23 @@
                     }
                 });
             }
-
-            //getBusket 구현해 날짜이동시에도 장바구니 내용이 유지되도록 해야함.
-            // function getBusket(res) {
-            //     console.log('getBusket');
-            // }
+            function removeAtBusket(spot_id, btn) {
+                $.ajax({
+                    url: `/travel/design/removeSpot`,
+                    data: {
+                        planId: plan_id,
+                        spotId: spot_id
+                    },
+                    datatype: "text",
+                    success: function (btn) {
+                        console.log('엘리먼트 삭제');
+                    },
+                    error: function () {
+                      alert('실패');
+                    }
+                })
+                $(btn).parent().parent().remove();
+            }
 
 
             // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다

@@ -6,6 +6,8 @@ import com.ll.exam.damda.repository.design.map.SpotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class SpotService {
@@ -25,5 +27,14 @@ public class SpotService {
 
     public void delete(Spot spot) {
         spotRepository.delete(spot);
+    }
+
+    public Spot getSpot(long spotId) {
+        Optional<Spot> optionalSpot = spotRepository.findById(spotId);
+        if(optionalSpot.isPresent()) {
+            return optionalSpot.get();
+        } else {
+            return null;
+        }
     }
 }

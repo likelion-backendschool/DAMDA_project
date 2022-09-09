@@ -1,6 +1,7 @@
 package com.ll.exam.damda.entity.design.chat;
 
 import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
+import com.ll.exam.damda.entity.design.map.Plan;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,9 +20,10 @@ public class ChatRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    //나중에 여행 계획과 OneToOne 맵핑 필요
-    @Column(nullable = false)
-    private Long planId;
+    //여행 계획과 OneToOne 맵핑
+    @OneToOne
+    @JoinColumn(nullable = false, name = "plan_id")
+    private Plan plan;
 
     @Column(nullable = false)
     private String roomTitle;

@@ -4,6 +4,7 @@ import com.ll.exam.damda.dto.design.chat.ChatMessageDto;
 import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
 import com.ll.exam.damda.entity.design.chat.ChatMessage;
 import com.ll.exam.damda.entity.design.chat.ChatRoom;
+import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.repository.design.chat.ChatMessageRepository;
 import com.ll.exam.damda.repository.design.chat.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +37,18 @@ public class ChatService {
         return result;
     }
 
-    //채팅방 하나 불러오기
+    //채팅방 아이디로 찾기
     @Transactional(readOnly = true)
     public ChatRoomDto findById(Long roomId) {
         return chatRoomRepository.findById(roomId)
+                .orElseThrow(() -> new NoSuchElementException("채팅방이 존재하지 않습니다."))
+                .toDto();
+    }
+
+    //채팅방 계획 아이디로 찾기
+    @Transactional(readOnly = true)
+    public ChatRoomDto findByPlan_id(Plan plan) {
+        return chatRoomRepository.findByPlan_id(plan.getId())
                 .orElseThrow(() -> new NoSuchElementException("채팅방이 존재하지 않습니다."))
                 .toDto();
     }
@@ -54,10 +63,10 @@ public class ChatService {
     }
 
     //채팅방 생성
-    public ChatRoomDto createRoom(String name) {
+    public ChatRoomDto createRoom(Plan plan) {
         ChatRoom chatRoom = ChatRoom.builder()
-                .planId(1L)
-                .roomTitle(name)
+                .plan(plan)
+                .roomTitle(plan.getTitle())
                 .build();
 
         chatRoom = chatRoomRepository.save(chatRoom);

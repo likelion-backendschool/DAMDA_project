@@ -27,12 +27,12 @@ public class ChatRoomController {
     public List<ChatRoomDto> room() {
         return chatService.findAllRoom();
     }
-    // 채팅방 생성
-    @PostMapping("/room")
-    @ResponseBody
-    public ChatRoomDto createRoom(@RequestParam String name) {
-        return chatService.createRoom(name);
-    }
+//    // 채팅방 생성
+//    @PostMapping("/room")
+//    @ResponseBody
+//    public ChatRoomDto createRoom(@RequestParam String name) {
+//        return chatService.createRoom(name);
+//    }
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomId}")
     public String roomDetail(Model model, @PathVariable String roomId) {

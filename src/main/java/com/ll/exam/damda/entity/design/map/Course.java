@@ -27,7 +27,7 @@ public class Course {
     @ManyToOne
     private Plan plan;
 
-    @OneToMany //(mappedBy = "course", cascade = CascadeType.REMOVE)
+    @OneToMany (cascade = CascadeType.REMOVE)
     private List<Spot> spotList;
 
 }

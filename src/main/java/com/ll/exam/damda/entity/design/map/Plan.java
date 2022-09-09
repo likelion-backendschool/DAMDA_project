@@ -38,7 +38,7 @@ public class Plan {
     @OneToMany(mappedBy = "plan", cascade = CascadeType.REMOVE)
     private List<Course> courseList;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Busket busket;
 
 //    @ManyToOne

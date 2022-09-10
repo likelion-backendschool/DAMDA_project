@@ -160,5 +160,12 @@ public class PlanController {
         Course course = courseService.getCourseById(courseId);
         return course.getSpotList();
     }
-
+    @GetMapping("/getFinalSpotAtCourse")
+    @ResponseBody
+    public String getFinalSpotAtCourse(@RequestParam long courseId) throws JsonProcessingException {
+        Course course = courseService.getCourseById(courseId);
+        List<Spot> spotList = course.getSpotList();
+        Spot spot = spotList.get(spotList.size() - 1);
+        return objectMapper.writeValueAsString(spot);
+    }
 }

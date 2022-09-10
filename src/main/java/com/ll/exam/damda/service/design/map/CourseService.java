@@ -13,6 +13,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CourseService {
+    private final SpotService spotService;
     private final CourseRepository courseRepository;
 
     public void create(Plan plan, long i) {
@@ -43,7 +44,8 @@ public class CourseService {
 
     public void addSpotAtCourse(Course course, Spot spot) {
         List<Spot> spotList = course.getSpotList();
-        spotList.add(spot);
+        Spot spotClone = spotService.cloneSpot(spot);
+        spotList.add(spotClone);
         courseRepository.save(course);
     }
 }

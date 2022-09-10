@@ -1,6 +1,7 @@
 window.onload = function () {
     console.log('getAllBusket');
     getAllBusket(plan_id);
+    getAllCourse(course_id);
 }
 var plan_id = $('input[name=plan_id]').val();
 var course_id = $('input[name=course_id]').val();
@@ -74,7 +75,24 @@ function insertCourse(spot_id) {
         datatype: "text",
         success: function (messages) {
             console.log('insertCourse success');
-            getAllCourse(course_id);
+            getFinalSpotAtCourse(course_id);
+        }
+    });
+}
+function getFinalSpotAtCourse(course_id) {
+    $.ajax({
+        url: `/travel/design/getFinalSpotAtCourse`,
+        data: {
+            courseId: course_id,
+        },
+        success: function (spot) {
+            console.log('insertCourse success');
+            const html = `
+            <div class="card-small justify-content-center">
+            <span>${spot.name}</span>
+</div>
+            `;
+            $('.course').append(html);
         }
     });
 }

@@ -37,4 +37,15 @@ public class SpotService {
             return null;
         }
     }
+
+    public Spot cloneSpot(Spot spot) {
+        Spot spotClone = new Spot();
+        spotClone.setName(spot.getName());
+        spotClone.setAddress(spot.getAddress());
+        spotClone.setUrlId(spot.getUrlId());
+        spotClone.setX(spot.getX());
+        spotClone.setY(spot.getY());
+        spotRepository.save(spotClone);
+        return spotClone;
+    }
 }

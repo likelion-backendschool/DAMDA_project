@@ -62,6 +62,38 @@ public class SpotService {
         return spotDtoPages;
     }
 
+    public Spot create(String name, String address, String urlId, String x, String y) {
+        Spot spot = new Spot();
+        spot.setName(name);
+        spot.setAddress(address);
+        spot.setUrlId(urlId);
+        spot.setX(x);
+        spot.setY(y);
+//        spot.setCourse(course);
+        spotRepository.save(spot);
+        return spot;
+    }
+
+    public Spot getSpot(long spotId) {
+        Optional<Spot> optionalSpot = spotRepository.findById(spotId);
+        if(optionalSpot.isPresent()) {
+            return optionalSpot.get();
+        } else {
+            return null;
+        }
+    }
+
+    public Spot cloneSpot(Spot spot) {
+        Spot spotClone = new Spot();
+        spotClone.setName(spot.getName());
+        spotClone.setAddress(spot.getAddress());
+        spotClone.setUrlId(spot.getUrlId());
+        spotClone.setX(spot.getX());
+        spotClone.setY(spot.getY());
+        spotRepository.save(spotClone);
+        return spotClone;
+    }
+
     /*
     핵심 서비스 메서드에서 필요한 메서드
     */

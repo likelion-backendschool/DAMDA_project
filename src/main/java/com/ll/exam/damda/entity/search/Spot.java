@@ -6,6 +6,10 @@ import javax.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.persistence.*;
+import java.util.*;
+import java.util.stream.Collectors;
+
 @Entity
 @Getter
 @Setter
@@ -18,10 +22,10 @@ public class Spot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "spot_name", nullable = false)
+    @Column(name = "spot_name")
     private String name;
 
-    @Column(name = "spot_city", nullable = false)
+    @Column(name = "spot_city")
     private String city;
 
     @Column(name = "spot_address")
@@ -40,6 +44,12 @@ public class Spot {
 
     @Column(name = "spot_review_cnt", nullable = false)
     private int reviewCnt = 0;
+
+    private String urlId;
+
+    private String x;
+
+    private String y;
 
     //==조회 로직==//
     public Map<Tag, Integer> getTagMap() {
@@ -75,3 +85,4 @@ public class Spot {
         return mostTagList;
     }
 }
+

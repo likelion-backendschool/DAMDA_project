@@ -137,11 +137,28 @@ public class PlanController {
         //Busket에서 삭제
         Plan plan = planService.getPlan(planId);
         Busket busket = plan.getBusket();
-        busket.getSpotList().remove(spot);
+        busketService.removeSpotAtBusket(busket, spot);
+//        busket.getSpotList().remove(spot);
         //spot삭제
-        spotService.delete(spot);
-        System.out.println("삭제는 됨");
+//        spotService.delete(spot);
+//        System.out.println("삭제는 됨");
+//        if(spot.)
         return "success";
+    }
+
+    @GetMapping("/insertCourse")
+    @ResponseBody
+    public String insertCourse(@RequestParam long courseId, @RequestParam long spotId) {
+        Course course = courseService.getCourseById(courseId);
+        Spot spot = spotService.getSpot(spotId);
+        courseService.addSpotAtCourse(course, spot);
+        return "success";
+    }
+    @GetMapping("/getAllCourse")
+    @ResponseBody
+    public List<Spot> getAllCourse(@RequestParam long courseId) {
+        Course course = courseService.getCourseById(courseId);
+        return course.getSpotList();
     }
 
 }

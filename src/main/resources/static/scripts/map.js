@@ -3,6 +3,7 @@ window.onload = function () {
     getAllBusket(plan_id);
 }
 var plan_id = $('input[name=plan_id]').val();
+var course_id = $('input[name=course_id]').val();
 // var courseId =
 // 마커를 담을 배열입니다
 var markers = [];
@@ -63,6 +64,40 @@ function placesSearchCB(data, status, pagination) {
     }
 }
 
+function insertCourse(spot_id) {
+    $.ajax({
+        url: `/travel/design/insertCourse`,
+        data: {
+            courseId: course_id,
+            spotId: spot_id
+        },
+        datatype: "text",
+        success: function (messages) {
+            console.log('insertCourse success');
+            getAllCourse(course_id);
+        }
+    });
+}
+
+function getAllCourse(course_id) {
+    $.ajax({
+        url: `/travel/design/getAllCourse`,
+        data: {
+            courseId: course_id
+        },
+        success: function (spots) {
+            $(spots).each(function () {
+                const html = `
+            <div class="card-small justify-content-center">
+            <span>${this.name}</span>
+</div>
+            `;
+                $('.course').append(html);
+            });
+        }
+    });
+}
+
 function getAllBusket(plan_id) {
     // fetch(`/travel/design/getAllBusket?planId=${plan_id}`)
     //     .then(responseData => {
@@ -89,7 +124,7 @@ function getAllBusket(plan_id) {
                             <span class="mb-1">${this.address}</span>
                             <br>
                             <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
-                                 <button type="button" class="btn btn-outline-primary">+</button>
+                                 <button type="button" class="btn btn-outline-primary" onclick="insertCourse(${this.id})">+</button>
                                  <button type="button" class="btn btn-outline-primary" onclick="removeAtBusket(${this.id}, this);">x</button>
                              </div>
                             </div>
@@ -117,7 +152,7 @@ function getBusket(plan_id) {
                         <span class="mb-1">${spot.address}</span>
                         <br>
                         <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
-                             <button type="button" class="btn btn-outline-primary">+</button>
+                             <button type="button" class="btn btn-outline-primary" onclick="insertCourse(${spot.id})">+</button>
                              <button type="button" class="btn btn-outline-primary" onclick="removeAtBusket(${spot.id}, this);">x</button>
                          </div>
                         </div>
@@ -266,7 +301,7 @@ function removeAtBusket(spot_id, btn) {
         error: function () {
             alert('실패');
         }
-    })
+    });
     $(btn).parent().parent().remove();
 }
 

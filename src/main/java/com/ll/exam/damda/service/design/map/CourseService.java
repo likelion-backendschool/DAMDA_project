@@ -2,6 +2,7 @@ package com.ll.exam.damda.service.design.map;
 
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
+import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.repository.design.map.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,11 @@ public class CourseService {
         } else {
             return null;
         }
+    }
+
+    public void addSpotAtCourse(Course course, Spot spot) {
+        List<Spot> spotList = course.getSpotList();
+        spotList.add(spot);
+        courseRepository.save(course);
     }
 }

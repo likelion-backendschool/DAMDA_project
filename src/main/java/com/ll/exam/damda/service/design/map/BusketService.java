@@ -40,4 +40,9 @@ public class BusketService {
     public Busket getBusket(Plan plan) {
         return busketRepository.findByPlan(plan);
     }
+
+    public void removeSpotAtBusket(Busket busket, Spot spot) {
+        busket.getSpotList().remove(spot);
+        busketRepository.save(busket);
+    }
 }

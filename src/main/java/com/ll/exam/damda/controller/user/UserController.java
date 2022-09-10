@@ -108,6 +108,16 @@ public class UserController {
         return showMessageAndRedirect(message, model);
     }
 
+    @GetMapping("/findid")
+    public String findid(UserEditForm userEditForm) {
+        return "find_id_form";
+    }
+
+    @GetMapping("/findpw")
+    public String findpw(UserEditForm userEditForm) {
+        return "find_pw_form.html";
+    }
+
     // 사용자에게 메시지를 전달하고, 페이지를 리다이렉트 한다.
     private String showMessageAndRedirect(final MessageDto params, Model model) {
         model.addAttribute("params", params);

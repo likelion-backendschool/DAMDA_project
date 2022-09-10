@@ -39,18 +39,18 @@ public class SpotService {
         Page<SpotDto> spotDtoPages;
         Specification<Spot> spec;
 
-        if (searchWord == "" && checkedValue.size() == 0) {
+        if (searchWord.equals("") && checkedValue.size() == 0) {
             Pageable pageable = getPageRequest(page, 8, "reviewCnt");
             Page<Spot> spotPages = spotRepository.findAllEntityGraph(pageable);
             spotDtoPages = new SpotDto().toDtoList(spotPages);
         }
-        else if (searchWord != "" && checkedValue.size() == 0) {
+        else if (!searchWord.equals("") && checkedValue.size() == 0) {
             spec = search(searchWord);
             Pageable pageable = getPageRequest(page, 8, "reviewCnt");
             Page<Spot> spotPages = spotRepository.findAll(spec, pageable);
             spotDtoPages = new SpotDto().toDtoList(spotPages);
         }
-        else if (searchWord == "" && checkedValue.size() != 0) {
+        else if (searchWord.equals("") && checkedValue.size() != 0) {
             List<Spot> spotList = spotRepository.findAllEntityGraph();
             spotDtoPages = filterAndSortByTag(page, spotList, checkedValue);
         } else {

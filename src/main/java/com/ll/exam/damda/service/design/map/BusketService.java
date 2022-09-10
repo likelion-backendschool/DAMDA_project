@@ -27,7 +27,6 @@ public class BusketService {
         List<Spot> spotList = busket.getSpotList();
         for(Spot spot2 : spotList) {
             if(spot.getUrlId().equals(spot2.getUrlId())) {
-                spotService.delete(spot);
                 return false;
             }
         }

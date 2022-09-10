@@ -88,9 +88,9 @@ function getFinalSpotAtCourse(course_id) {
         success: function (spot) {
             console.log('insertCourse success');
             const html = `
-            <div class="card-small justify-content-center">
-            <span>${spot.name}</span>
-</div>
+            <a class="card card text-center p-2">
+            ${spot.name}
+</a>
             `;
             $('.course').append(html);
         }
@@ -106,9 +106,9 @@ function getAllCourse(course_id) {
         success: function (spots) {
             $(spots).each(function () {
                 const html = `
-            <div class="card-small justify-content-center">
-            <span>${this.name}</span>
-</div>
+            <a class=" card card text-center p-2">
+            ${this.name}
+</a>
             `;
                 $('.course').append(html);
             });

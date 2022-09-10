@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Spot {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -42,6 +42,9 @@ dependencies {
 
 	/* thymeleaf dependency */
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+	/* mail dependency */
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {

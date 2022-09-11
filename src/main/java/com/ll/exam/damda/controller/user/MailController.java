@@ -18,7 +18,8 @@ public class MailController {
     }
 
     @PostMapping("/mail")
-    public void execMail(MailDto mailDto) {
+    public String execMail(MailDto mailDto) {
         mailService.mailSend(mailDto);
+        return "user/mail";
     }
 }

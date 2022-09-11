@@ -5,6 +5,8 @@ import com.ll.exam.damda.config.user.SignupNicknameDuplicatedException;
 import com.ll.exam.damda.config.user.SignupUsernameDuplicatedException;
 import com.ll.exam.damda.dto.user.MessageDto;
 import com.ll.exam.damda.entity.user.SiteUser;
+import com.ll.exam.damda.form.user.FindIdForm;
+import com.ll.exam.damda.form.user.FindPwForm;
 import com.ll.exam.damda.form.user.UserCreateForm;
 import com.ll.exam.damda.form.user.UserEditForm;
 import com.ll.exam.damda.service.user.UserService;
@@ -108,14 +110,32 @@ public class UserController {
         return showMessageAndRedirect(message, model);
     }
 
-    @GetMapping("/findid")
-    public String findid(UserEditForm userEditForm) {
+    @GetMapping("/find_id")
+    public String findid(FindIdForm findIdForm) {
         return "find_id_form";
     }
 
-    @GetMapping("/findpw")
-    public String findpw(UserEditForm userEditForm) {
+    @PostMapping("/find_id")
+    public String findid(Model model, @Valid FindIdForm findIdForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "find_id_form";
+        }
+        MessageDto message = new MessageDto("아이디는 *** 입니다.", "/user/find_id", RequestMethod.POST, null);
+        return showMessageAndRedirect(message, model);
+    }
+
+    @GetMapping("/find_pw")
+    public String findpw(FindPwForm findPwForm) {
         return "find_pw_form.html";
+    }
+
+    @PostMapping("/find_pw")
+    public String findpw(Model model, @Valid FindPwForm findPwForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "find_pw_form";
+        }
+        MessageDto message = new MessageDto("임시 비밀번호가 이메일로 전송되었습니다.", "/user/find_pw", RequestMethod.POST, null);
+        return showMessageAndRedirect(message, model);
     }
 
     // 사용자에게 메시지를 전달하고, 페이지를 리다이렉트 한다.

@@ -27,7 +27,8 @@
         </div>
         <button type="submit" class="btn btn-primary">로그인</button>
         <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/user/signup}'|">회원가입</button>
-        <button type="button" class="btn btn-primary">아이디/비밀번호 찾기</button>
+        <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/user/find_id}'|">아이디 찾기</button>
+        <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/user/find_pw}'|">비밀번호 찾기</button>
     </form>
 </div>
 </html>

@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>메일 발송</title>
-</head>
-<body>
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://thymeleaf.org"
+        layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
 <h1>메일 발송</h1>
 
 <form th:action="@{/mail}" method="post">
@@ -13,5 +11,5 @@
     <textarea name="message" placeholder="메일 내용을 입력해주세요." cols="60" rows="20"></textarea>
     <button>발송</button>
 </form>
-</body>
+</div>
 </html>

@@ -1,5 +1,24 @@
 <html layout:decorate="~{layout/layout}">
 <div layout:fragment="content">
-    <h1>plan detail</h1>
-</div>
+
+    <div class="container">
+        <div class="justify-content-between d-flex">
+            <h1 th:text="${plan.title}"></h1>
+            <div>
+                <button>수정</button>
+                <button>삭제</button>
+            </div>
+        </div>
+        <div class="card card w-100 h-25">
+            날짜 이동 바
+        </div>
+        <div class="d-flex">
+            <div class="card card" style="width:35%; height:70%;">
+                여행지 코스 상세 정보
+            </div>
+            <div class="card card" style="width:65%; height: 70%;">
+                지도에 마커 표시
+            </div>
+        </div>
+    </div>
 </html>

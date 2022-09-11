@@ -179,4 +179,14 @@ public class PlanController {
         courseService.removeSpotAtCourse(course, spot);
         return "success";
     }
+    @GetMapping("/plan/detail/{planId}")
+    public String planDetail(Model model, @PathVariable long planId, @RequestParam long order) {
+        Plan plan = planService.getPlan(planId);
+        Course course = courseService.getCourse(plan, order);
+
+        model.addAttribute("plan", plan);
+        model.addAttribute("course", course);
+
+        return "design/map/plan_detail";
+    }
 }

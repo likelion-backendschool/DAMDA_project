@@ -45,7 +45,10 @@
                             <strong class="text-muted d-block mb-2">Description</strong>
                             <span th:text="|${spotDto.description}|"></span>
                             <br/>
-                            <button type="button" class="mt-2 mb-2 btn btn-sm btn-pill btn-outline-primary mx-auto" style="width: 70px;">담기</button>
+                            <form action="/spot/addBusket" method="get">
+                                <input type="hidden" name="spotId" th:value="${spotDto.id}">
+                                <button type="submit" formaction="/spot/addBusket" class="mt-2 mb-2 btn btn-sm btn-pill btn-outline-primary mx-auto" style="width: 70px;">담기</button>
+                            </form>
                         </li>
                     </ul>
                 </div>

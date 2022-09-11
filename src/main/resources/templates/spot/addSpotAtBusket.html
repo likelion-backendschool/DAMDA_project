@@ -1,0 +1,18 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <form action="/travel/design/insertSpot" method="post">
+        <span th:text="${spotDto.id}"></span>
+        <select name="planId" id="plans">
+            <th:block th:each="plan : ${plans}">
+                <option th:value="${plan.Id}" th:text="${plan.title}"></option>
+            </th:block>
+            <input type="submit" value="Submit">
+        </select>
+        <input type="hidden" name="name" th:value="${spotDto.name}">
+        <input type="hidden" name="address" th:value="${spotDto.address}">
+        <input type="hidden" name="urlId" th:value="${spotDto.urlId}">
+        <input type="hidden" name="x" th:value="${spotDto.x}">
+        <input type="hidden" name="y" th:value="${spotDto.y}">
+    </form>
+</div>
+</html>

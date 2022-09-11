@@ -27,6 +27,9 @@ public class SpotDto {
     private Set<Review> reviews;
     private Set<SpotImage> spotImages;
     private int tagCnt;
+    private String urlId;
+    private String x;
+    private String y;
 
     /* Page<Entity> -> Page<Dto> 변환처리 */
     public Page<SpotDto> toDtoList(Page<Spot> spots) {
@@ -60,6 +63,10 @@ public class SpotDto {
                 .reviews(spot.getReviews())
                 .spotImages(spot.getSpotImageURLs())
                 .tagCnt(0)
+                .urlId(spot.getUrlId())
+                .x(spot.getX())
+                .y(spot.getY())
                 .build();
     }
+
 }

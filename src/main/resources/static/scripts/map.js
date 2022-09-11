@@ -90,7 +90,7 @@ function getFinalSpotAtCourse(course_id) {
             const html = `
             <div class="m-2">
             <span class="p-2 badge rounded-pill badge-secondary">${spot.name}
-            <button type="button" class="btn-close mx-1" disabled aria-label="Close">X</button></span>
+            <button type="button" class="btn-close mx-1" onclick="removeCourse(course_id, ${spot.id}, this)" aria-label="Close">X</button></span>
             </div>
             `;
             $('.course').append(html);
@@ -109,7 +109,7 @@ function getAllCourse(course_id) {
                 const html = `
             <div class="m-2">
             <span class="p-2 badge rounded-pill badge-secondary">${this.name}
-            <button type="button" class="btn-close" disabled aria-label="Close">X</button></span>
+            <button type="button" class="btn-close" onclick="removeCourse(course_id, ${this.id}, this)" aria-label="Close">X</button></span>
             </div>
 
             `;
@@ -117,6 +117,24 @@ function getAllCourse(course_id) {
             });
         }
     });
+}
+function removeCourse(course_id, spot_id, btn) {
+    $.ajax({
+        url: `/travel/design/removeCourse`,
+        data: {
+            planId: plan_id,
+            courseId: course_id,
+            spotId: spot_id
+        },
+        datatype: "text",
+        success: function (btn) {
+            console.log('엘리먼트 삭제');
+        },
+        error: function () {
+            alert('실패');
+        }
+    });
+    $(btn).parent().remove();
 }
 
 function getAllBusket(plan_id) {

@@ -169,4 +169,14 @@ public class PlanController {
         return spot;
 //        return objectMapper.writeValueAsString(spot);
     }
+    @GetMapping("/removeCourse")
+    @ResponseBody
+    public String removeSpotAtCourse(@RequestParam long planId,
+                                     @RequestParam long courseId,
+                                     @RequestParam long spotId) {
+        Course course = courseService.getCourseById(courseId);
+        Spot spot = spotService.getSpot(spotId);
+        courseService.removeSpotAtCourse(course, spot);
+        return "success";
+    }
 }

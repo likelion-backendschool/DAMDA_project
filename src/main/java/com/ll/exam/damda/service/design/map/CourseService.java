@@ -49,4 +49,10 @@ public class CourseService {
         spotList.add(spotClone);
         courseRepository.save(course);
     }
+
+    public void removeSpotAtCourse(Course course, Spot spot) {
+        List<Spot> spotList = course.getSpotList();
+        spotList.remove(spot);
+        courseRepository.save(course);
+    }
 }

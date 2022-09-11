@@ -88,9 +88,10 @@ function getFinalSpotAtCourse(course_id) {
         success: function (spot) {
             console.log('insertCourse success');
             const html = `
-            <div class="card-small justify-content-center">
-            <span>${spot.name}</span>
-</div>
+            <div class="m-2">
+            <span class="p-2 badge rounded-pill badge-secondary">${spot.name}
+            <button type="button" class="btn-close mx-1" disabled aria-label="Close">X</button></span>
+            </div>
             `;
             $('.course').append(html);
         }
@@ -106,9 +107,11 @@ function getAllCourse(course_id) {
         success: function (spots) {
             $(spots).each(function () {
                 const html = `
-            <div class="card-small justify-content-center">
-            <span>${this.name}</span>
-</div>
+            <div class="m-2">
+            <span class="p-2 badge rounded-pill badge-secondary">${this.name}
+            <button type="button" class="btn-close" disabled aria-label="Close">X</button></span>
+            </div>
+
             `;
                 $('.course').append(html);
             });

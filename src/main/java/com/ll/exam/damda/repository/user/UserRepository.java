@@ -21,4 +21,7 @@ public interface UserRepository extends JpaRepository<SiteUser, Long> {
     @Modifying
     @Query(value = "truncate site_user", nativeQuery = true)
     void truncate();
+
+    SiteUser findByEmail(String email);
+    SiteUser findByUsernameAndEmail(String username, String email);
 }

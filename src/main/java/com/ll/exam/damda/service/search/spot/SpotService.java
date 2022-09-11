@@ -35,6 +35,17 @@ public class SpotService {
         }
     }
 
+    public Spot findById2(Long spotId) {
+        Optional<Spot> _spot = spotRepository.findById(spotId);
+
+        if (_spot.isPresent()) {
+            Spot spot = _spot.get();
+            return spot;
+        } else {
+            return null;
+        }
+    }
+
     public Page<SpotDto> getSpotListBy(String searchWord, List<String> checkedValue, int page) {
         Page<SpotDto> spotDtoPages;
         Specification<Spot> spec;

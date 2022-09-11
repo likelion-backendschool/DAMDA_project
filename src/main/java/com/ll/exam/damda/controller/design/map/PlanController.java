@@ -100,6 +100,28 @@ public class PlanController {
         return null;
 
     }
+
+    //장바구니에 여행지 넣기2
+    @PostMapping("/insertSpot2")
+    @ResponseBody
+    public String insertBusket(
+            @RequestParam(value = "spotId") long spotId,
+            @RequestParam(value = "planId") long planId) throws JsonProcessingException {
+        System.out.println("insertBusket 수행");
+
+        Spot spot = spotService.findById2(spotId);
+        Plan plan = planService.getPlan(planId);
+
+        //장바구니에 추가
+        boolean success = busketService.addSpotAtBusket(spot, plan);
+
+        if (success) {
+            return "해당 여행계획의 장바구니에 추가 완료";
+        } else {
+            return "해당 여행계획의 장바구니에 추가 실패";
+        }
+    }
+
     @GetMapping("/getFinalSpot")
     @ResponseBody
     public String getFinalSpot() {

@@ -3,12 +3,15 @@ package com.ll.exam.damda.controller.user;
 import com.ll.exam.damda.config.user.SignupEmailDuplicatedException;
 import com.ll.exam.damda.config.user.SignupNicknameDuplicatedException;
 import com.ll.exam.damda.config.user.SignupUsernameDuplicatedException;
+import com.ll.exam.damda.dto.user.MailDto;
 import com.ll.exam.damda.dto.user.MessageDto;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.form.user.FindIdForm;
 import com.ll.exam.damda.form.user.FindPwForm;
 import com.ll.exam.damda.form.user.UserCreateForm;
 import com.ll.exam.damda.form.user.UserEditForm;
+import com.ll.exam.damda.repository.user.UserRepository;
+import com.ll.exam.damda.service.user.MailService;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,7 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
+    private final MailService mailService;
 
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm) {
@@ -120,7 +124,9 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "find_id_form";
         }
-        MessageDto message = new MessageDto("아이디는 *** 입니다.", "/user/find_id", RequestMethod.POST, null);
+        SiteUser user = userService.getUserRepository().findByEmail(findIdForm.getEmail());
+        String alert = "아이디는 "+ user.getUsername() + "입니다.";
+        MessageDto message = new MessageDto(alert, "/user/my_page", RequestMethod.POST, null);
         return showMessageAndRedirect(message, model);
     }
 
@@ -134,7 +140,13 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "find_pw_form";
         }
-        MessageDto message = new MessageDto("임시 비밀번호가 이메일로 전송되었습니다.", "/user/find_pw", RequestMethod.POST, null);
+        SiteUser user = userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(),findPwForm.getEmail());
+        MailDto mailDto = new MailDto();
+        mailDto.setAddress(findPwForm.getEmail());
+        mailDto.setTitle("임시 비밀번호 발급입니다");
+        mailDto.setMessage("임시비밀번호는~~입니다");
+        mailService.mailSend(mailDto);
+        MessageDto message = new MessageDto("임시 비밀번호가 이메일로 전송되었습니다.", "/user/my_page", RequestMethod.POST, null);
         return showMessageAndRedirect(message, model);
     }
 

@@ -109,7 +109,7 @@ public class PlanController {
             @RequestParam(value = "planId") long planId) throws JsonProcessingException {
         System.out.println("insertBusket 수행");
 
-        Spot spot = spotService.findById2(spotId);
+        Spot spot = spotService.getSpot(spotId);
         Plan plan = planService.getPlan(planId);
 
         //장바구니에 추가

@@ -1,12 +1,18 @@
 package com.ll.exam.damda.service.review;
 
-import com.ll.exam.damda.entity.review.ReviewEntity;
-import com.ll.exam.damda.repository.review.ReviewRepository;
+import com.ll.exam.damda.entity.search.Review;
+import com.ll.exam.damda.repository.search.review.ReviewRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
+@Service
+@RequiredArgsConstructor
 public class ReviewService {
-    public static void create(String subject, String content) {
-
+    private final ReviewRepository reviewRepository;
+    public void create(String title, String content) {
+        Review review = new Review();
+        review.setTitle(title);
+        review.setContent(content);
+        reviewRepository.save(review);
     }
 }

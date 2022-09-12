@@ -9,7 +9,7 @@
             <h4>비밀번호 찾기</h4>
         </div>
     </div>
-    <form th:action="@{/user/find_id}" th:object="${findPwForm}" method="post">
+    <form th:action="@{/user/find_pw}" th:object="${findPwForm}" method="post">
 
         <div th:replace="form_errors :: formErrorsFragment"></div>
 

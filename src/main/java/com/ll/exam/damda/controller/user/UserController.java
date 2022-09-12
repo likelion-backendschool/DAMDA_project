@@ -149,8 +149,11 @@ public class UserController {
         SiteUser user = userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail());
         MailDto mailDto = new MailDto();
         mailDto.setAddress(findPwForm.getEmail());
-        mailDto.setTitle("임시 비밀번호 발급입니다");
-        mailDto.setMessage("임시비밀번호는~~입니다");
+        mailDto.setTitle("DAMDA 임시 비밀번호 발급입니다");
+        String newPw = userService.getTempPassword();
+        user.setPassword(newPw);
+        String findPwMsg = "임시 비밀번호는 " + newPw + " 입니다.";
+        mailDto.setMessage(findPwMsg);
         mailService.mailSend(mailDto);
         MessageDto message2 = new MessageDto("임시 비밀번호가 이메일로 전송되었습니다.", "/user/login", RequestMethod.POST, null);
         return showMessageAndRedirect(message2, model);

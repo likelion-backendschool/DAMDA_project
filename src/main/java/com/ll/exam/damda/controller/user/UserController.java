@@ -124,10 +124,16 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "find_id_form";
         }
-        SiteUser user = userService.getUserRepository().findByEmail(findIdForm.getEmail());
-        String alert = "아이디는 "+ user.getUsername() + "입니다.";
-        MessageDto message = new MessageDto(alert, "/user/my_page", RequestMethod.POST, null);
-        return showMessageAndRedirect(message, model);
+        String alert = "일치하는 아이디를 찾을 수 없습니다.";
+        String redirectUri = "/user/find_id";
+        if (userService.getUserRepository().findByEmail(findIdForm.getEmail()) != null)
+        {
+            String findId = userService.getUserRepository().findByEmail(findIdForm.getEmail()).getUsername();
+            alert = "아이디는 " + findId + "입니다.";
+            redirectUri = "/user/login";
+        }
+        MessageDto message1 = new MessageDto(alert, redirectUri, RequestMethod.POST, null);
+        return showMessageAndRedirect(message1, model);
     }
 
     @GetMapping("/find_pw")
@@ -140,14 +146,14 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "find_pw_form";
         }
-        SiteUser user = userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(),findPwForm.getEmail());
+        SiteUser user = userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail());
         MailDto mailDto = new MailDto();
         mailDto.setAddress(findPwForm.getEmail());
         mailDto.setTitle("임시 비밀번호 발급입니다");
         mailDto.setMessage("임시비밀번호는~~입니다");
         mailService.mailSend(mailDto);
-        MessageDto message = new MessageDto("임시 비밀번호가 이메일로 전송되었습니다.", "/user/my_page", RequestMethod.POST, null);
-        return showMessageAndRedirect(message, model);
+        MessageDto message2 = new MessageDto("임시 비밀번호가 이메일로 전송되었습니다.", "/user/login", RequestMethod.POST, null);
+        return showMessageAndRedirect(message2, model);
     }
 
     // 사용자에게 메시지를 전달하고, 페이지를 리다이렉트 한다.

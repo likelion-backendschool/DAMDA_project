@@ -10,7 +10,6 @@ import com.ll.exam.damda.form.user.FindIdForm;
 import com.ll.exam.damda.form.user.FindPwForm;
 import com.ll.exam.damda.form.user.UserCreateForm;
 import com.ll.exam.damda.form.user.UserEditForm;
-import com.ll.exam.damda.repository.user.UserRepository;
 import com.ll.exam.damda.service.user.MailService;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;

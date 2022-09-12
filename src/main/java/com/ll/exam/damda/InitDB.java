@@ -48,6 +48,7 @@ public class InitDB {
                     .urlId("217787831")
                     .x("126.319192490757")
                     .y("33.2392223486155")
+                    .selfMadeFlag("Y")
                     .build());
             em.persist(Spot.builder()
                     .name("올래국수 본점")
@@ -57,6 +58,7 @@ public class InitDB {
                     .urlId("1387964178")
                     .x("126.49726716501328")
                     .y("33.49152862178827")
+                    .selfMadeFlag("Y")
                     .build());
             em.persist(Spot.builder()
                     .name("연돈")
@@ -66,6 +68,7 @@ public class InitDB {
                     .urlId("1890778114")
                     .x("126.40715814631936")
                     .y("33.258895288625645")
+                    .selfMadeFlag("Y")
                     .build());
 
             /*여행지 이미지 생성*/

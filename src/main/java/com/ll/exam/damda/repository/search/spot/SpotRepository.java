@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SpotRepository extends JpaRepository<Spot, Long> {
@@ -19,10 +20,12 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
     List<Spot> findAll(Specification<Spot> spec);
 
     @EntityGraph(attributePaths = {"reviews", "spotImageURLs"})
-    @Query("select s from Spot s")
+    @Query("select s from Spot s where s.selfMadeFlag = 'Y'")
     Page<Spot> findAllEntityGraph(Pageable pageable);
 
     @EntityGraph(attributePaths = {"reviews", "spotImageURLs"})
-    @Query("select s from Spot s")
+    @Query("select s from Spot s where s.selfMadeFlag = 'Y'")
     List<Spot> findAllEntityGraph();
+
+    Optional<Spot> findByUrlId(String urlId);
 }

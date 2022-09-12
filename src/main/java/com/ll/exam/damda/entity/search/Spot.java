@@ -50,6 +50,8 @@ public class Spot {
 
     private String y;
 
+    private String selfMadeFlag;
+
     //==조회 로직==//
     public Map<Tag, Integer> getTagMap() {
         Map<Tag, Integer> tagInfo = new HashMap<>();

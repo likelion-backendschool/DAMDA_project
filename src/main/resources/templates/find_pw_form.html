@@ -9,19 +9,19 @@
             <h4>비밀번호 찾기</h4>
         </div>
     </div>
-    <form th:action="@{/user/find_id}" th:object="${FindPwForm}" method="post">
+    <form th:action="@{/user/find_id}" th:object="${findPwForm}" method="post">
 
-<!--        <div th:replace="form_errors :: formErrorsFragment"></div>-->
+        <div th:replace="form_errors :: formErrorsFragment"></div>
 
-<!--        <div class="mb-3">-->
-<!--            <label class="form-label">아이디</label>-->
-<!--            <input type="text" th:field="*{username}" class="form-control">-->
-<!--        </div>-->
+        <div class="mb-3">
+            <label class="form-label">아이디</label>
+            <input type="text" th:field="*{username}" class="form-control">
+        </div>
 
-<!--        <div class="mb-3">-->
-<!--            <label class="form-label">이메일</label>-->
-<!--            <input type="email" th:field="*{email}" class="form-control">-->
-<!--        </div>-->
+        <div class="mb-3">
+            <label class="form-label">이메일</label>
+            <input type="email" th:field="*{email}" class="form-control">
+        </div>
         <button type="submit" class="btn btn-primary">비밀번호 찾기</button>
     </form>
 </div>

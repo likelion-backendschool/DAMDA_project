@@ -4,17 +4,18 @@
     <div class="container mt-2 w-100 h-100">
         <div class="justify-content-between d-flex mb-2">
             <h1 th:text="${plan.title}"></h1>
-            <div class="d-flex w-25">
-                <a class="w-50 h-100 btn btn-info mr-2"
+            <div class="d-flex w-25" style="align-items: center;">
+                <a class="w-50 h-100 btn btn-info mr-2" style="align-items: center;"
                    th:href="@{|/travel/design/modification/${plan.id}?order=1|}">수정
                 </a>
                 <a class="w-50 h-100 btn btn-danger" onclick="if(!confirm('정말로 삭제하시겠습니까?')) return false;"
+                   style="align-items: center;"
                    th:href="@{|/travel/design/plan/delete/${plan.id}|}">삭제
                 </a>
             </div>
         </div>
-        <div class="w-100 h-25 d-flex mb-2 justify-content-start overflow-scroll" style="white-space: nowrap;">
-            <div class="card card py-3 px-5" th:each="courses : ${plan.courseList}">
+        <div class="w-100 h-25 d-flex mb-2 justify-content-start" style="white-space: nowrap; overflow: auto;">
+            <div class="card card py-3 px-5 mr-2" th:each="courses : ${plan.courseList}">
                 <a th:if="${courses.id != course.id}"
                    th:href="@{|/travel/design/plan/detail/${plan.id}?order=${courses.orders}|}"
                    th:text="|${courses.orders}일차|"></a>
@@ -22,10 +23,15 @@
             </div>
         </div>
         <div class="d-flex">
-            <div class="card card" style="width:35%; height:70%;">
-                여행지 코스 상세 정보
+            <div class="card card overflow-scroll container mr-3 row" style="width:35%; max-height:70%;">
+                <div class="my-2 border-bottom border-1" th:each="spot : ${course.spotList}">
+                    <div>
+                        <h5 href="#" th:text="${spot.name}"></h5>
+                        <a href="#" th:text="${spot.address}"></a>
+                    </div>
+                </div>
             </div>
-            <div class="card card" style="width:65%; height: 70%;">
+            <div class="card card container" style="width:65%; height: 70%;">
                 <div id="map" style="width:100%;height:350px;"></div>
 
                 <script type="text/javascript"

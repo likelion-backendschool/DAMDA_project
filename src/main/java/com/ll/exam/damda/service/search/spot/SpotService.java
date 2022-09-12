@@ -63,15 +63,24 @@ public class SpotService {
     }
 
     public Spot create(String name, String address, String urlId, String x, String y) {
-        Spot spot = new Spot();
-        spot.setName(name);
-        spot.setAddress(address);
-        spot.setUrlId(urlId);
-        spot.setX(x);
-        spot.setY(y);
-//        spot.setCourse(course);
-        spotRepository.save(spot);
-        return spot;
+        Optional<Spot> _spot = spotRepository.findByUrlId(urlId);
+
+        if (_spot.isPresent()) {
+            return _spot.get();
+        } else {
+            Spot spot = Spot.builder()
+                    .name(name)
+                    .address(address)
+                    .urlId(urlId)
+                    .x(x)
+                    .y(y)
+                    .selfMadeFlag("N")
+                    .build();
+
+            spotRepository.save(spot);
+
+            return spot;
+        }
     }
 
     public Spot getSpot(long spotId) {

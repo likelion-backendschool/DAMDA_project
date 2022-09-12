@@ -7,6 +7,18 @@
         <div class="text-center mb-3">장바구니</div>
         <div class="busket row justify-content-center d-flex align-items-center" style="overflow: scroll;">
             <!-- 여기에 장바구니 목록 들어옴 -->
+            <th:block th:if="${spotList.size() > 0}" th:each="spot : ${spotList}">
+                <div class="p-2 border-bottom border-1 my-1">
+                    <a class="font-weight-bold" th:onclick="'window.open(\'http://place.map.kakao.com/' + ${spot.urlId} + '\')'" th:text="${spot.name}"></a>
+                    <br>
+                    <span class="mb-1" th:text="${spot.address}"></span>
+                    <br>
+                    <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
+                        <button type="button" class="btn btn-outline-primary" th:onclick="|insertCourse(${spot.id})|">+</button>
+                        <button type="button" class="btn btn-outline-primary" th:onclick="|removeAtBusket(${spot.id}, this);|">x</button>
+                    </div>
+                </div>
+            </th:block>
         </div>
     </div>
     <div class="mx-2" style="width: 65%; height: 80%">

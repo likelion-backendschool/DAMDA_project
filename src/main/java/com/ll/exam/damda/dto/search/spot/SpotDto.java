@@ -27,7 +27,7 @@ public class SpotDto {
     private Set<Review> reviews;
     private Set<SpotImage> spotImages;
     private int tagCnt;
-    private String urlId;
+    private long urlId;
     private String x;
     private String y;
 

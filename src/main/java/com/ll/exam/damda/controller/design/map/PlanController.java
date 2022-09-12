@@ -70,8 +70,10 @@ public class PlanController {
     public String modifyPlan(Model model, @PathVariable("planId") long planId, @RequestParam(value = "order") long order) {
         Plan plan = planService.getPlan(planId);
         Course course = courseService.getCourse(plan, order);
+        Busket busket = busketService.getBusket(plan);
         model.addAttribute("plan", plan);
         model.addAttribute("course", course);
+        model.addAttribute("spotList", busket.getSpotList());
         return "/design/map/modify_plan";
     }
 
@@ -81,7 +83,7 @@ public class PlanController {
     public String insertBusket(
             @RequestParam(value = "name") String name,
             @RequestParam(value = "address") String address,
-            @RequestParam(value = "urlId") String urlId,
+            @RequestParam(value = "urlId") long urlId,
             @RequestParam(value = "x") String x,
             @RequestParam(value = "y") String y,
             @RequestParam(value = "planId") long planId) throws JsonProcessingException {

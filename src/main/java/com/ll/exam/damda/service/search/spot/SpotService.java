@@ -62,7 +62,7 @@ public class SpotService {
         return spotDtoPages;
     }
 
-    public Spot create(String name, String address, String urlId, String x, String y) {
+    public Spot create(String name, String address, long urlId, String x, String y) {
         Optional<Spot> _spot = spotRepository.findByUrlId(urlId);
 
         if (_spot.isPresent()) {

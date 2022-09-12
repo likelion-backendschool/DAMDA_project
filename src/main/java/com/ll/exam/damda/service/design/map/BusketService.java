@@ -27,7 +27,7 @@ public class BusketService {
         Busket busket = busketRepository.findByPlan(plan);
         List<Spot> spotList = busket.getSpotList();
         for(Spot spot2 : spotList) {
-            if(spot.getUrlId().equals(spot2.getUrlId())) {
+            if(spot.getUrlId() == spot2.getUrlId()) {
                 return false;
             }
         }

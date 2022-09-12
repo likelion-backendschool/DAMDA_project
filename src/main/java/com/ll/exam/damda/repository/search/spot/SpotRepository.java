@@ -27,5 +27,5 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
     @Query("select s from Spot s where s.selfMadeFlag = 'Y'")
     List<Spot> findAllEntityGraph();
 
-    Optional<Spot> findByUrlId(String urlId);
+    Optional<Spot> findByUrlId(long urlId);
 }

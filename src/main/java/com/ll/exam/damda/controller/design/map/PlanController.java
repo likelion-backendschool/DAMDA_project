@@ -103,7 +103,6 @@ public class PlanController {
 
     //장바구니에 여행지 넣기2
     @PostMapping("/insertSpot2")
-    @ResponseBody
     public String insertBusket(
             @RequestParam(value = "spotId") long spotId,
             @RequestParam(value = "planId") long planId) throws JsonProcessingException {
@@ -116,9 +115,9 @@ public class PlanController {
         boolean success = busketService.addSpotAtBusket(spot, plan);
 
         if (success) {
-            return "해당 여행계획의 장바구니에 추가 완료";
+            return "redirect:plan/list";
         } else {
-            return "해당 여행계획의 장바구니에 추가 실패";
+            return "redirect:plan/list";
         }
     }
 

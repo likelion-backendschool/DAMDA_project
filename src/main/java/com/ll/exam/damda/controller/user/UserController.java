@@ -129,7 +129,7 @@ public class UserController {
         if (userService.getUserRepository().findByEmail(findIdForm.getEmail()) != null)
         {
             String findId = userService.getUserRepository().findByEmail(findIdForm.getEmail()).getUsername();
-            alert = "아이디는 " + findId + "입니다.";
+            alert = "아이디는 " + masking(findId) + "입니다.";
             redirectUri = "/user/login";
         }
         MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.POST, null);
@@ -176,4 +176,8 @@ public class UserController {
         return "user/messageRedirect";
     }
 
+    // 3자리 이후 마스킹
+    private String masking(String str){
+        return str.replaceAll("(?<=.{3}).(?=.*)", "*");
+    }
 }

@@ -54,6 +54,11 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void edit(SiteUser user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
+
     public SiteUser getUser(String username) {
         return (SiteUser) this.userRepository.findByUsername(username).orElseThrow(() -> new DataNotFoundException("siteuser not found"));
     }

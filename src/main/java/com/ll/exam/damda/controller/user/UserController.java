@@ -132,8 +132,8 @@ public class UserController {
             alert = "아이디는 " + findId + "입니다.";
             redirectUri = "/user/login";
         }
-        MessageDto message1 = new MessageDto(alert, redirectUri, RequestMethod.POST, null);
-        return showMessageAndRedirect(message1, model);
+        MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.POST, null);
+        return showMessageAndRedirect(message, model);
     }
 
     @GetMapping("/find_pw")
@@ -146,17 +146,28 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "find_pw_form";
         }
-        SiteUser user = userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail());
-        MailDto mailDto = new MailDto();
-        mailDto.setAddress(findPwForm.getEmail());
-        mailDto.setTitle("DAMDA 임시 비밀번호 발급입니다");
-        String newPw = userService.getTempPassword();
-        user.setPassword(newPw);
-        String findPwMsg = "임시 비밀번호는 " + newPw + " 입니다.";
-        mailDto.setMessage(findPwMsg);
-        mailService.mailSend(mailDto);
-        MessageDto message2 = new MessageDto("임시 비밀번호가 이메일로 전송되었습니다.", "/user/login", RequestMethod.POST, null);
-        return showMessageAndRedirect(message2, model);
+
+        String alert = "일치하는 아이디를 찾을 수 없습니다.";
+        String redirectUri = "/user/find_pw";
+        if (userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail()) != null)
+        {
+            SiteUser user = userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail());
+            String newPw = userService.getTempPassword();
+            String findPwMsg = "임시 비밀번호는 " + newPw + " 입니다.";
+            userService.edit(user,newPw);
+
+            MailDto mailDto = new MailDto();
+            mailDto.setAddress(findPwForm.getEmail());
+            mailDto.setTitle("DAMDA 임시 비밀번호 발급입니다");
+            mailDto.setMessage(findPwMsg);
+            mailService.mailSend(mailDto);
+
+            alert = "임시 비밀번호가 이메일로 발송되었습니다";
+            redirectUri = "/user/login";
+        }
+
+        MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.POST, null);
+        return showMessageAndRedirect(message, model);
     }
 
     // 사용자에게 메시지를 전달하고, 페이지를 리다이렉트 한다.

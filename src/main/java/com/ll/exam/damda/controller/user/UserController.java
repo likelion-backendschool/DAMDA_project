@@ -32,19 +32,19 @@ public class UserController {
 
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm) {
-        return "signup_form";
+        return "user/signup_form";
     }
 
     @PostMapping("/signup")
     public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "signup_form";
+            return "user/signup_form";
         }
 
         if (!userCreateForm.getPassword().equals(userCreateForm.getPassword_check())) {
             bindingResult.rejectValue("password_check", "passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
-            return "signup_form";
+            return "user/signup_form";
         }
 
         try {
@@ -52,25 +52,25 @@ public class UserController {
                     userCreateForm.getEmail(), userCreateForm.getPassword());
         } catch (SignupEmailDuplicatedException e) {
             bindingResult.reject("signupEmailDuplicated", e.getMessage());
-            return "signup_form";
+            return "user/signup_form";
         } catch (SignupNicknameDuplicatedException e) {
             bindingResult.reject("signupUsernameDuplicated", e.getMessage());
-            return "signup_form";
+            return "user/signup_form";
         } catch (SignupUsernameDuplicatedException e) {
             bindingResult.reject("signupUsernameDuplicated", e.getMessage());
-            return "signup_form";
+            return "user/signup_form";
         }
         return "redirect:/";
     }
 
     @GetMapping("/login")
     public String login() {
-        return "login_form";
+        return "user/login_form";
     }
 
     @GetMapping("/access")
     public String user() {
-        return "user_access";
+        return "user/user_access";
     }
 
 
@@ -81,33 +81,33 @@ public class UserController {
         userEditForm.setNickname(siteUser.getNickname());
         userEditForm.setEmail(siteUser.getEmail());
 
-        return "my_page_form";
+        return "user/my_page_form";
     }
 
     @PostMapping("/my_page")
     public String mypage(Principal principal, Model model, @Valid UserEditForm userEditForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "my_page_form";
+            return "user/my_page_form";
         }
         SiteUser siteUser = userService.getUser(principal.getName());
 
         if (!userEditForm.getPassword().equals(userEditForm.getPassword_check())) {
             bindingResult.rejectValue("password_check", "passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
-            return "my_page_form";
+            return "user/my_page_form";
         }
 
         try {
             userService.edit(siteUser, userEditForm.getNickname(), userEditForm.getEmail(), userEditForm.getPassword());
         } catch (SignupEmailDuplicatedException e) {
             bindingResult.reject("signupEmailDuplicated", e.getMessage());
-            return "my_page_form";
+            return "user/my_page_form";
         } catch (SignupNicknameDuplicatedException e) {
             bindingResult.reject("signupUsernameDuplicated", e.getMessage());
-            return "my_page_form";
+            return "user/my_page_form";
         } catch (SignupUsernameDuplicatedException e) {
             bindingResult.reject("signupUsernameDuplicated", e.getMessage());
-            return "my_page_form";
+            return "user/my_page_form";
         }
 
         MessageDto message = new MessageDto("정보 변경이 완료되었습니다.", "/user/my_page", RequestMethod.POST, null);
@@ -116,13 +116,13 @@ public class UserController {
 
     @GetMapping("/find_id")
     public String findid(FindIdForm findIdForm) {
-        return "find_id_form";
+        return "user/find_id_form";
     }
 
     @PostMapping("/find_id")
     public String findid(Model model, @Valid FindIdForm findIdForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "find_id_form";
+            return "user/find_id_form";
         }
         String alert = "일치하는 아이디를 찾을 수 없습니다.";
         String redirectUri = "/user/find_id";
@@ -138,13 +138,13 @@ public class UserController {
 
     @GetMapping("/find_pw")
     public String findpw(FindPwForm findPwForm) {
-        return "find_pw_form.html";
+        return "user/find_pw_form";
     }
 
     @PostMapping("/find_pw")
     public String findpw(Model model, @Valid FindPwForm findPwForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "find_pw_form";
+            return "user/find_pw_form";
         }
 
         String alert = "일치하는 아이디를 찾을 수 없습니다.";

@@ -42,41 +42,49 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/**").permitAll()
+        http
+                .authorizeRequests(
+                        authorizeRequests -> authorizeRequests
+                                .antMatchers("/**").permitAll()
+                )
 
-                .and()
-                .headers().addHeaderWriter(new XFrameOptionsHeaderWriter(
-                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
+                .headers(
+                        headers -> headers
+                                .addHeaderWriter(new XFrameOptionsHeaderWriter(
+                                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
+                )
 
-                .and()
-                .formLogin()
-                .loginPage("/user/login")
-                .defaultSuccessUrl("/")
+                .formLogin(
+                        formLogin -> formLogin
+                                .loginPage("/user/login")
+                                .defaultSuccessUrl("/")
+                )
 
-                .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                // 로그아웃시 자동로그인 쿠키와 세션 제거
-                .deleteCookies("remember-me", "JSESSIONID")
+                .logout(
+                        logout -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                                .logoutSuccessUrl("/")
+                                .invalidateHttpSession(true)
+                                // 로그아웃시 자동로그인 쿠키와 세션 제거
+                                .deleteCookies("remember-me", "JSESSIONID")
+                )
 
                 // 자동로그인 구현을 위한 rememberMe 설정
-                .and()
-                .rememberMe()
-                .key("rem-me-key")
-                // userDetailsService를 구현한 service를 가져와야 함
-                .userDetailsService(userSecurityService)
-                // 로그인 html 페이지에서 이용할 id값
-                // 이 값은 default이며 변경할 시 로그인 페이지의 id 값도 수정
-                .rememberMeParameter("remember-me")
-                // 쿠키의 이름, f12 > application에서 확인 가능
-                .rememberMeCookieName("remember-login")
-                // 쿠키의 값을 저장할 DataSource
-                .tokenRepository(persistentTokenRepository())
-                // 쿠키의 유효기간, 7일을 계산함
-                .tokenValiditySeconds(7 * 24 * 60 * 60);
+                .rememberMe(
+                        rememberMe -> rememberMe
+                                .key("rem-me-key")
+                                // userDetailsService를 구현한 service를 가져와야 함
+                                .userDetailsService(userSecurityService)
+                                // 로그인 html 페이지에서 이용할 id값
+                                // 이 값은 default이며 변경할 시 로그인 페이지의 id 값도 수정
+                                .rememberMeParameter("remember-me")
+                                // 쿠키의 이름, f12 > application에서 확인 가능
+                                .rememberMeCookieName("remember-login")
+                                // 쿠키의 값을 저장할 DataSource
+                                .tokenRepository(persistentTokenRepository())
+                                // 쿠키의 유효기간, 7일을 계산함
+                                .tokenValiditySeconds(7 * 24 * 60 * 60)
+                );
     }
 
     @Bean

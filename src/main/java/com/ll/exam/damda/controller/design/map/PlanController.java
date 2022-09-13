@@ -209,6 +209,7 @@ public class PlanController {
 
         model.addAttribute("plan", plan);
         model.addAttribute("course", course);
+        model.addAttribute("spotList", course.getSpotList());
 
         return "design/map/plan_detail";
     }

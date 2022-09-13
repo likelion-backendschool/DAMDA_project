@@ -48,7 +48,7 @@
 
         <img width="669" alt="스크린샷 2022-09-14 오전 12 02 07" src="https://user-images.githubusercontent.com/97084128/189936790-15ac9138-2e8a-4e33-aab0-5a8212f533bb.png">
         
-    - plandetail 여행 계획 상세 페이지 구현 - 
+    - plandetail 여행 계획 상세 페이지 구현(보완 필요)
 
         <img width="659" alt="스크린샷 2022-09-14 오전 12 02 30" src="https://user-images.githubusercontent.com/97084128/189936881-cc430901-e9c3-4687-bd1c-23cf33e2c150.png">
         

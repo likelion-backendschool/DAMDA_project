@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +16,10 @@ import java.util.Optional;
 @Repository
 public interface SpotRepository extends JpaRepository<Spot, Long> {
 
+    @EntityGraph(attributePaths = {"reviews", "spotImageURLs"})
     Page<Spot> findAll(Specification<Spot> spec, Pageable pageable);
 
+    @EntityGraph(attributePaths = {"reviews", "spotImageURLs"})
     List<Spot> findAll(Specification<Spot> spec);
 
     @EntityGraph(attributePaths = {"reviews", "spotImageURLs"})

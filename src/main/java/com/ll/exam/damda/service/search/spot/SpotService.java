@@ -40,20 +40,24 @@ public class SpotService {
         Specification<Spot> spec;
 
         if (searchWord.equals("") && checkedValue.size() == 0) {
+            System.out.println("아무런 조건 없음");
             Pageable pageable = getPageRequest(page, 8, "reviewCnt");
             Page<Spot> spotPages = spotRepository.findAllEntityGraph(pageable);
             spotDtoPages = new SpotDto().toDtoList(spotPages);
         }
         else if (!searchWord.equals("") && checkedValue.size() == 0) {
+            System.out.println("검색어만 있음");
             spec = search(searchWord);
             Pageable pageable = getPageRequest(page, 8, "reviewCnt");
             Page<Spot> spotPages = spotRepository.findAll(spec, pageable);
             spotDtoPages = new SpotDto().toDtoList(spotPages);
         }
         else if (searchWord.equals("") && checkedValue.size() != 0) {
+            System.out.println("검색 조건만 있음");
             List<Spot> spotList = spotRepository.findAllEntityGraph();
             spotDtoPages = filterAndSortByTag(page, spotList, checkedValue);
         } else {
+            System.out.println("둘다 있음");
             spec = search(searchWord);
             List<Spot> spotList = spotRepository.findAll(spec);
             spotDtoPages = filterAndSortByTag(page, spotList, checkedValue);
@@ -62,6 +66,7 @@ public class SpotService {
         return spotDtoPages;
     }
 
+    @Transactional(readOnly = false)
     public Spot create(String name, String address, long urlId, String x, String y) {
         Optional<Spot> _spot = spotRepository.findByUrlId(urlId);
 
@@ -92,6 +97,7 @@ public class SpotService {
         }
     }
 
+    @Transactional(readOnly = false)
     public Spot cloneSpot(Spot spot) {
         Spot spotClone = new Spot();
         spotClone.setName(spot.getName());
@@ -113,10 +119,15 @@ public class SpotService {
             public Predicate toPredicate(Root<Spot> s, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 query.distinct(true);  // 중복을 제거
                 Join<Spot, Review> r = s.join("reviews", JoinType.LEFT);
-                return cb.or(cb.like(s.get("name"), "%" + kw + "%"),
+
+                Predicate predicateSearchCondition = cb.or(cb.like(s.get("name"), "%" + kw + "%"),
                         cb.like(s.get("city"), "%" + kw + "%"),
                         cb.like(s.get("address"), "%" + kw + "%"),
                         cb.like(r.get("content"), "%" + kw + "%"));
+
+                Predicate predicateSelfMadeFlag = cb.equal(s.get("selfMadeFlag"), "Y");
+
+                return cb.and(predicateSelfMadeFlag, predicateSearchCondition);
             }
         };
     }

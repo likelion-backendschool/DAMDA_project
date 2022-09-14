@@ -1,39 +1,42 @@
 package com.ll.exam.damda.entity.search;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "review_title", nullable = false)
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "review_content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne
+    @Column(name = "review_travel_start_date")
+    private LocalDateTime start_date;
+
+    @Column(name = "review_travel_end_date")
+    private LocalDateTime end_date;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id")
     private Spot spot;
 
-    private LocalDateTime start_date;
-
-    private LocalDateTime end_date;
-
     @OneToMany(mappedBy = "review")
-    private List<ReviewTag> reviewTag = new ArrayList<>();
+    @Builder.Default
+    private Set<ReviewTag> reviewTags = new LinkedHashSet<>();
 
     //==연관관계 메서드==//
     public void setSpot(Spot spot) {
@@ -41,22 +44,13 @@ public class Review {
         spot.setReviewCnt(spot.getReviewCnt() + 1);
     }
 
-    //==생성 메서드==//
-    public static Review createReview(Spot spot, String title, String content, LocalDateTime start, LocalDateTime end) {
-        Review review = new Review();
-        review.setSpot(spot);
-        review.setTitle(title);
-        review.setContent(content);
-        review.setStart_date(start);
-        review.setEnd_date(end);
-        return review;
-    }
 
     //==조회 로직==//
     public Map<Tag, Integer> getTagInfo() {
         Map<Tag, Integer> tagInfo = new HashMap<>();
 
-        for (ReviewTag _reviewTag : this.reviewTag) {
+
+        for (ReviewTag _reviewTag : this.reviewTags) {
             Tag tag = _reviewTag.getTag();
             if (tagInfo.containsKey(tag)) {
                 tagInfo.put(tag, tagInfo.get(tag) + 1);
@@ -67,5 +61,6 @@ public class Review {
 
         return tagInfo;
     }
+
 
 }

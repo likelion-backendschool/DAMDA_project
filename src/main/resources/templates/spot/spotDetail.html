@@ -1,0 +1,99 @@
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+        layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div class="main-content-container container-fluid px-4" id="spotDetail">
+        <!-- Page Header -->
+        <div class="page-header row no-gutters py-4">
+            <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+                <h3 class="page-title">Spot Detail Infomation</h3>
+            </div>
+        </div>
+        <!-- End Page Header -->
+        <!-- Default Light Table -->
+        <div class="row">
+            <div class="col-lg-8">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <th:block th:each="image, index : ${spotDto.spotImages}">
+                            <li th:if="${index.index} > 0" data-target="#carouselExampleIndicators" th:data-slide-to="${index.index}"></li>
+                        </th:block>
+                    </ol>
+                    <div class="carousel-inner" style="height: 600px;">
+                        <div class="carousel-item active">
+                            <img class="d-block w-100" th:src="${spotDto.spotImages[0].URL}" alt="First slide" style="border-radius: 10px;object-fit: cover;">
+                        </div>
+                        <th:block th:each="image, index : ${spotDto.spotImages}">
+                            <div th:if="${index.index} > 0" class="carousel-item">
+                                <img class="d-block w-100" th:src="${image.URL}" style="border-radius: 10px;object-fit: cover;">
+                            </div>
+                        </th:block>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card card-small mb-4" style="height: 200px;">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item p-4 text-center">
+                            <strong class="text-muted d-block mb-2">Description</strong>
+                            <span th:text="|${spotDto.description}|"></span>
+                            <br/>
+                            <button type="button" class="mt-2 mb-2 btn btn-sm btn-pill btn-outline-primary mx-auto" style="width: 70px;">담기</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card card-small blog-comments" style="height: 400px;">
+                    <div class="card-header border-bottom">
+                        <h6 class="m-0">Spot Review</h6>
+                    </div>
+                    <div class="card-body p-0" style="overflow:scroll;">
+                        <div th:each="review : ${spotDto.reviews}" class="blog-comments__item d-flex p-3">
+                            <div class="blog-comments__content">
+                                <div class="blog-comments__meta text-muted">
+                                    <span th:text="|${review.title}|" class="text-secondary"></span>
+                                    <span class="text-muted">– 3 days ago</span>
+                                </div>
+                                <p th:text="|${review.content}|" class="m-0 my-1 mb-2 text-muted"></p>
+                                <div class="blog-comments__actions">
+                                    <div class="btn-group btn-group-sm">
+                                        <button type="button" class="btn btn-white">
+                                            <span class="text-success">
+                                                <i class="material-icons">check</i>
+                                            </span> Like </button>
+                                        <button type="button" class="btn btn-white">
+                                            <span class="text-danger">
+                                                <i class="material-icons">clear</i>
+                                            </span> Delete </button>
+                                        <button type="button" class="btn btn-white">
+                                            <span class="text-light">
+                                                <i class="material-icons">more_vert</i>
+                                            </span> Edit </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer border-top">
+                        <div class="row">
+                            <div class="col text-center view-report">
+                                <button type="submit" class="btn btn-white">View More Reviews</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Default Light Table -->
+    </div>
+</div>
+</html>

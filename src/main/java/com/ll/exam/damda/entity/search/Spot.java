@@ -1,8 +1,6 @@
 package com.ll.exam.damda.entity.search;
 
-import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
@@ -11,52 +9,45 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Spot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    @NotNull
+
+    @Column(name = "spot_name", nullable = false)
     private String name;
 
-    @Column
-    @NotNull
+    @Column(name = "spot_city", nullable = false)
     private String city;
 
-    @Column
+    @Column(name = "spot_address")
     private String address;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "spot_description", columnDefinition = "TEXT")
     private String description;
 
     @OneToMany(mappedBy = "spot")
-    private List<SpotImage> spotImageURLList = new ArrayList<>();
+    @Builder.Default
+    private Set<SpotImage> spotImageURLs = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "spot")
-    private List<Review> reviewList = new ArrayList<>();
+    @Builder.Default
+    private Set<Review> reviews = new LinkedHashSet<>();
 
-    @Column(columnDefinition = "integer default 0")
-    private int reviewCnt;
-
-    //==생성 메서드==//
-    public static Spot createSpot(String name, String city, String address, String description) {
-        Spot spot = new Spot();
-        spot.setName(name);
-        spot.setCity(city);
-        spot.setAddress(address);
-        spot.setDescription(description);
-        return spot;
-    }
-
-    //==비즈니스 로직==//
+    @Column(name = "spot_review_cnt", nullable = false)
+    private int reviewCnt = 0;
 
     //==조회 로직==//
     public Map<Tag, Integer> getTagMap() {
         Map<Tag, Integer> tagInfo = new HashMap<>();
 
-        for (Review review : this.reviewList) {
+
+        for (Review review : this.reviews) {
             for (Map.Entry<Tag, Integer> entry : review.getTagInfo().entrySet()) {
                 if (!tagInfo.containsKey(entry.getKey())) {
                     tagInfo.put(entry.getKey(), entry.getValue());
@@ -85,4 +76,5 @@ public class Spot {
 
         return mostTagList;
     }
+
 }

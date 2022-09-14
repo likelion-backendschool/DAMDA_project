@@ -21,21 +21,9 @@ public class SpotService {
 
     private final SpotRepository spotRepository;
 
-    private Specification<Spot> search(String kw) {
-        return new Specification<>() {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public Predicate toPredicate(Root<Spot> s, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                query.distinct(true);  // 중복을 제거
-                Join<Spot, Review> r = s.join("reviewList", JoinType.LEFT);
-                return cb.or(cb.like(s.get("name"), "%" + kw + "%"),
-                        cb.like(s.get("city"), "%" + kw + "%"),
-                        cb.like(s.get("address"), "%" + kw + "%"),
-                        cb.like(r.get("content"), "%" + kw + "%"));
-            }
-        };
-    }
-
+    /*
+    핵심 서비스 메서드
+    */
     public SpotDto findById(Long spotId) {
         Optional<Spot> _spot = spotRepository.findById(spotId);
 
@@ -48,48 +36,59 @@ public class SpotService {
     }
 
     public Page<SpotDto> getSpotListBy(String searchWord, List<String> checkedValue, int page) {
-        Page<SpotDto> spotDtoList = null;
-        Specification<Spot> spec = search(searchWord);
 
-        if (searchWord == "" && checkedValue.size() == 0) {
-            List<Sort.Order> sorts = new ArrayList<>();
-            sorts.add(Sort.Order.desc("reviewCnt"));
-            Pageable pageable = PageRequest.of(page, 8, Sort.by(sorts));
-            Page<Spot> spotList = spotRepository.findAll(pageable);
-            spotDtoList = new SpotDto().toDtoList(spotList);
+        Page<SpotDto> spotDtoPages;
+        Specification<Spot> spec;
 
-            return spotDtoList;
+        if (searchWord.equals("") && checkedValue.size() == 0) {
+            Pageable pageable = getPageRequest(page, 8, "reviewCnt");
+            Page<Spot> spotPages = spotRepository.findAllEntityGraph(pageable);
+            spotDtoPages = new SpotDto().toDtoList(spotPages);
         }
-        else if (searchWord != "" && checkedValue.size() == 0) {
-            List<Sort.Order> sorts = new ArrayList<>();
-            sorts.add(Sort.Order.desc("reviewCnt"));
-            Pageable pageable = PageRequest.of(page, 8, Sort.by(sorts));
-            Page<Spot> spotList = spotRepository.findAll(spec, pageable);
-            spotDtoList = new SpotDto().toDtoList(spotList);
+        else if (!searchWord.equals("") && checkedValue.size() == 0) {
+            spec = search(searchWord);
+            Pageable pageable = getPageRequest(page, 8, "reviewCnt");
+            Page<Spot> spotPages = spotRepository.findAll(spec, pageable);
+            spotDtoPages = new SpotDto().toDtoList(spotPages);
         }
-        else if (searchWord == "" && checkedValue.size() != 0) {
-            List<Spot> spotList = spotRepository.findAll();
-            List<SpotDto> _spotDtoList = filterAndSortByTag(spotList, checkedValue);
-
-            Pageable pageable = PageRequest.of(page, 8);
-            final int start = (int)pageable.getOffset();
-            final int end = Math.min((start + pageable.getPageSize()), _spotDtoList.size());
-            spotDtoList = new PageImpl<>(_spotDtoList.subList(start, end), pageable, _spotDtoList.size());
+        else if (searchWord.equals("") && checkedValue.size() != 0) {
+            List<Spot> spotList = spotRepository.findAllEntityGraph();
+            spotDtoPages = filterAndSortByTag(page, spotList, checkedValue);
         } else {
+            spec = search(searchWord);
             List<Spot> spotList = spotRepository.findAll(spec);
-            List<SpotDto> _spotDtoList = filterAndSortByTag(spotList, checkedValue);
-
-            Pageable pageable = PageRequest.of(page, 8);
-            final int start = (int)pageable.getOffset();
-            final int end = Math.min((start + pageable.getPageSize()), _spotDtoList.size());
-            spotDtoList = new PageImpl<>(_spotDtoList.subList(start, end), pageable, _spotDtoList.size());
+            spotDtoPages = filterAndSortByTag(page, spotList, checkedValue);
         }
 
-        return spotDtoList;
+        return spotDtoPages;
     }
 
-    public List<SpotDto> filterAndSortByTag(List<Spot> spotList, List<String> checkedValue) {
-        List<SpotDto> _spotDtoList = new ArrayList<>(); // 필터된 여행지 리스트
+    /*
+    핵심 서비스 메서드에서 필요한 메서드
+    */
+    private Specification<Spot> search(String kw) {
+        return new Specification<>() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public Predicate toPredicate(Root<Spot> s, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                query.distinct(true);  // 중복을 제거
+                Join<Spot, Review> r = s.join("reviews", JoinType.LEFT);
+                return cb.or(cb.like(s.get("name"), "%" + kw + "%"),
+                        cb.like(s.get("city"), "%" + kw + "%"),
+                        cb.like(s.get("address"), "%" + kw + "%"),
+                        cb.like(r.get("content"), "%" + kw + "%"));
+            }
+        };
+    }
+
+    public Pageable getPageRequest(int page, int pageSize, String condition) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc(condition));
+        return PageRequest.of(page, pageSize, Sort.by(sorts));
+    }
+
+    public Page<SpotDto> filterAndSortByTag(int page, List<Spot> spotList, List<String> checkedValue) {
+        List<SpotDto> spotDtoList = new ArrayList<>(); // 필터된 여행지 리스트
 
         // 태그 카운트 및 필터
         for (Spot spot : spotList) {
@@ -98,8 +97,9 @@ public class SpotService {
 
             for (Tag tag : tagInfo.keySet()) { // 여행지 태그들
                 if (checkedValue.contains(tag.getName())) { // 여행지 태그가 검색 조건에 포함
-                    if (!_spotDtoList.contains(spotDto)) {
-                        _spotDtoList.add(spotDto);
+
+                    if (!spotDtoList.contains(spotDto)) {
+                        spotDtoList.add(spotDto);
                     }
                     spotDto.setTagCnt(spotDto.getTagCnt() + tagInfo.get(tag));
                 }
@@ -114,8 +114,14 @@ public class SpotService {
             }
         };
 
-        Collections.sort(_spotDtoList, comparator);
 
-        return _spotDtoList;
+        Collections.sort(spotDtoList, comparator);
+
+        Pageable pageable = PageRequest.of(page, 8);
+        final int start = (int)pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), spotDtoList.size());
+        Page<SpotDto> spotDtoPages = new PageImpl<>(spotDtoList.subList(start, end), pageable, spotDtoList.size());
+
+        return spotDtoPages;
     }
 }

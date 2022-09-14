@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,28 +23,28 @@ public class SpotDto {
     private String address;
     private String description;
     private Map<Tag, Integer> tagInfo;
-    private List<Tag> mostTagList;
-    private List<Review> reviewList;
-    private List<SpotImage> spotImageList;
+    private List<Tag> mostTags;
+    private Set<Review> reviews;
+    private Set<SpotImage> spotImages;
     private int tagCnt;
 
     /* Page<Entity> -> Page<Dto> 변환처리 */
-    public Page<SpotDto> toDtoList(Page<Spot> spotList) {
-        Page<SpotDto> spotDtoList = spotList.map(m ->
+    public Page<SpotDto> toDtoList(Page<Spot> spots) {
+        Page<SpotDto> spotDtos = spots.map(spot ->
                 SpotDto.builder()
-                        .id(m.getId())
-                        .name(m.getName())
-                        .city(m.getCity())
-                        .address(m.getAddress())
-                        .description(m.getDescription())
-                        .tagInfo(m.getTagMap())
-                        .mostTagList(m.getMostTagList())
-                        .reviewList(m.getReviewList())
-                        .spotImageList(m.getSpotImageURLList())
+                        .id(spot.getId())
+                        .name(spot.getName())
+                        .city(spot.getCity())
+                        .address(spot.getAddress())
+                        .description(spot.getDescription())
+                        .tagInfo(spot.getTagMap())
+                        .mostTags(spot.getMostTagList())
+                        .reviews(spot.getReviews())
+                        .spotImages(spot.getSpotImageURLs())
                         .tagCnt(0)
                         .build()
         );
-        return spotDtoList;
+        return spotDtos;
     }
 
     /* Entity -> Dto */
@@ -55,9 +56,9 @@ public class SpotDto {
                 .address(spot.getAddress())
                 .description(spot.getDescription())
                 .tagInfo(spot.getTagMap())
-                .mostTagList(spot.getMostTagList())
-                .reviewList(spot.getReviewList())
-                .spotImageList(spot.getSpotImageURLList())
+                .mostTags(spot.getMostTagList())
+                .reviews(spot.getReviews())
+                .spotImages(spot.getSpotImageURLs())
                 .tagCnt(0)
                 .build();
     }

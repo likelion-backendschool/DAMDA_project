@@ -41,29 +41,63 @@ public class InitDB {
 
             /*여행지 생성*/
             for (int i = 0; i < 25; i++) {
-                em.persist(Spot.createSpot("spotName" + i, "제주", "test address" + i, "test description" + i));
+                em.persist(Spot.builder()
+                        .name("spot name" + i)
+                        .city("제주")
+                        .address("test address" + i)
+                        .description("Test description" + i)
+                        .build());
             }
             for (int i = 25; i < 50; i++) {
-                em.persist(Spot.createSpot("spotName" + i, "부산", "test address" + i, "test description" + i));
+                em.persist(Spot.builder()
+                        .name("spot name" + i)
+                        .city("부산")
+                        .address("test address" + i)
+                        .description("Test description" + i)
+                        .build());
             }
             for (int i = 50; i < 75; i++) {
-                em.persist(Spot.createSpot("spotName" + i, "강릉", "test address" + i, "test description" + i));
+                em.persist(Spot.builder()
+                        .name("spot name" + i)
+                        .city("강릉")
+                        .address("test address" + i)
+                        .description("Test description" + i)
+                        .build());
             }
             for (int i = 75; i < 100; i++) {
-                em.persist(Spot.createSpot("spotName" + i, "전주", "test address" + i, "test description" + i));
+                em.persist(Spot.builder()
+                        .name("spot name" + i)
+                        .city("전주")
+                        .address("test address" + i)
+                        .description("Test description" + i)
+                        .build());
             }
 
             /*여행지 이미지 생성*/
             for (Spot spot : spotRepository.findAll()) {
-                em.persist(SpotImage.createSpotImage("https://picsum.photos/200", spot));
+
+                for (int i = 0; i < 3; i++) {
+                    SpotImage spotImage = SpotImage.builder()
+                            .URL("https://picsum.photos/400")
+                            .spot(spot)
+                            .build();
+                    spot.getSpotImageURLs().add(spotImage);
+                    em.persist(spotImage);
+                }
             }
 
             /*여행지 리뷰 생성*/
             for (Spot spot : spotRepository.findAll()) {
                 for (int i = 0; i < rand.nextInt(10); i++) {
-                    em.persist(Review.createReview(spot, "굳굳", "재밌었어요"
-                            , LocalDateTime.of(2022, Month.APRIL, 1, 0, 0)
-                            , LocalDateTime.of(2022, Month.APRIL, 2, 0, 0)));
+
+                    Review review = Review.builder()
+                            .title("good")
+                            .content("so fun")
+                            .start_date(LocalDateTime.of(2022, Month.APRIL, 1, 0, 0))
+                            .end_date(LocalDateTime.of(2022, Month.APRIL, 2, 0, 0))
+                            .build();
+                    review.setSpot(spot);
+                    em.persist(review);
                 }
             }
 
@@ -71,7 +105,8 @@ public class InitDB {
             String[] tagArr = new String[]{"연인끼리", "인스타", "가족끼리", "친구끼리", "액티비티", "볼거리"};
             List<Tag> tagList = new ArrayList<>();
             for (String stag : tagArr) {
-                Tag tag = Tag.createTag(stag);
+
+                Tag tag = Tag.builder().name(stag).build();
                 tagList.add(tag);
                 em.persist(tag);
             }
@@ -79,7 +114,18 @@ public class InitDB {
             /*리뷰 & 태그 생성*/
             for (Review review : reviewRepository.findAll()) {
                 int randIndex = rand.nextInt(5);
-                List<ReviewTag> reviewTagList = ReviewTag.createReviewTag(review, tagList.get(randIndex), tagList.get(randIndex + 1));
+
+                List<ReviewTag> reviewTagList = new ArrayList<>();
+
+                reviewTagList.add(ReviewTag.builder()
+                        .review(review)
+                        .tag(tagList.get(randIndex))
+                        .build());
+                reviewTagList.add(ReviewTag.builder()
+                        .review(review)
+                        .tag(tagList.get(randIndex+1))
+                        .build());
+
                 for (ReviewTag reviewTag : reviewTagList) {
                     em.persist(reviewTag);
                 }

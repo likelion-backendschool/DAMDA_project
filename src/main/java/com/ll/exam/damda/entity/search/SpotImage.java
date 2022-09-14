@@ -1,34 +1,27 @@
 package com.ll.exam.damda.entity.search;
 
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SpotImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    @NotNull
-    private String URL;
+    @Column(name = "spot_image_url", nullable = false)
+    private String URL = "";
 
-    @ManyToOne
-    @JoinColumn(name = "Spot_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "spot_id")
     private Spot spot;
-
-    //==생성 메서드==//
-    public static SpotImage createSpotImage(String url, Spot spot) {
-        SpotImage spotImage = new SpotImage();
-        spotImage.setURL(url);
-        spotImage.setSpot(spot);
-        spot.getSpotImageURLList().add(spotImage);
-        return spotImage;
-    }
 }

@@ -1,5 +1,6 @@
 package com.ll.exam.damda.entity.search;
 
+import com.ll.exam.damda.entity.user.SiteUser;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +34,10 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id")
     private Spot spot;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "siteUser_id")
+    private SiteUser siteUser;
 
     @OneToMany(mappedBy = "review")
     @Builder.Default

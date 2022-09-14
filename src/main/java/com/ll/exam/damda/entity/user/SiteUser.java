@@ -3,6 +3,7 @@ package com.ll.exam.damda.entity.user;
 import javax.persistence.*;
 
 import com.ll.exam.damda.entity.UserPlan;
+import com.ll.exam.damda.entity.search.Review;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,6 +35,9 @@ public class SiteUser {
 
     private LocalDateTime createDate;
 
-    @OneToMany
+    @OneToMany(mappedBy = "siteUser")
     private Set<UserPlan> userPlanSet;
+
+    @OneToMany(mappedBy = "siteUser")
+    private Set<Review> reviewSet;
 }

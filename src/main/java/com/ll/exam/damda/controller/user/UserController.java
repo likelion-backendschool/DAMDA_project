@@ -74,7 +74,7 @@ public class UserController {
 
     @GetMapping("/access")
     public String user() {
-        return "user/user_access";
+        return "user/login_form";
     }
 
 

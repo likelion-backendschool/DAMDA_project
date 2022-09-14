@@ -63,7 +63,7 @@ public class UserController {
             bindingResult.reject("signupUsernameDuplicated", e.getMessage());
             return "user/signup_form";
         }
-        return "redirect:/";
+        return "redirect:/user/login";
     }
 
     @PreAuthorize("isAnonymous()")

@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin(
                         formLogin -> formLogin
                                 .loginPage("/user/login")
-                                .defaultSuccessUrl("/")
+                                .defaultSuccessUrl("/travel/design/plan/list")
                 )
 
                 .logout(

@@ -55,6 +55,7 @@
                 <div class="card card-small blog-comments" style="height: 400px;">
                     <div class="card-header border-bottom">
                         <h6 class="m-0">Spot Review</h6>
+                        <a th:href="@{/review/create}" class="btn btn-outline-primary">리뷰 작성</a>
                     </div>
                     <div class="card-body p-0" style="overflow:scroll;">
                         <div th:each="review : ${spotDto.reviews}" class="blog-comments__item d-flex p-3">

@@ -1,0 +1,55 @@
+<html layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>마이페이지</h4>
+        </div>
+    </div>
+    <form th:action="@{/user/my_page}" th:object="${userEditForm}" method="post">
+
+        <div th:replace="user/form_errors :: formErrorsFragment"></div>
+
+        <div class="mb-3">
+            <label class="form-label">닉네임</label>
+            <input type="text" th:field="*{nickname}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">비밀번호</label>
+            <input type="password" th:field="*{password}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">비밀번호 확인</label>
+            <input type="password" th:field="*{password_check}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">이메일</label>
+            <input type="email" th:field="*{email}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">정보 수정</button>
+    </form>
+</div>
+<!--ROLE_USER 권한을 갖는다면 이 글이 보임-->
+<h1 sec:authorize="hasRole('ADMIN')">Has admin Role</h1>
+
+<!--ROLE_ADMIN 권한을 갖는다면 이 글이 보임-->
+<h1 sec:authorize="hasRole('USER')">Has user Role</h1>
+
+<!--어떤 권한이건 상관없이 인증이 되었다면 이 글이 보임-->
+<div sec:authorize="isAuthenticated()">
+    Only Authenticated user can see this Text
+</div>
+
+<!--인증시 사용된 객체에 대한 정보-->
+<b>Authenticated DTO:</b>
+<div sec:authentication="principal"></div>
+
+<!--인증시 사용된 객체의 Username (ID)-->
+<b>Authenticated username:</b>
+<div sec:authentication="name"></div>
+
+<!--객체의 권한-->
+<b>Authenticated user role:</b>
+<div sec:authentication="principal.authorities"></div>
+
+</html>

@@ -49,7 +49,6 @@ dependencies {
 
 	/* mail dependency */
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
->>>>>>> feature/#2-user
 }
 
 tasks.named('test') {

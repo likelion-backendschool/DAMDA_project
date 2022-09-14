@@ -32,26 +32,26 @@
                                     <label class="custom-control-label" for="insta">인스타</label>
                                 </div>
                                 <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                    <input type="checkbox" id="withCouple" name="checkedValue" class="custom-control-input" value="연인끼리">
+                                    <input type="checkbox" id="withCouple" name="checkedValue" th:field="*{reviewTags}" class="custom-control-input" value="연인끼리">
                                     <label class="custom-control-label" for="withCouple">연인끼리</label>
                                 </div>
                                 <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                    <input type="checkbox" id="withFamily" name="checkedValue" class="custom-control-input" value="가족끼리">
+                                    <input type="checkbox" id="withFamily" name="checkedValue" th:field="*{reviewTags}" class="custom-control-input" value="가족끼리">
                                     <label class="custom-control-label" for="withFamily">가족끼리</label>
                                 </div>
                             </fieldset>
                             <fieldset class="col">
                                 <br>
                                 <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                    <input type="checkbox" id="withFriend" name="checkedValue" class="custom-control-input" value="친구끼리">
+                                    <input type="checkbox" id="withFriend" name="checkedValue" th:field="*{reviewTags}" class="custom-control-input" value="친구끼리">
                                     <label class="custom-control-label" for="withFriend">친구끼리</label>
                                 </div>
                                 <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                    <input type="checkbox" id="activity" name="checkedValue" class="custom-control-input" value="액티비티">
+                                    <input type="checkbox" id="activity" name="checkedValue" th:field="*{reviewTags}" class="custom-control-input" value="액티비티">
                                     <label class="custom-control-label" for="activity">액티비티</label>
                                 </div>
                                 <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                    <input type="checkbox" id="watching" name="checkedValue" class="custom-control-input" value="볼거리">
+                                    <input type="checkbox" id="watching" name="checkedValue" th:field="*{reviewTags}" class="custom-control-input" value="볼거리">
                                     <label class="custom-control-label" for="watching">볼거리</label>
                                 </div>
                             </fieldset>

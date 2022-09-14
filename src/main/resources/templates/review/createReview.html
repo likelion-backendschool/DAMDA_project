@@ -10,12 +10,18 @@
             <!-- Add New Post Form -->
             <div class="card card-small mb-3">
                 <div class="card-body">
-                    <form class="add-new-post" th:action="@{/review/show}" th:object="${reviewForm}"method="post">
+                    <form class="add-new-post" th:action="@{/review/create}" th:object="${reviewForm}" method="post">
+
                         <legend>Review</legend>
 
-
                         <hr>
-
+                        <!--th:object를 사용하면서 ${reviewForm.xx}를 쓸 때 *{xx}로 사용할 수 있다.
+                                    그리고 아래에서 코드의 fields가 reviewForm의 fields이다.-->
+                        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+                            <!-- fileds의 errors가 review에 관련된 에러다. -->
+                            <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+                            <!-- th:each는 allErrors를 반복문을 돈다.-->
+                        </div>
 
                         <!-- 검색 태그 조건 -->
                         <div class="form-row">
@@ -98,7 +104,8 @@
 
                         <div class="mb-3">
                             <label class="form-label">내용</label>
-                            <textarea name="content" class="form-control" rows="30" placeholder="내용을 입력해주세요."></textarea>
+                            <textarea name="content" class="form-control" rows="30"
+                                      placeholder="내용을 입력해주세요."></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-outline-primary">저장</button>

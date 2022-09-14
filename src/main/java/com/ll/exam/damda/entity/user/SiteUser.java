@@ -1,16 +1,14 @@
 package com.ll.exam.damda.entity.user;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import com.ll.exam.damda.entity.UserPlan;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -35,4 +33,7 @@ public class SiteUser {
     private String method;
 
     private LocalDateTime createDate;
+
+    @OneToMany
+    private Set<UserPlan> userPlanSet;
 }

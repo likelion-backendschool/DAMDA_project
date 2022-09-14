@@ -1,5 +1,6 @@
 package com.ll.exam.damda.entity.design.map;
 
+import com.ll.exam.damda.entity.UserPlan;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -7,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -40,6 +42,9 @@ public class Plan {
     @OneToOne(cascade = CascadeType.REMOVE)
     private Busket busket;
 
+    @OneToMany
+    private Set<UserPlan> userPlanSet;
+
 //    @ManyToOne
 //    private SiteUser siteUser;
 
@@ -48,4 +53,5 @@ public class Plan {
 
 //    @ManyToOne
 //    private Member member;
+
 }

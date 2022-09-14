@@ -101,7 +101,7 @@
                         <li class="nav-item dropdown p-2" sec:authorize="isAuthenticated()">
                             <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 <!--                                <i class="material-icons account_circle">&#xe853;</i>-->
-                                <span class="d-none d-md-inline-block" th:text="${#authentication.name}"></span>
+                                <span class="d-none d-md-inline-block" th:text="${#authentication.principal.nickname}"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
                                 <a class="dropdown-item" th:href="@{/user/my_page}">

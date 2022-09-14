@@ -1,12 +1,12 @@
 package com.ll.exam.damda.service.user;
 
+import com.ll.exam.damda.dto.user.SiteUserContext;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.user.UserRepository;
 import com.ll.exam.damda.config.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -38,6 +38,6 @@ public class UserSecurityService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(UserRole.USER.getValue()));
         }
 
-        return new User(siteUser.getUsername(), siteUser.getPassword(), authorities);
+        return new SiteUserContext(siteUser, authorities);
     }
 }

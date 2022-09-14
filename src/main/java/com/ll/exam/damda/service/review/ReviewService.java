@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
+
+
+
     public void create(String title, String content) {
         Review review = new Review();
         review.setTitle(title);

@@ -44,7 +44,6 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
                 case "KAKAO" -> {
                     Map attributesProperties = (Map) attributes.get("properties");
                     Map attributesKakaoAcount = (Map) attributes.get("kakao_account");
-                    String nickname = (String) attributesProperties.get("nickname");
                     String email = "%s@kakao.com".formatted(oauthId);
                     String username = "KAKAO_%s".formatted(oauthId);
                     if ((boolean) attributesKakaoAcount.get("has_email")) {
@@ -54,6 +53,8 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
                             .email(email)
                             .username(username)
                             .password("")
+                            .method("k")
+                            .nickname(username)
                             .build();
 
                     userRepository.save(siteUser);

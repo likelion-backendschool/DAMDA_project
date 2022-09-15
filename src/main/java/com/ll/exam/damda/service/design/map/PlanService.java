@@ -1,9 +1,12 @@
 package com.ll.exam.damda.service.design.map;
 
+import com.ll.exam.damda.entity.UserPlan;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.repository.design.map.PlanRepository;
+import com.ll.exam.damda.repository.user.UserPlanRepository;
+import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,15 +22,17 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PlanService {
+    private final UserService userService;
+    private final UserPlanRepository userPlanRepository;
     private final BusketService busketService;
     private final PlanRepository planRepository;
     private final CourseService courseService;
 
-    public Plan create(String title, long size, String memo) {
+    public Plan create(String title, long size, String memo, String name) {
         Plan plan = new Plan();
         plan.setTitle(title);
         plan.setCreatedDate(LocalDateTime.now());
-        plan.setFirstCreator("user");
+        plan.setFirstCreator(name);
         plan.setSize(size);
         plan.setMemo(memo);
         planRepository.save(plan);
@@ -35,6 +40,11 @@ public class PlanService {
         Busket busket = busketService.create(plan);
         plan.setBusket(busket);
         planRepository.save(plan);
+
+        UserPlan userPlan = new UserPlan();
+        userPlan.setPlan(plan);
+        userPlan.setSiteUser(userService.getUser(name));
+        userPlanRepository.save(userPlan);
 
         for(long i = 1; i <= size; i++) {
             courseService.create(plan, i);

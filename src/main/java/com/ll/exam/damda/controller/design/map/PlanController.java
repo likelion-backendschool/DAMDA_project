@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -50,8 +51,9 @@ public class PlanController {
     @PostMapping("/new")
     public String createPlan(@RequestParam(value = "title") String title,
                              @RequestParam(value = "size") long size,
-                             @RequestParam(value = "memo") String memo) {
-        Plan plan = planService.create(title, size, memo);
+                             @RequestParam(value = "memo") String memo,
+                             Principal principal) {
+        Plan plan = planService.create(title, size, memo, principal.getName());
         /* 플래너 생성시 채팅방 생성 */
         chatService.createRoom(plan);
         return "redirect:/travel/design/modification/%d?order=%d".formatted(plan.getId(), 1);

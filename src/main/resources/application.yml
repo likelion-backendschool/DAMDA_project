@@ -1,3 +1,11 @@
 spring:
   profiles:
     include: db
+  devtools:
+    livereload:
+      restart:
+        enabled: 'true'
+      enabled: 'true'
+  output:
+    ansi:
+      enabled: always

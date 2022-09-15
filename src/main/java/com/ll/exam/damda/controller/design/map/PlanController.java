@@ -3,9 +3,12 @@ package com.ll.exam.damda.controller.design.map;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.exam.damda.entity.design.map.Busket;
+import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
+import com.ll.exam.damda.entity.design.chat.ChatRoom;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
+import com.ll.exam.damda.service.design.chat.ChatService;
 import com.ll.exam.damda.service.design.map.BusketService;
 import com.ll.exam.damda.service.design.map.CourseService;
 import com.ll.exam.damda.service.design.map.PlanService;
@@ -30,6 +33,8 @@ public class PlanController {
     private final CourseService courseService;
     private final SpotService spotService;
 
+    private final ChatService chatService;
+
     //플래너 리스트
     @GetMapping("/plan/list")
     public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {
@@ -47,6 +52,8 @@ public class PlanController {
                              @RequestParam(value = "size") long size,
                              @RequestParam(value = "memo") String memo) {
         Plan plan = planService.create(title, size, memo);
+        /* 플래너 생성시 채팅방 생성 */
+        chatService.createRoom(plan);
         return "redirect:/travel/design/modification/%d?order=%d".formatted(plan.getId(), 1);
     }
 
@@ -72,10 +79,13 @@ public class PlanController {
     public String modifyPlan(Model model, @PathVariable("planId") long planId, @RequestParam(value = "order") long order) {
         Plan plan = planService.getPlan(planId);
         Course course = courseService.getCourse(plan, order);
+        ChatRoomDto chatRoomDto = chatService.findByPlan_id(plan);
         Busket busket = busketService.getBusket(plan);
         model.addAttribute("plan", plan);
         model.addAttribute("course", course);
         model.addAttribute("spotList", busket.getSpotList());
+        model.addAttribute("room", chatRoomDto);
+
         return "/design/map/modify_plan";
     }
 

@@ -1,36 +1,111 @@
-<html layout:decorate="~{layout/layout}">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>You Login Template</title>
+    <!-- Site favicon -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <!-- Icon Font -->
+    <link rel="stylesheet" th:href="@{/fonts/ionicons/css/ionicons.css}">
+    <!-- Text Font -->
+    <link rel="stylesheet" th:href="@{/fonts/font.css}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <!-- Normal style CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <!-- Normal media CSS -->
+    <link rel="stylesheet" th:href="@{/css/media.css}">
+</head>
 
-<div layout:fragment="content" class="container my-3">
-    <div class="my-3 border-bottom">
-        <div>
-            <h4>회원가입</h4>
-        </div>
-    </div>
-    <form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
+<body>
+<main class="cd-main">
+    <section class="cd-section index5 visible">
+        <div class="cd-content style5">
+            <div class="login-box">
+                <div class="row no-gutters height-100-percentage">
+                    <!-- login style5 left side start -->
+                    <div class="col-md-4 col-sm-12 style5-left">
+                        <div class="d-flex height-100-percentage padding-30px">
+                            <div class="align-self-center width-100-percentage">
+                                <h2>여행을 DAMDA</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- login style5 left side end -->
+                    <!-- login style5 right side start -->
+                    <div class="col-md-8 col-sm-12 style5-right">
 
-        <div th:replace="user/form_errors :: formErrorsFragment"></div>
+                        <!-- signup slide start -->
+                        <div class="signup-slide slide">
+                            <div class="d-flex height-100-percentage padding-40px">
+                                <div class="align-self-center width-100-percentage">
+                                    <h2>회원가입</h2>
+                                    <form class="floating-form" th:action="@{/user/signup}"
+                                          th:object="${userCreateForm}" method="post">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="label">아이디</label>
+                                                    <input type="text" th:field="*{username}" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="label">닉네임</label>
+                                                    <input type="text" th:field="*{nickname}" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="label">비밀번호</label>
+                                                    <input type="password" th:field="*{password}" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="label">비밀번호 확인</label>
+                                                    <input type="password" th:field="*{password_check}"
+                                                           class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label class="label">이메일</label>
+                                                    <input type="email" th:field="*{email}" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group text-right">
+                                            <input type="submit" class="submit" value="Register">
+                                        </div>
+                                    </form>
+                                </div>
 
-        <div class="mb-3">
-            <label class="form-label">아이디</label>
-            <input type="text" th:field="*{username}" class="form-control">
+                            </div>
+                            <!-- signup slide end -->
+                        </div>
+                    </div>
+                    <!-- login style5 right side end -->
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label">닉네임</label>
-            <input type="text" th:field="*{nickname}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">비밀번호</label>
-            <input type="password" th:field="*{password}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">비밀번호 확인</label>
-            <input type="password" th:field="*{password_check}" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">이메일</label>
-            <input type="email" th:field="*{email}" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-primary">회원가입</button>
-    </form>
-</div>
+    </section>
+</main>
+
+<div id="cd-loading-bar" data-scale="1" class="index"></div>
+<!-- JS File -->
+<script th:src="@{/js/modernizr.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/velocity.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/script.js}"></script>
+</body>
 </html>

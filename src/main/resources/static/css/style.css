@@ -407,6 +407,29 @@ p {
 	height: 100%;
 	display: none;
 }
+
+.signup-slide{
+	position: relative;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+.forgot-id-slide{
+	position: relative;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+
+.forgot-password-slide{
+	position: relative;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
 .login-form-slider .slide.login-slide{display: block;}
 .login-form-slider .slide.signup-slide{}
 .login-form-slider .slide.forgot-id-slide{}
@@ -1322,7 +1345,7 @@ p {
 	position: center top;
 }
 .style7 .signup-slide form{
-	padding-top: 80px;
+	padding-top: 140px;
 	background: url(../images/style7img.png) repeat-x;
 	position: center top;
 }

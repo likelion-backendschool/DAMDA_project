@@ -19,6 +19,7 @@ import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,7 @@ public class PlanController {
 
     //플래너 리스트
     @GetMapping("/plan/list")
-    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page, SiteUserContext siteUserContext) {
+    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page,@AuthenticationPrincipal SiteUserContext siteUserContext) {
         Page<Plan> paging = planService.getPlanList(page, siteUserContext.getId());
         model.addAttribute("paging", paging);
         return "/design/map/plan_list";

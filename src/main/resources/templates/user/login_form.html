@@ -72,12 +72,12 @@
                                             <div class="row">
                                                     <div class="col-4">
                                                         <div class="forgot-txt">
-                                                            <a href="javascript:;" class="forgot-id-click">아이디찾기</a>
+                                                            <a class="forgot-id-click" th:onclick="|location.href='@{/user/find_id}'|">아이디찾기</a>
                                                         </div>
                                                     </div>
                                                     <div class="col-4">
                                                         <div class="forgot-txt">
-                                                            <a href="javascript:;" class="forgot-password-click">비밀번호찾기</a>
+                                                            <a class="forgot-password-click" th:onclick="|location.href='@{/user/find_pw}'|">비밀번호찾기</a>
                                                         </div>
                                                     </div>
                                                 <div class="col-4 row-6">
@@ -91,27 +91,6 @@
                                 </div>
                             </div>
                             <!-- login slide end -->
-                            <!-- forgot id slide start -->
-                            <div class="forgot-id-slide slide">
-                                <div class="d-flex height-100-percentage style4-left">
-                                    <div class="align-self-center width-100-percentage max-width-400 margin-0-auto padding-10px">
-                                        <form class="floating-form">
-                                            <label class="label">아이디찾기</label>
-                                            <div class="form-group user-name-field">
-                                                <input type="text" class="form-control">
-                                                <label class="label">Email</label>
-                                            </div>
-                                            <div class="form-group text-right">
-                                                <input type="submit" class="submit" value="Submit">
-                                            </div>
-                                        </form>
-                                        <div class="sign-up-txt">
-                                            if you remember your id? <a href="javascript:;" class="login-click">login</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- forgot id slide end -->
                             <!-- forgot password slide start -->
                             <div class="forgot-password-slide slide">
                                 <div class="d-flex height-100-percentage style4-left">

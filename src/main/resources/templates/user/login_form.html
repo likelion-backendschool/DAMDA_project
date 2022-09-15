@@ -45,12 +45,17 @@
                             <!-- login slide start -->
                             <div class="login-slide slide">
                                 <div class="sign-up-txt">
-                                    계정이 없으신가요? <a href="javascript:;" class="sign-up-click">회원가입하기</a>
+                                    계정이 없으신가요? <a href="javascript:;" class="sign-up-click" th:onclick="|location.href='@{/user/signup}'|">회원가입하기</a>
                                 </div>
                                 <div class="d-flex height-100-percentage max-width-400 margin-0-auto padding-10px">
                                     <div class="align-self-center width-100-percentage">
                                         <h2>로그인</h2>
                                         <form class="floating-form" th:action="@{/user/login}" method="post">
+                                            <div th:if="${param.error}">
+                                                <div class="alert alert-danger">
+                                                    사용자ID 또는 비밀번호를 확인해 주세요.
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <input type="text" name="username" class="form-control">
                                                 <label class="label">Enter Your ID</label>
@@ -95,44 +100,38 @@
                                 <div class="d-flex height-100-percentage padding-40px">
                                     <div class="align-self-center width-100-percentage">
                                         <h2>Create An Account</h2>
-                                        <form class="floating-form">
+                                        <form class="floating-form" th:object="${userCreateForm}" method="post">
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-12">
                                                     <div class="form-group">
                                                         <label class="label">아이디</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" th:field="*{username}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-12">
                                                     <div class="form-group">
                                                         <label class="label">닉네임</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" th:field="*{nickname}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-12">
                                                     <div class="form-group">
                                                         <label class="label">비밀번호</label>
-                                                        <input type="password" class="form-control">
+                                                        <input type="password" th:field="*{password}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-12">
                                                     <div class="form-group">
                                                         <label class="label">비밀번호 확인</label>
-                                                        <input type="password" class="form-control">
+                                                        <input type="password" th:field="*{password_check}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-sm-12">
                                                     <div class="form-group">
                                                         <label class="label">이메일</label>
-                                                        <input type="text" class="form-control">
+                                                        <input type="email" th:field="*{email}" class="form-control">
                                                     </div>
                                                 </div>
-                                                <!--                                                <div class="col-md-6 col-sm-12">-->
-                                                <!--                                                    <div class="form-group">-->
-                                                <!--                                                        <label class="label">이메일 확인</label>-->
-                                                <!--                                                        <input type="text" class="form-control">-->
-                                                <!--                                                    </div>-->
-                                                <!--                                                </div>-->
                                             </div>
                                             <div class="form-group text-right">
                                                 <input type="submit" class="submit" value="Register">

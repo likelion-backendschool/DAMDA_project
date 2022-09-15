@@ -14,8 +14,8 @@
                 여행 계획 :
             </span>
             <select name="planId" id="plans">
-                <th:block th:each="plan : ${plans}">
-                    <option th:value="${plan.Id}" th:text="${plan.title}"></option>
+                <th:block th:each="userPlan : ${userPlans}">
+                    <option th:value="${userPlan.plan.id}" th:text="${userPlan.plan.title}"></option>
                 </th:block>
             </select>
             <input type="hidden" name="spotId" th:value="${spotDto.id}">

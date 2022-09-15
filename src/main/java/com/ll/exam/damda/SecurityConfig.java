@@ -1,6 +1,7 @@
 package com.ll.exam.damda;
 
 
+import com.ll.exam.damda.service.user.OAuth2UserService;
 import com.ll.exam.damda.service.user.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //userDetailsService를 상속받은 service
     @Autowired
     private UserSecurityService userSecurityService;
+
+    @Autowired
+    private OAuth2UserService oAuth2UserService;
 
     // JDBC 기반의 tokenRepository 구현체
     @Bean
@@ -92,6 +96,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 .tokenRepository(persistentTokenRepository())
                                 // 쿠키의 유효기간, 7일을 계산함
                                 .tokenValiditySeconds(7 * 24 * 60 * 60)
+                )
+
+                .oauth2Login(
+                        oauth2Login -> oauth2Login
+                                .loginPage("/user/login")
+                                .defaultSuccessUrl("/travel/design/plan/list")
+                                .userInfoEndpoint(
+                                        userInfoEndpoint -> userInfoEndpoint
+                                                .userService(oAuth2UserService)
+                                )
                 );
     }
 

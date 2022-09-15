@@ -4,8 +4,8 @@ import javax.persistence.*;
 
 import com.ll.exam.damda.entity.UserPlan;
 import com.ll.exam.damda.entity.search.Review;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -14,6 +14,10 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+@ToString(callSuper = true)
 public class SiteUser {
 
     @Id

@@ -44,21 +44,23 @@
 
                         <!-- forgot id slide start -->
                         <div class="forgot-id-slide slide">
-                            <div class="d-flex height-100-percentage padding-40px">
-                                <div class="align-self-center width-100-percentage">
+                            <div class="d-flex height-100-percentage style4-left">
+                                <div class="align-self-center width-100-percentage max-width-400 margin-0-auto padding-10px">
                                     <form class="floating-form" th:action="@{/user/find_id}" th:object="${findIdForm}"
                                           method="post">
-                                        <label class="label">아이디찾기</label>
+                                        <div th:replace="user/form_errors :: formErrorsFragment"></div>
+                                        <h2>아이디찾기</h2>
                                         <div class="form-group user-name-field">
                                             <input type="text" th:field="*{email}" class="form-control">
-                                            <label class="label">Email</label>
+                                            <label class="label">이메일</label>
                                         </div>
                                         <div class="form-group text-right">
                                             <input type="submit" class="submit" value="Submit">
                                         </div>
                                     </form>
                                     <div class="sign-up-txt">
-                                        if you remember your id? <a href="javascript:;" class="login-click">login</a>
+                                        아이디가 기억 나셨나요? <a th:onclick="|location.href='@{/user/login}'|"
+                                                          class="login-click">로그인하기</a>
                                     </div>
                                 </div>
                             </div>

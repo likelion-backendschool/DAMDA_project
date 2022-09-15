@@ -49,6 +49,7 @@
                                     <h2>회원가입</h2>
                                     <form class="floating-form" th:action="@{/user/signup}"
                                           th:object="${userCreateForm}" method="post">
+                                        <div th:replace="user/form_errors :: formErrorsFragment"></div>
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
@@ -86,6 +87,10 @@
                                             <input type="submit" class="submit" value="Register">
                                         </div>
                                     </form>
+                                    <div class="sign-up-txt">
+                                        아이디가 기억 나셨나요? <a th:onclick="|location.href='@{/user/login}'|"
+                                                         class="login-click">로그인하기</a>
+                                    </div>
                                 </div>
 
                             </div>

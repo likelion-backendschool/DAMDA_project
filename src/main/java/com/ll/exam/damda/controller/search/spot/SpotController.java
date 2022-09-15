@@ -1,16 +1,19 @@
 package com.ll.exam.damda.controller.search.spot;
 
 import com.ll.exam.damda.dto.search.spot.SpotDto;
+import com.ll.exam.damda.dto.user.SiteUserContext;
 import com.ll.exam.damda.entity.UserPlan;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.design.map.BusketRepository;
+import com.ll.exam.damda.repository.user.UserPlanRepository;
 import com.ll.exam.damda.service.design.map.PlanService;
 import com.ll.exam.damda.service.search.spot.SpotService;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
@@ -29,8 +32,7 @@ import java.util.Set;
 public class SpotController {
 
     private final SpotService spotService;
-    private final PlanService planService;
-    private final UserService userService;
+    private final UserPlanRepository userPlanRepository;
 
     @GetMapping("/detail")
     public String showSpotDetail(@RequestParam("spot") Long spotId, Model model) {
@@ -50,9 +52,8 @@ public class SpotController {
     }
 
     @GetMapping("/addBusket")
-    public String addSpotAtBusket(@RequestParam(value = "spotId") Long spotId, Model model, Principal principal) {
-        SiteUser siteUser = userService.getUser(principal.getName());
-        Set<UserPlan> userPlans = siteUser.getUserPlanSet();
+    public String addSpotAtBusket(@RequestParam(value = "spotId") Long spotId, Model model, @AuthenticationPrincipal SiteUserContext siteUserContext) {
+        List<UserPlan> userPlans = userPlanRepository.findBySiteUserId(siteUserContext.getId());
         model.addAttribute("spotDto", spotService.findById(spotId));
         model.addAttribute("userPlans", userPlans);
         return "spot/addSpotAtBusket.html";

@@ -1,23 +1,23 @@
 package com.ll.exam.damda.service.design.map;
 
+import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.entity.UserPlan;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
+import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.design.map.PlanRepository;
 import com.ll.exam.damda.repository.user.UserPlanRepository;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -65,11 +65,22 @@ public class PlanService {
     public List<Plan> getAllPlan() {
         return planRepository.findAll();
     }
-    public Page<Plan> getPlanList(int page) {
+
+    public Page<Plan> getPlanList(int page, SiteUser siteUser) {
+        List<UserPlan> userPlans = userPlanRepository.findBySiteUser(siteUser);
+
+        List<Plan> plans = userPlans.stream()
+                .map(UserPlan::getPlan)
+                .collect(Collectors.toList());
+
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createdDate"));
         Pageable pageable = PageRequest.of(page, 8, Sort.by(sorts));
-        return planRepository.findAll(pageable);
+        final int start = (int)pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), plans.size());
+        Page<Plan> planPages = new PageImpl<>(plans.subList(start, end), pageable, plans.size());
+
+        return planPages;
     }
 
     public void delete(Plan plan) {

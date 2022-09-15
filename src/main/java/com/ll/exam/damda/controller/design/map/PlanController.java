@@ -8,11 +8,13 @@ import com.ll.exam.damda.entity.design.chat.ChatRoom;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
+import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.service.design.chat.ChatService;
 import com.ll.exam.damda.service.design.map.BusketService;
 import com.ll.exam.damda.service.design.map.CourseService;
 import com.ll.exam.damda.service.design.map.PlanService;
 import com.ll.exam.damda.service.search.spot.SpotService;
+import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,13 +35,14 @@ public class PlanController {
     private final PlanService planService;
     private final CourseService courseService;
     private final SpotService spotService;
-
     private final ChatService chatService;
+    private final UserService userService;
 
     //플래너 리스트
     @GetMapping("/plan/list")
-    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {
-        Page<Plan> paging = planService.getPlanList(page);
+    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page, Principal principal) {
+        SiteUser siteUser = userService.getUser(principal.getName());
+        Page<Plan> paging = planService.getPlanList(page, siteUser);
         model.addAttribute("paging", paging);
         return "/design/map/plan_list";
     }

@@ -86,6 +86,11 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-lg-12 text-center mt-3">
+                                                <img alt="카카오로그인" th:src="@{/assets/kakao_login_medium_wide.png}" onclick="loginWithKakao()">
+                                            </div>
+
+
                                         </form>
                                     </div>
                                 </div>
@@ -129,5 +134,19 @@
 <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 <script th:src="@{/js/velocity.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/script.js}"></script>
+<!-- 카카오 로그인 -->
+<script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        Kakao.init('script앱키 입력');
+        Kakao.isInitialized();
+    });
+
+    function loginWithKakao() {
+        Kakao.Auth.authorize({
+            redirectUri: 'http://localhost:8080/kakao_callback'
+        }); // 등록한 리다이렉트uri 입력
+    }
+</script>
 </body>
 </html>

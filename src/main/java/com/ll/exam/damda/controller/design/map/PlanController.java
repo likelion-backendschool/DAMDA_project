@@ -2,6 +2,7 @@ package com.ll.exam.damda.controller.design.map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ll.exam.damda.dto.user.SiteUserContext;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
 import com.ll.exam.damda.entity.design.chat.ChatRoom;
@@ -40,9 +41,8 @@ public class PlanController {
 
     //플래너 리스트
     @GetMapping("/plan/list")
-    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page, Principal principal) {
-        SiteUser siteUser = userService.getUser(principal.getName());
-        Page<Plan> paging = planService.getPlanList(page, siteUser);
+    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page, SiteUserContext siteUserContext) {
+        Page<Plan> paging = planService.getPlanList(page, siteUserContext.getId());
         model.addAttribute("paging", paging);
         return "/design/map/plan_list";
     }

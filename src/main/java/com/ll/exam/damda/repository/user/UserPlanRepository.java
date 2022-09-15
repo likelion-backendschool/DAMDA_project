@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface UserPlanRepository extends JpaRepository<UserPlan, Long> {
-    List<UserPlan> findBySiteUser(SiteUser siteUser);
+    List<UserPlan> findBySiteUserId(long siteUserId);
 }

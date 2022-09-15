@@ -1,6 +1,7 @@
 package com.ll.exam.damda.service.design.map;
 
 import com.ll.exam.damda.dto.search.spot.SpotDto;
+import com.ll.exam.damda.dto.user.SiteUserContext;
 import com.ll.exam.damda.entity.UserPlan;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.design.map.Course;
@@ -66,8 +67,8 @@ public class PlanService {
         return planRepository.findAll();
     }
 
-    public Page<Plan> getPlanList(int page, SiteUser siteUser) {
-        List<UserPlan> userPlans = userPlanRepository.findBySiteUser(siteUser);
+    public Page<Plan> getPlanList(int page, long siteUserId) {
+        List<UserPlan> userPlans = userPlanRepository.findBySiteUserId(siteUserId);
 
         List<Plan> plans = userPlans.stream()
                 .map(UserPlan::getPlan)

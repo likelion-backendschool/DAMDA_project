@@ -28,7 +28,8 @@
     <section class="cd-section index5 visible">
         <div class="cd-content style5">
             <div class="login-box">
-                <div class="row no-gutters height-100-percentage">
+                <!-- 로그인 전 페이지 -->
+                <div class="row no-gutters height-100-percentage" sec:authorize="!isAuthenticated()">
                     <!-- login style5 left side start -->
                     <div class="col-md-4 col-sm-12 style5-left">
                         <div class="d-flex height-100-percentage padding-30px">
@@ -45,6 +46,21 @@
                         <th:block layout:fragment="content"></th:block>
                     </div>
                     <!-- login style5 right side end -->
+                </div>
+
+                <!-- 로그인 후 페이지 -->
+                <div class="row no-gutters height-100-percentage" sec:authorize="isAuthenticated()">
+
+                    <div class="col-md-12 col-sm-24 style5-middle">
+                        <div class="d-flex height-100-percentage padding-30px">
+                            <div class="align-self-center width-100-percentage">
+                                <h2>여행을 DAMDA</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua.</p>
+                                <a class="btn btn-primary btn-lg" href="/travel/design/plan/list" role="button">시작하기</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

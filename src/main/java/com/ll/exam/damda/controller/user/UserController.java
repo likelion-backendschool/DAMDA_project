@@ -31,13 +31,11 @@ public class UserController {
     private final UserService userService;
     private final MailService mailService;
 
-    @PreAuthorize("isAnonymous()")
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm) {
         return "user/signup_form";
     }
 
-    @PreAuthorize("isAnonymous()")
     @PostMapping("/signup")
     public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -66,7 +64,6 @@ public class UserController {
         return "redirect:/user/login";
     }
 
-    @PreAuthorize("isAnonymous()")
     @GetMapping("/login")
     public String login() {
         return "user/login_form";
@@ -78,7 +75,6 @@ public class UserController {
     }
 
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/my_page")
     public String mypage(Principal principal, UserEditForm userEditForm) {
         SiteUser siteUser = userService.getUser(principal.getName());
@@ -89,7 +85,6 @@ public class UserController {
         return "user/my_page_form";
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/my_page")
     public String mypage(Principal principal, Model model, @Valid UserEditForm userEditForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -120,13 +115,11 @@ public class UserController {
         return showMessageAndRedirect(message, model);
     }
 
-    @PreAuthorize("isAnonymous()")
     @GetMapping("/find_id")
     public String findid(FindIdForm findIdForm) {
         return "user/find_id_form";
     }
 
-    @PreAuthorize("isAnonymous()")
     @PostMapping("/find_id")
     public String findid(Model model, @Valid FindIdForm findIdForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -144,13 +137,11 @@ public class UserController {
         return showMessageAndRedirect(message, model);
     }
 
-    @PreAuthorize("isAnonymous()")
     @GetMapping("/find_pw")
     public String findpw(FindPwForm findPwForm) {
         return "user/find_pw_form";
     }
 
-    @PreAuthorize("isAnonymous()")
     @PostMapping("/find_pw")
     public String findpw(Model model, @Valid FindPwForm findPwForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

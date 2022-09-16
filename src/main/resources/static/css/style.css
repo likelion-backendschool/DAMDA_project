@@ -1080,6 +1080,17 @@ p {
 	color: #000000;
 	margin-bottom: 20px;
 }
+.style5-middle{
+	background: url(../images/style5img.jpg) no-repeat;
+	background-size: cover;
+	color: rgba(255,255,255,.7);
+	font-size: 16px;
+}
+.style5-middle h2{
+	color: #ffffff;
+	font-size: 30px;
+	line-height: 45px;
+}
 .style5 .style5-left{
 	background: url(../images/style5img.jpg) no-repeat;
 	background-size: cover;

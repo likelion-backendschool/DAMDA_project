@@ -1,144 +1,63 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>You Login Template</title>
-    <!-- Site favicon -->
-    <link rel="shortcut icon" href="images/favicon.ico">
-    <!-- Mobile Specific Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
-    <!-- Icon Font -->
-    <link rel="stylesheet" th:href="@{/fonts/ionicons/css/ionicons.css}">
-    <!-- Text Font -->
-    <link rel="stylesheet" th:href="@{/fonts/font.css}">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
-    <!-- Normal style CSS -->
-    <link rel="stylesheet" th:href="@{/css/style.css}">
-    <!-- Normal media CSS -->
-    <link rel="stylesheet" th:href="@{/css/media.css}">
-</head>
-<body>
-<main class="cd-main">
-    <section class="cd-section index5 visible">
-        <div class="cd-content style5">
-            <div class="login-box">
-                <div class="row no-gutters height-100-percentage">
-                    <!-- login style5 left side start -->
-                    <div class="col-md-4 col-sm-12 style5-left">
-                        <div class="d-flex height-100-percentage padding-30px">
-                            <div class="align-self-center width-100-percentage">
-                                <h2>여행을 DAMDA</h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua.</p>
+<html layout:decorate="~{layout/layout_user}">
+
+<!-- login slide start -->
+<div layout:fragment="content" class="login-form-slider">
+    <div class="login-form-slider login-slide slide">
+        <div class="sign-up-txt">
+            계정이 없으신가요? <a class="sign-up-click" th:onclick="|location.href='@{/user/signup}'|">회원가입하기</a>
+        </div>
+        <div class="d-flex height-100-percentage max-width-400 margin-0-auto padding-10px">
+            <div class="align-self-center width-100-percentage">
+                <h2>로그인</h2>
+                <form class="floating-form" th:action="@{/user/login}" method="post">
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger">
+                            사용자ID 또는 비밀번호를 확인해 주세요.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control">
+                        <label class="label">아이디</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control">
+                        <label class="label">비밀번호</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="remember-me"
+                               name="remember-me" checked>
+                        <label class="form-check-label" for="remember-me"
+                               aria-describedby="rememberMeHelp">로그인 유지</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="forgot-txt">
+                                <a class="forgot-id-click" th:onclick="|location.href='@{/user/find_id}'|">아이디찾기</a>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="forgot-txt">
+                                <a class="forgot-password-click"
+                                   th:onclick="|location.href='@{/user/find_pw}'|">비밀번호찾기</a>
+                            </div>
+                        </div>
+                        <div class="col-4 row-6">
+                            <div class="form-group text-right">
+                                <input type="submit" class="submit" value="Login">
                             </div>
                         </div>
                     </div>
-                    <!-- login style5 left side end -->
-                    <!-- login style5 right side start -->
-                    <div class="col-md-8 col-sm-12 style5-right">
-                        <div class="login-form-slider">
-                            <!-- login slide start -->
-                            <div class="login-slide slide">
-                                <div class="sign-up-txt">
-                                    계정이 없으신가요? <a class="sign-up-click" th:onclick="|location.href='@{/user/signup}'|">회원가입하기</a>
-                                </div>
-                                <div class="d-flex height-100-percentage max-width-400 margin-0-auto padding-10px">
-                                    <div class="align-self-center width-100-percentage">
-                                        <h2>로그인</h2>
-                                        <form class="floating-form" th:action="@{/user/login}" method="post">
-                                            <div th:if="${param.error}">
-                                                <div class="alert alert-danger">
-                                                    사용자ID 또는 비밀번호를 확인해 주세요.
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" name="username" class="form-control">
-                                                <label class="label">아이디</label>
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="password" name="password" class="form-control">
-                                                <label class="label">비밀번호</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="remember-me"
-                                                       name="remember-me" checked>
-                                                <label class="form-check-label" for="remember-me"
-                                                       aria-describedby="rememberMeHelp">로그인 유지</label>
-                                            </div>
-                                            <div class="row">
-                                                    <div class="col-4">
-                                                        <div class="forgot-txt">
-                                                            <a class="forgot-id-click" th:onclick="|location.href='@{/user/find_id}'|">아이디찾기</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <div class="forgot-txt">
-                                                            <a class="forgot-password-click" th:onclick="|location.href='@{/user/find_pw}'|">비밀번호찾기</a>
-                                                        </div>
-                                                    </div>
-                                                <div class="col-4 row-6">
-                                                    <div class="form-group text-right">
-                                                        <input type="submit" class="submit" value="Login">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 text-center mt-3">
+                    <div class="col-lg-12 text-center mt-3">
 
-                                                <a href="/oauth2/authorization/kakao">
-                                                    <img alt="카카오로그인" th:src="@{/assets/kakao_login_medium_wide.png}">
-                                                </a>
-                                            </div>
-                                            <div>
-
-                                            </div>
-
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- login slide end -->
-                            <!-- forgot password slide start -->
-                            <div class="forgot-password-slide slide">
-                                <div class="d-flex height-100-percentage style4-left">
-                                    <div class="align-self-center width-100-percentage max-width-400 margin-0-auto padding-10px">
-                                        <form class="floating-form">
-                                            <label class="label">비밀번호를 초기화하기 위해 아이디와 이메일을 입력해주세요</label>
-                                            <div class="form-group user-name-field">
-                                                <input type="text" class="form-control">
-                                                <label class="label">Email</label>
-                                            </div>
-                                            <div class="form-group text-right">
-                                                <input type="submit" class="submit" value="Submit">
-                                            </div>
-                                        </form>
-                                        <div class="sign-up-txt">
-                                            if you remember your password? <a href="javascript:;" class="login-click">login</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- forgot password slide end -->
-                        </div>
+                        <a href="/oauth2/authorization/kakao">
+                            <img alt="카카오로그인" th:src="@{/assets/kakao_login_medium_wide.png}">
+                        </a>
                     </div>
-                    <!-- login style5 right side end -->
-                </div>
+                </form>
             </div>
         </div>
-    </section>
-</main>
-
-<div id="cd-loading-bar" data-scale="1" class="index"></div>
-<!-- JS File -->
-<script th:src="@{/js/modernizr.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.js}"></script>
-<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
-<script th:src="@{/js/velocity.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/script.js}"></script>
-</script>
-</body>
+    </div>
+    <!-- login slide end -->
+</div>
+<!-- login style5 right side end -->
 </html>

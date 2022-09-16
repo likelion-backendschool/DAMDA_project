@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -55,6 +56,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
                             .password("")
                             .method("k")
                             .nickname(username)
+                            .createDate(LocalDateTime.now())
                             .build();
 
                     userRepository.save(siteUser);

@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @AllArgsConstructor
 @Getter
@@ -16,4 +17,7 @@ public class ReviewForm {
     private String content;
     @NotEmpty(message = "태그는 필수항목입니다.")
     private String reviewTags;
+
+
+
 }

@@ -101,6 +101,8 @@ public class InitDB {
                 }
             }
 
+
+
             /*여행지 태그 생성*/
             String[] tagArr = new String[]{"연인끼리", "인스타", "가족끼리", "친구끼리", "액티비티", "볼거리"};
             List<Tag> tagList = new ArrayList<>();
@@ -111,7 +113,7 @@ public class InitDB {
                 em.persist(tag);
             }
 
-            /*리뷰 & 태그 생성*/
+            /*리뷰 & 태그 생성
             for (Review review : reviewRepository.findAll()) {
                 int randIndex = rand.nextInt(5);
 
@@ -130,6 +132,7 @@ public class InitDB {
                     em.persist(reviewTag);
                 }
             }
+            */
 
         }
     }

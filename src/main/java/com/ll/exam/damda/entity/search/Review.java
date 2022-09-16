@@ -30,6 +30,19 @@ public class Review {
     @Column(name = "review_travel_end_date")
     private LocalDateTime end_date;
 
+    @Column(name = "review_first_created_date")
+    private LocalDateTime first_created_date;
+
+    @Column(name = "review_last_created_date")
+    private LocalDateTime last_created_date;
+
+    @Column(name = "review_first_creater")
+    private String first_creater;
+
+    @Column(name = "review_last_creater")
+    private String last_creater;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id")
     private Spot spot;

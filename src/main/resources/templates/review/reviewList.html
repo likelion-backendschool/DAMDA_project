@@ -1,0 +1,53 @@
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+        layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content" class="container my-3">
+
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일시</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="review, loop : ${paging}">
+            <td th:text="${loop.count} "></td>
+            <td>
+                <a th:href="@{|/review/show/${review.id}|}" th:text="${review.title}"></a>
+            </td>
+            <td th:text="${#temporals.format(review.start_date, 'yy-MM-dd HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- 페이징처리 시작 -->
+    <div th:if="${!paging.isEmpty()}">
+        <!--bootstrap 클래스-->
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{|?page=${paging.number-1}|}">
+                    <span>이전</span>
+                </a>
+            </li>
+
+            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                th:classappend="${page == paging.number} ? 'active'"
+                class="page-item">
+                <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+            </li>
+
+            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                    <span>다음</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- 페이징처리 끝 -->
+
+</div>
+</html>

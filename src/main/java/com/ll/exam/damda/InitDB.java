@@ -86,7 +86,7 @@ public class InitDB {
                 }
             }
 
-            /*여행지 리뷰 생성*/
+            /*여행지 리뷰 생성
             for (Spot spot : spotRepository.findAll()) {
                 for (int i = 0; i < rand.nextInt(10); i++) {
 
@@ -100,11 +100,11 @@ public class InitDB {
                     em.persist(review);
                 }
             }
-
+*/
 
 
             /*여행지 태그 생성*/
-            String[] tagArr = new String[]{"연인끼리", "인스타", "가족끼리", "친구끼리", "액티비티", "볼거리"};
+            String[] tagArr = new String[]{"혼자", "연인끼리", "인스타", "봄", "여름", "가을", "겨울", "가족끼리", "친구끼리", "액티비티", "볼거리"};
             List<Tag> tagList = new ArrayList<>();
             for (String stag : tagArr) {
 

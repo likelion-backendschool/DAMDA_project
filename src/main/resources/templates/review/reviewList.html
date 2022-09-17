@@ -15,7 +15,7 @@
         </thead>
         <tbody>
         <tr th:each="review, loop : ${paging}">
-            <td th:text="${review.id} "></td>
+            <td th:text="${paging.number * paging.size+loop.index+1} "></td>
             <td>
                 <a th:href="@{|/review/show/${review.id}|}" th:text="${review.title}"></a>
             </td>

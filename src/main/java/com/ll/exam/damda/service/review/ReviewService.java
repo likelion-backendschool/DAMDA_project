@@ -21,6 +21,7 @@ public class ReviewService {
     public Page<Review> getList(int page) {
         Pageable pageable = PageRequest.of(page, 10);
         return this.reviewRepository.findAll(pageable);
+
     }
 
     public Review getReview(long id) {

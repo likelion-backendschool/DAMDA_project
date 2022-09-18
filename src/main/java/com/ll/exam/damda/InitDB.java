@@ -1,8 +1,10 @@
 package com.ll.exam.damda;
 
 import com.ll.exam.damda.entity.search.*;
+import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.search.review.ReviewRepository;
 import com.ll.exam.damda.repository.search.spot.SpotRepository;
+import com.ll.exam.damda.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +20,6 @@ import java.util.Random;
 @Component
 @RequiredArgsConstructor
 public class InitDB {
-
     private final InitService initService;
 
     @PostConstruct
@@ -117,7 +118,7 @@ public class InitDB {
                         .build());
                 reviewTagList.add(ReviewTag.builder()
                         .review(review)
-                        .tag(tagList.get(randIndex+1))
+                        .tag(tagList.get(randIndex + 1))
                         .build());
 
                 for (ReviewTag reviewTag : reviewTagList) {
@@ -126,5 +127,6 @@ public class InitDB {
             }
 
         }
+
     }
 }

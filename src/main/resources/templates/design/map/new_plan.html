@@ -1,6 +1,6 @@
 <html layout:decorate="~{layout/layout}">
 <div layout:fragment="content">
-    <div class="justify-content-center container w-25">
+    <div class="justify-content-center container align-items-center w-75">
         <script>
             function submitForm(form) {
                 form.title.value = form.title.value.trim();
@@ -19,22 +19,24 @@
             }
         </script>
         <form onsubmit="submitForm(this); return false;" th:action="@{/travel/design/new}" method="post"
-              class="card card mt-2">
-            <div class="m-4">
-                <span class="text-center mb-2">여행이름</span>
-                <br>
-                <input type="text" name="title" id="title" style="border-radius: 5px;">
+              class="card card mt-2 w-100">
+            <div class="m-auto w-100">
+                <div class="input-group m-3 w-75">
+                    <span class="input-group-text text-black" id="inputGroup-sizing-lg">여행이름</span>
+                    <input type="text" name="title" id="title" class="form-control" aria-label="Sizing example input"
+                           aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group m-3 w-75">
+                    <span class="input-group-text text-black" id="inputGroup-sizing-default">여행일수</span>
+                    <input name="size" id="size" type="text" class="form-control" aria-label="Sizing example input"
+                           aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group m-3 w-75">
+                    <span class="input-group-text text-black">Memo</span>
+                    <textarea class="form-control" name="memo" id="memo" aria-label="With textarea"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary m-3 w-75">저장</button>
             </div>
-            <div class="m-4">
-                <span class="text-center mb-2">여행일수</span>
-                <br>
-                <input style="border-radius: 5px;" type="text" name="size" id="size">
-            </div>
-            <div class="m-4">
-                <span class="text-center mb-2">Memo</span>
-                <textarea name="memo" id="memo" cols="25" rows="10"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary mb-2 mx-2">저장</button>
         </form>
     </div>
 </div>

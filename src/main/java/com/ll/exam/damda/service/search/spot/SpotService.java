@@ -180,4 +180,9 @@ public class SpotService {
 
         return spotDtoPages;
     }
+
+    public void removeCloneSpot(long spotId) {
+//        Spot spot = getSpot(spotId);
+        spotRepository.deleteById(spotId);
+    }
 }

@@ -219,6 +219,7 @@ public class PlanController {
         Course course = courseService.getCourseById(courseId);
         Spot spot = spotService.getSpot(spotId);
         courseService.removeSpotAtCourse(course, spot);
+        spotService.removeCloneSpot(spotId);
         return "success";
     }
     @GetMapping("/plan/detail/{planId}")

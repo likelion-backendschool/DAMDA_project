@@ -1,5 +1,6 @@
 <html layout:decorate="~{layout/layout}">
-<div layout:fragment="content" class="mt-3 container justify-content-around" style="width: 95%; min-height: 100%; position:relative;">
+<div layout:fragment="content" class="mt-3 container justify-content-around"
+     style="width: 95%; min-height: 100%; position:relative;">
     <input type="hidden" name="course" th:value="${course}">
     <!--제목과 수정, 삭제 버튼-->
     <div class="justify-content-between d-flex mb-2" style="height: 10%;">
@@ -27,77 +28,63 @@
     <div class="d-flex justify-content-around" style="height: 80%;">
         <!--코스 정보-->
         <div class="card card overflow-scroll container mx-1 row" style="width:35%; min-height:100%;">
-            <div class="border-bottom border-1 py-1 my-1" th:each="spot : ${course.spotList}">
-                    <h5 href="#" th:text="${spot.name}"></h5>
-                    <a href="#" th:text="${spot.address}"></a>
+            <div class="border-bottom border-1 py-1 my-1" th:each="spot, loop : ${course.spotList}">
+                <div>
+                    <h5 href="#" th:text="|${spot.name}|"></h5>
+                    <a th:href="@{|http://place.map.kakao.com/${spot.urlId}|}" target="_blank">카카오 맵에서 보기</a>
+                </div>
+                <!--지도-->
+                <div id="map" style="width:100%;height:350px;"></div>
+
+                <script type="text/javascript"
+                        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c67e5e4d2bd37b972933cf07ff9ec9a7&libraries=services"></script>
+                <script>
+                    var address = '';
+
+                    function addAddress(spotAddress) {
+                        address = spotAddress;
+                    }
+
+                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                        mapOption = {
+                            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                            level: 3 // 지도의 확대 레벨
+                        };
+
+                    // 지도를 생성합니다
+                    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+                    // 주소-좌표 변환 객체를 생성합니다
+                    var geocoder = new kakao.maps.services.Geocoder();
+
+                    // 주소로 좌표를 검색합니다
+                    geocoder.addressSearch(address, function (result, status) {
+
+                        // 정상적으로 검색이 완료됐으면
+                        if (status === kakao.maps.services.Status.OK) {
+
+                            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                            // 결과값으로 받은 위치를 마커로 표시합니다
+                            var marker = new kakao.maps.Marker({
+                                map: map,
+                                position: coords
+                            });
+
+                            // 인포윈도우로 장소에 대한 설명을 표시합니다
+                            var infowindow = new kakao.maps.InfoWindow({
+                                content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+                            });
+                            infowindow.open(map, marker);
+
+                            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                            map.setCenter(coords);
+                        }
+                    });
+                </script>
+                <!--지도 끝-->
             </div>
         </div>
-        <!--지도-->
-        <div id="map" style="width:80%;height:450px;"></div>
-
-        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3398f87064ef2d4f364684990589c167
-&libraries=services"></script>
-        <script>
-            var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                mapOption = {
-                    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-                    level: 10 // 지도의 확대 레벨
-                };
-
-            // 지도를 생성합니다
-            var map = new kakao.maps.Map(mapContainer, mapOption);
-
-
-            // 주소-좌표 변환 객체를 생성합니다
-            var geocoder = new kakao.maps.services.Geocoder();
-
-            var positions = [
-                {
-                    title: '카카오',
-                    address: '경기 성남시 분당구 판교역로 166 카카오 판교아지트 A동 3층'
-                },
-                {
-                    title: '생태연못',
-                    address: '경기 남양주시 조안면 능내리 50'
-                },
-                {
-                    title: '텃밭',
-                    address: '경기 남양주시 별내동 2235'
-                },
-                {
-                    title: '근린공원',
-                    address: '경기 남양주시 별내면 청학로68번길 40'
-                }
-            ];
-
-            for (var i = 0; i < positions.length; i++) {
-                // 주소로 좌표를 검색합니다
-                geocoder.addressSearch(positions[i].address, function (result, status) {
-
-                    // 정상적으로 검색이 완료됐으면
-                    if (status === kakao.maps.services.Status.OK) {
-
-                        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-                        // 결과값으로 받은 위치를 마커로 표시합니다
-                        var marker = new kakao.maps.Marker({
-                            map: map,
-                            position: coords
-                        });
-
-                        // 인포윈도우로 장소에 대한 설명을 표시합니다
-                        var infowindow = new kakao.maps.InfoWindow({
-                            content: '<div style="width:150px;text-align:center;padding:6px 0;">title</div>'
-                        });
-                        infowindow.open(map, marker);
-
-                        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                        map.setCenter(coords);
-                    }
-                });
-            }
-        </script>
-            <!--지도 끝-->
-        </div>
     </div>
+</div>
 </html>

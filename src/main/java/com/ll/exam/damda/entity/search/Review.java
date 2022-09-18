@@ -42,6 +42,8 @@ public class Review {
     @Column(name = "review_last_creater")
     private String last_creater;
 
+    @Column(name = "countLike")
+    private Long countLike;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id")

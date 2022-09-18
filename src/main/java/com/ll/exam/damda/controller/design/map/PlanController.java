@@ -2,6 +2,7 @@ package com.ll.exam.damda.controller.design.map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ll.exam.damda.config.user.DataNotFoundException;
 import com.ll.exam.damda.dto.user.SiteUserContext;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
@@ -98,7 +99,7 @@ public class PlanController {
     //장바구니에 여행지 넣기
     @PostMapping("/insertSpot")
     @ResponseBody
-    public String insertBusket(
+    public Spot insertBusket(
             @RequestParam(value = "name") String name,
             @RequestParam(value = "address") String address,
             @RequestParam(value = "urlId") long urlId,
@@ -106,18 +107,18 @@ public class PlanController {
             @RequestParam(value = "y") String y,
             @RequestParam(value = "planId") long planId) throws JsonProcessingException {
         System.out.println("insertBusket 수행");
-
-        Spot spot = spotService.create(name, address, urlId, x, y);
+        Spot spot = spotService.getSpotByUrlId(urlId);
+        if(spot == null) {
+            spot = spotService.create(name, address, urlId, x, y);
+        }
         Plan plan = planService.getPlan(planId);
 
         boolean success = busketService.addSpotAtBusket(spot, plan);
         //장바구니에 추가
         if(success) {
-            String spotJson = objectMapper.writeValueAsString(spot);
-            System.out.println(spotJson);
-            return spotJson;
+            return spot;
         }
-        return null;
+        throw new DataNotFoundException("error");
 
     }
 

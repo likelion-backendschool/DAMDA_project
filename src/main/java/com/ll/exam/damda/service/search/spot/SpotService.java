@@ -96,6 +96,13 @@ public class SpotService {
             return null;
         }
     }
+    public Spot getSpotByUrlId(long urlId) {
+        Optional<Spot> optionalSpot = spotRepository.findByUrlId(urlId);
+        if(optionalSpot.isPresent()) {
+            return optionalSpot.get();
+        } else return null;
+
+    }
 
     @Transactional(readOnly = false)
     public Spot cloneSpot(Spot spot) {

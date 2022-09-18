@@ -44,7 +44,7 @@ public class Spot {
     @Column(name = "spot_review_cnt", nullable = false)
     private int reviewCnt = 0;
 
-    @Column(unique = true)
+    @Column
     private long urlId;
 
     private String x;

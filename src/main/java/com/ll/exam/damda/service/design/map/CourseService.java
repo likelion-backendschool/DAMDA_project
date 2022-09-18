@@ -45,6 +45,8 @@ public class CourseService {
 
     public void addSpotAtCourse(Course course, Spot spot) {
         List<Spot> spotList = course.getSpotList();
+        Spot spot1 = spotService.getSpot(spot.getId());
+
         Spot spotClone = spotService.cloneSpot(spot);
         spotList.add(spotClone);
         courseRepository.save(course);

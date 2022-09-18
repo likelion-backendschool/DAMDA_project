@@ -1,6 +1,6 @@
 window.onload = function () {
     console.log('getAllBusket');
-    // getAllBusket(plan_id);
+    getAllBusket(plan_id);
     getAllCourse(course_id);
 }
 var plan_id = $('input[name=plan_id]').val();
@@ -86,7 +86,7 @@ function getFinalSpotAtCourse(course_id) {
             courseId: course_id,
         },
         success: function (spot) {
-            console.log('insertCourse success');
+            console.log('getFinalSpotAtCourse success');
             const html = `
             <div class="m-2">
             <span class="p-2 badge rounded-pill badge-secondary">${spot.name}
@@ -302,7 +302,6 @@ function planInsert(place_name, place_address, place_urlId, place_x, place_y) {
             y: place_y,
             planId: plan_id
         },  //보낼 파라미터 데이터
-        dataType: "json", //http통신 후 응답 데이터 타입
         success: function (spot) {
             console.log(spot);
             getBusket(plan_id);

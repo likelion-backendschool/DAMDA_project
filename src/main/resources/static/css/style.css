@@ -1057,7 +1057,9 @@ p {
 	08. Login Style 5
 ==============================================================*/
 .index5 .style5{
-	background: url(../images/banner5.jpg) no-repeat;
+
+	/*background: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), #e7ebf9 no-repeat;*/
+	background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(../images/bigstock-Downtown-skyline-of-Seoul-Sou-42630085.jpg) no-repeat;
 	background-size: cover;
 }
 .style5 .login-box{
@@ -1081,7 +1083,8 @@ p {
 	margin-bottom: 20px;
 }
 .style5-middle{
-	background: url(../images/람쥐썬더.jpg) no-repeat;
+	background: rgb(14,24,65);
+	background: linear-gradient(0deg, rgba(14,24,65,1) 0%, rgba(9,20,45,1) 100%);
 	background-size: cover;
 	color: rgba(255,255,255,.7);
 	font-size: 16px;
@@ -1092,11 +1095,14 @@ p {
 	line-height: 45px;
 }
 .style5 .style5-left{
-	background: url(../images/style5img.jpg) no-repeat;
+	background: rgb(14,24,65);
+	background: linear-gradient(0deg, rgba(14,24,65,1) 0%, rgba(9,20,45,1) 100%);
+	/*background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url(../images/style2img.jpg) no-repeat;*/
 	background-size: cover;
 	color: rgba(255,255,255,.7);
 	font-size: 16px;
 }
+
 .style5 .style5-left h2{
 	color: #ffffff;
 	font-size: 30px;

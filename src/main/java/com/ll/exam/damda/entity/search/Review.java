@@ -26,10 +26,10 @@ public class Review {
     private String content;
 
     @Column(name = "review_travel_start_date")
-    private LocalDateTime start_date;
+    private LocalDateTime startDate;
 
     @Column(name = "review_travel_end_date")
-    private LocalDateTime end_date;
+    private LocalDateTime endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id")

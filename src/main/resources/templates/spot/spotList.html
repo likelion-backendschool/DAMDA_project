@@ -15,11 +15,6 @@
             <fieldset class="col">
                 <strong class="text-muted d-block mb-2">검색 태그 조건</strong>
                 <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                    <input type="checkbox" id="insta" name="checkedValue" class="custom-control-input" value="인스타"
-                           th:checked="${#lists.contains(checkedValue, '인스타')}">
-                    <label class="custom-control-label" for="insta">인스타</label>
-                </div>
-                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
                     <input type="checkbox" id="withCouple" name="checkedValue" class="custom-control-input" value="연인끼리"
                            th:checked="${#lists.contains(checkedValue, '연인끼리')}">
                     <label class="custom-control-label" for="withCouple">연인끼리</label>
@@ -29,13 +24,46 @@
                            th:checked="${#lists.contains(checkedValue, '가족끼리')}">
                     <label class="custom-control-label" for="withFamily">가족끼리</label>
                 </div>
-            </fieldset>
-            <fieldset class="col">
-                <br>
                 <div class="custom-control custom-toggle custom-toggle-sm mb-1">
                     <input type="checkbox" id="withFriend" name="checkedValue" class="custom-control-input" value="친구끼리"
                            th:checked="${#lists.contains(checkedValue, '친구끼리')}">
                     <label class="custom-control-label" for="withFriend">친구끼리</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="alone" name="checkedValue" class="custom-control-input" value="혼자"
+                           th:checked="${#lists.contains(checkedValue, '혼자')}">
+                    <label class="custom-control-label" for="alone">혼자</label>
+                </div>
+            </fieldset>
+            <fieldset class="col">
+                <br>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="spring" name="checkedValue" class="custom-control-input" value="봄"
+                           th:checked="${#lists.contains(checkedValue, '봄')}">
+                    <label class="custom-control-label" for="spring">봄</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="summer" name="checkedValue" class="custom-control-input" value="여름"
+                           th:checked="${#lists.contains(checkedValue, '여름')}">
+                    <label class="custom-control-label" for="summer">여름</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="fall" name="checkedValue" class="custom-control-input" value="가을"
+                           th:checked="${#lists.contains(checkedValue, '가을')}">
+                    <label class="custom-control-label" for="fall">가을</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="winter" name="checkedValue" class="custom-control-input" value="겨울"
+                           th:checked="${#lists.contains(checkedValue, '겨울')}">
+                    <label class="custom-control-label" for="winter">겨울</label>
+                </div>
+            </fieldset>
+            <fieldset class="col">
+                <br>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="insta" name="checkedValue" class="custom-control-input" value="인스타"
+                           th:checked="${#lists.contains(checkedValue, '인스타')}">
+                    <label class="custom-control-label" for="insta">인스타</label>
                 </div>
                 <div class="custom-control custom-toggle custom-toggle-sm mb-1">
                     <input type="checkbox" id="activity" name="checkedValue" class="custom-control-input" value="액티비티"
@@ -46,6 +74,11 @@
                     <input type="checkbox" id="watching" name="checkedValue" class="custom-control-input" value="볼거리"
                            th:checked="${#lists.contains(checkedValue, '볼거리')}">
                     <label class="custom-control-label" for="watching">볼거리</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="healing" name="checkedValue" class="custom-control-input" value="휴량"
+                           th:checked="${#lists.contains(checkedValue, '휴양')}">
+                    <label class="custom-control-label" for="healing">휴양</label>
                 </div>
             </fieldset>
         </div>

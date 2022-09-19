@@ -90,8 +90,8 @@ public class InitDB {
                     Review review = Review.builder()
                             .title("good")
                             .content("so fun")
-                            .start_date(LocalDateTime.of(2022, Month.APRIL, 1, 0, 0))
-                            .end_date(LocalDateTime.of(2022, Month.APRIL, 2, 0, 0))
+                            .startDate(LocalDateTime.of(2022, Month.APRIL, 1, 0, 0))
+                            .endDate(LocalDateTime.of(2022, Month.APRIL, 2, 0, 0))
                             .build();
                     review.setSpot(spot);
                     em.persist(review);
@@ -99,7 +99,7 @@ public class InitDB {
             }
 
             /*여행지 태그 생성*/
-            String[] tagArr = new String[]{"연인끼리", "인스타", "가족끼리", "친구끼리", "액티비티", "볼거리"};
+            String[] tagArr = new String[]{"연인끼리", "가족끼리", "친구끼리", "혼자", "액티비티", "볼거리", "휴양", "인스타", "봄", "여름", "가을", "겨울"};
             List<Tag> tagList = new ArrayList<>();
             for (String stag : tagArr) {
                 Tag tag = Tag.builder().name(stag).build();
@@ -109,7 +109,7 @@ public class InitDB {
 
             /*리뷰 & 태그 생성*/
             for (Review review : reviewRepository.findAll()) {
-                int randIndex = rand.nextInt(5);
+                int randIndex = rand.nextInt(11);
                 List<ReviewTag> reviewTagList = new ArrayList<>();
 
                 reviewTagList.add(ReviewTag.builder()

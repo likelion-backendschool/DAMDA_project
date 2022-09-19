@@ -3,6 +3,8 @@ package com.ll.exam.damda.controller.design.map;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.exam.damda.config.user.DataNotFoundException;
+import com.ll.exam.damda.dto.user.MailDto;
+import com.ll.exam.damda.dto.user.MessageDto;
 import com.ll.exam.damda.dto.user.SiteUserContext;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
@@ -43,16 +45,18 @@ public class PlanController {
 
     //플래너 리스트
     @GetMapping("/plan/list")
-    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page,@AuthenticationPrincipal SiteUserContext siteUserContext) {
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page, @AuthenticationPrincipal SiteUserContext siteUserContext) {
         Page<Plan> paging = planService.getPlanList(page, siteUserContext.getId());
         model.addAttribute("paging", paging);
         return "/design/map/plan_list";
     }
+
     //새로운 플래너
     @GetMapping("/new")
     public String createPlan() {
         return "/design/map/new_plan";
     }
+
     @PostMapping("/new")
     public String createPlan(@RequestParam(value = "title") String title,
                              @RequestParam(value = "size") long size,
@@ -71,6 +75,7 @@ public class PlanController {
         model.addAttribute("plan", plan);
         return "/design/map/modify_basic";
     }
+
     @PostMapping("/modification/basic/{planId}")
     public String modifyBasicPlan(@PathVariable long planId,
                                   @RequestParam(value = "title") String title,
@@ -108,14 +113,14 @@ public class PlanController {
             @RequestParam(value = "planId") long planId) throws JsonProcessingException {
         System.out.println("insertBusket 수행");
         Spot spot = spotService.getSpotByUrlId(urlId);
-        if(spot == null) {
+        if (spot == null) {
             spot = spotService.create(name, address, urlId, x, y);
         }
         Plan plan = planService.getPlan(planId);
 
         boolean success = busketService.addSpotAtBusket(spot, plan);
         //장바구니에 추가
-        if(success) {
+        if (success) {
             return spot;
         }
         throw new DataNotFoundException("error");
@@ -147,6 +152,7 @@ public class PlanController {
     public String getFinalSpot() {
         return "spotJson";
     }
+
     //플래너 삭제
     @GetMapping("/plan/delete/{planId}")
     public String deletePlan(@PathVariable long planId) {
@@ -154,6 +160,7 @@ public class PlanController {
         planService.delete(plan);
         return "redirect:/travel/design/plan/list";
     }
+
     @GetMapping("/getBusket")
     @ResponseBody
     public String getFinalBusket(@RequestParam long planId) throws JsonProcessingException {
@@ -164,6 +171,7 @@ public class PlanController {
         System.out.println(result);
         return result;
     }
+
     @GetMapping("/getAllBusket")
     @ResponseBody
     public List<Spot> getAllBusket(@RequestParam long planId) throws JsonProcessingException {
@@ -172,6 +180,7 @@ public class PlanController {
         List<Spot> busketList = busket.getSpotList();
         return busketList;
     }
+
     @GetMapping("/removeSpot")
     @ResponseBody
     public String removeSpotAtBusket(@RequestParam long planId, @RequestParam long spotId) {
@@ -196,12 +205,14 @@ public class PlanController {
         courseService.addSpotAtCourse(course, spot);
         return "success";
     }
+
     @GetMapping("/getAllCourse")
     @ResponseBody
     public List<Spot> getAllCourse(@RequestParam long courseId) {
         Course course = courseService.getCourseById(courseId);
         return course.getSpotList();
     }
+
     @GetMapping("/getFinalSpotAtCourse")
     @ResponseBody
     public Spot getFinalSpotAtCourse(@RequestParam long courseId) throws JsonProcessingException {
@@ -211,6 +222,7 @@ public class PlanController {
         return spot;
 //        return objectMapper.writeValueAsString(spot);
     }
+
     @GetMapping("/removeCourse")
     @ResponseBody
     public String removeSpotAtCourse(@RequestParam long planId,
@@ -222,6 +234,7 @@ public class PlanController {
         spotService.removeCloneSpot(spotId);
         return "success";
     }
+
     @GetMapping("/plan/detail/{planId}")
     public String planDetail(Model model, @PathVariable long planId, @RequestParam long order) {
         Plan plan = planService.getPlan(planId);
@@ -232,5 +245,41 @@ public class PlanController {
         model.addAttribute("spotList", course.getSpotList());
 
         return "design/map/plan_detail";
+    }
+
+    @GetMapping("/share/{planId}")
+    public String planShare(Model model) {
+        String shareLink = "http://localhost:8080/travel/design/share/invite/"+getTempLink();
+        String alert = shareLink;
+        String redirectUri = "/travel/design/plan/list";
+
+        MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.GET, null);
+        return showMessageAndRedirect(message, model);
+    }
+
+    @GetMapping("/share/invite/{link}")
+    public String planInvite(@PathVariable String link){
+        return "테스트중";
+    }
+
+    private String showMessageAndRedirect(final MessageDto params, Model model) {
+        model.addAttribute("params", params);
+        return "user/messageRedirect";
+    }
+
+
+    public String getTempLink() {
+        char[] charSet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
+        String str = "";
+
+        // 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
+        int idx = 0;
+        for (int i = 0; i < 10; i++) {
+            idx = (int) (charSet.length * Math.random());
+            str += charSet[idx];
+        }
+        return str;
     }
 }

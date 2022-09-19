@@ -16,6 +16,8 @@ public class SiteUserContext extends User implements OAuth2User {
     private final Long id;
     private final String nickname;
 
+    private final String method;
+
     private Map<String, Object> attributes;
     private String userNameAttributeName;
 
@@ -23,6 +25,7 @@ public class SiteUserContext extends User implements OAuth2User {
         super(user.getUsername(), user.getPassword(), authorities);
         this.id = user.getId();
         this.nickname = user.getNickname();
+        this.method = user.getMethod();
     }
 
     public SiteUserContext(SiteUser siteUser, List<GrantedAuthority> authorities, Map<String, Object> attributes, String userNameAttributeName) {

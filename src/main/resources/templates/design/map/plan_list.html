@@ -3,7 +3,8 @@
     <!-- start -->
     <div class="main-content-container container-fluid px-4">
         <div class="row">
-            <a th:if="${paging.getTotalElements() == 0}" class="col-lg-3 col-md-6 col-sm-12 mb-4" th:href="@{/travel/design/new}">
+            <a th:if="${paging.getTotalElements() == 0}" class="col-lg-3 col-md-6 col-sm-12 mb-4"
+               th:href="@{/travel/design/new}">
                 <div class="card card-small card-post h-100 mt-3">
                     <div class="card-post__image" th:style="'background-image: url(https://picsum.photos/800);'"></div>
                     <div class="card-footer text-muted border-top py-3">
@@ -30,6 +31,10 @@
                                     <span th:text="|${plan.size}일|" class="text-dark small ms-2"></span>
                                 </h5>
                             </div>
+                            <button class="btn">
+                                <a class="dropdown-item"
+                                   th:href="@{|/travel/design/share/${plan.id}|}">수정</a>
+                            </button>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-secondary dropdown-toggle"
                                         data-bs-toggle="dropdown" aria-expanded="false">

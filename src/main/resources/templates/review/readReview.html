@@ -145,6 +145,11 @@
 
                         <hr>
                         <div class="card-body">
+
+                            <div class="badge bg-light text-dark p-2 text-start">
+                                <div style="margin-bottom: 8px" th:text="${#temporals.format(review.start_date, '작성일 yyyy-MM-dd HH:mm')}"></div>
+                            </div>
+
                             <div style="white-space: pre-line;" th:text="${review.content}"></div>
                         </div>
                     </table>
@@ -155,8 +160,9 @@
                th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"-->
             <a th:href="@{|/review/modify/${review.id}|}" class="btn btn-outline-primary"
                th:text="수정"></a>
+            <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/review/delete/${review.id}|}" class="btn btn-outline-primary"
+               th:text="삭제"></a>
 
-            <button type="submit" class="btn btn-outline-primary">삭제</button>
             <div class="card my-3">
                 <div class="card-body">
                     <div style="white-space: pre-line;">댓글 기능 추가 시 사용</div>

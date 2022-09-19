@@ -73,7 +73,7 @@ public class ReviewController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         */
-        this.reviewService.modify(review, reviewForm.getTitle(), reviewForm.getContent());
+        reviewService.modify(review, reviewForm.getTitle(), reviewForm.getContent());
 
         return String.format("redirect:/review/show/%s", id);
     }
@@ -116,4 +116,21 @@ public class ReviewController {
         return "redirect:list";
     }
 
+    //@PreAuthorize("isAuthenticated()")
+    @GetMapping("/review/delete/{id}")
+    public String reviewDelete(Principal principal, @PathVariable("id") Integer id) {
+        Review review = reviewService.getReview(id);
+
+        if (review == null) {
+            throw new DataNotFoundException("%d번 질문은 존재하지 않습니다.");
+        }
+
+        /*if (!review.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+        }*/
+
+        reviewService.delete(review);
+
+        return "redirect:/review/list";
+    }
 }

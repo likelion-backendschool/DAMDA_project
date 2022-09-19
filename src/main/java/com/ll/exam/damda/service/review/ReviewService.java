@@ -44,4 +44,7 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
+    public void delete(Review review) {
+        this.reviewRepository.delete(review);
+    }
 }

@@ -27,7 +27,7 @@ public class Course {
     @ManyToOne
     private Plan plan;
 
-    @OneToMany (cascade = CascadeType.REMOVE)
+    @ManyToMany
     private List<Spot> spotList;
 
 }

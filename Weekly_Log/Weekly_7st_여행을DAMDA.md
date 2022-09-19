@@ -64,12 +64,8 @@
         - 최초 생성자만 여행계획 삭제할 수 있도록(생각중)
         - 장바구니에 담는 여행지가 실시간으로 보이도록 ajax로 구현(생각중)
         
-    
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/605465e2-6b91-444c-848f-5240d7f49f89/Untitled.png)
-    
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bd5ce9e2-931c-4459-a538-5e61a55a1a03/Untitled.png)
-    
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e7cfc433-a430-49ae-a269-8bea8d3007f1/Untitled.png)
+    <img width="685" alt="스크린샷 2022-09-20 오전 12 44 13" src="https://user-images.githubusercontent.com/97084128/191058105-6ad6577d-361d-45aa-8791-42a9404a47c9.png">
+
     
 - 박재현
     - 로그인한 유저에 해당되는 장바구니만 보이도록 수정

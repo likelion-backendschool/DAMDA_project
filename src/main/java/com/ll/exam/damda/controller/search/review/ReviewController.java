@@ -133,4 +133,16 @@ public class ReviewController {
 
         return "redirect:/review/list";
     }
+
+
+    @RequestMapping("/requestSpot")
+    public String requestSpot() {
+        return "/requestSpot/requestSpot";
+    }
+
+    @RequestMapping("/managing")
+    public String managing() {
+        return "/managing/managing";
+    }
+
 }

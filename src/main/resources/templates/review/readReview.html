@@ -113,45 +113,46 @@
                         </tbody>
                     </table>
 
-                        <div class="row">
-                            <div class="col">
-                                <button id="혼자" class="mb-2 btn btn-sm btn-outline-primary mr-1"
-                                        onclick="location.href='링크주소';">혼자
-                                </button>
-                                <button id="연인끼리" class="mb-2 btn btn-sm btn-outline-secondary mr-1">연인끼리</button>
-                                <button id="가족끼리" class="mb-2 btn btn-sm btn-outline-success mr-1">가족끼리</button>
-                                <button id="친구끼리" class="mb-2 btn btn-sm btn-outline-danger mr-1">친구끼리</button>
+                    <div class="row">
+                        <div class="col">
+                            <button id="혼자" class="mb-2 btn btn-sm btn-outline-primary mr-1"
+                                    onclick="location.href='링크주소';">혼자
+                            </button>
+                            <button id="연인끼리" class="mb-2 btn btn-sm btn-outline-secondary mr-1">연인끼리</button>
+                            <button id="가족끼리" class="mb-2 btn btn-sm btn-outline-success mr-1">가족끼리</button>
+                            <button id="친구끼리" class="mb-2 btn btn-sm btn-outline-danger mr-1">친구끼리</button>
 
-                            </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <button id="봄" class="mb-2 btn btn-sm btn-outline-primary mr-1">봄</button>
-                                <button id="여름" class="mb-2 btn btn-sm btn-outline-secondary mr-1">여름</button>
-                                <button id="가을" class="mb-2 btn btn-sm btn-outline-success mr-1">가을</button>
-                                <button id="겨울" class="mb-2 btn btn-sm btn-outline-danger mr-1">겨울</button>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button id="봄" class="mb-2 btn btn-sm btn-outline-primary mr-1">봄</button>
+                            <button id="여름" class="mb-2 btn btn-sm btn-outline-secondary mr-1">여름</button>
+                            <button id="가을" class="mb-2 btn btn-sm btn-outline-success mr-1">가을</button>
+                            <button id="겨울" class="mb-2 btn btn-sm btn-outline-danger mr-1">겨울</button>
                         </div>
-                        <div class="row">
-                            <div class="col">
+                    </div>
+                    <div class="row">
+                        <div class="col">
 
-                                <button id="인스타" class="mb-2 btn btn-sm btn-outline-primary mr-1">인스타</button>
-                                <button id="액티비티" class="mb-2 btn btn-sm btn-outline-secondary mr-1">액티비티</button>
-                                <button id="볼거리" class="mb-2 btn btn-sm btn-outline-success mr-1">볼거리</button>
-                                <button id="휴양" class="mb-2 btn btn-sm btn-outline-danger mr-1">휴양</button>
-                            </div>
+                            <button id="인스타" class="mb-2 btn btn-sm btn-outline-primary mr-1">인스타</button>
+                            <button id="액티비티" class="mb-2 btn btn-sm btn-outline-secondary mr-1">액티비티</button>
+                            <button id="볼거리" class="mb-2 btn btn-sm btn-outline-success mr-1">볼거리</button>
+                            <button id="휴양" class="mb-2 btn btn-sm btn-outline-danger mr-1">휴양</button>
                         </div>
-                        <!-- / Small Outline Checkbox -->
+                    </div>
+                    <!-- / Small Outline Checkbox -->
 
-                        <hr>
-                        <div class="card-body">
+                    <hr>
+                    <div class="card-body">
 
-                            <div class="badge bg-light text-dark p-2 text-start">
-                                <div style="margin-bottom: 8px" th:text="${#temporals.format(review.start_date, '작성일 yyyy-MM-dd HH:mm')}"></div>
-                            </div>
-
-                            <div style="white-space: pre-line;" th:text="${review.content}"></div>
+                        <div class="badge bg-light text-dark p-2 text-start">
+                            <div style="margin-bottom: 8px"
+                                 th:text="${#temporals.format(review.start_date, '작성일 yyyy-MM-dd HH:mm')}"></div>
                         </div>
+
+                        <div style="white-space: pre-line;" th:text="${review.content}"></div>
+                    </div>
                     </table>
                 </div>
             </div>
@@ -160,8 +161,13 @@
                th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"-->
             <a th:href="@{|/review/modify/${review.id}|}" class="btn btn-outline-primary"
                th:text="수정"></a>
-            <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/review/delete/${review.id}|}" class="btn btn-outline-primary"
+            <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/review/delete/${review.id}|}"
+               class="btn btn-outline-primary"
                th:text="삭제"></a>
+            <button type="button" class="btn btn-white">
+                <span class="text-success"><i class="material-icons">check</i></span> Like
+            </button>
+
 
             <div class="card my-3">
                 <div class="card-body">

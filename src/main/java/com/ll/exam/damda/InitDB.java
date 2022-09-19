@@ -86,7 +86,7 @@ public class InitDB {
                 }
             }
 
-            /*여행지 리뷰 생성
+            /*여행지 리뷰 생성*/
             for (Spot spot : spotRepository.findAll()) {
                 for (int i = 0; i < rand.nextInt(10); i++) {
 
@@ -100,7 +100,6 @@ public class InitDB {
                     em.persist(review);
                 }
             }
-*/
 
 
             /*여행지 태그 생성*/
@@ -113,7 +112,7 @@ public class InitDB {
                 em.persist(tag);
             }
 
-            /*리뷰 & 태그 생성
+            /*리뷰 & 태그 생성*/
             for (Review review : reviewRepository.findAll()) {
                 int randIndex = rand.nextInt(5);
 
@@ -132,7 +131,6 @@ public class InitDB {
                     em.persist(reviewTag);
                 }
             }
-            */
 
         }
     }

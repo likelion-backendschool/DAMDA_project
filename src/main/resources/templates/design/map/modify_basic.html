@@ -17,23 +17,26 @@
       form.submit();
     }
   </script>
-  <div class="justify-content-center container w-25">
-    <form onsubmit="submitForm(this); return false;" th:action="@{|/travel/design/modification/basic/${plan.id}|}" method="post" class="card card mt-2">
-      <div class="m-4">
-        <span class="text-center mb-2">여행이름</span>
-        <br>
-        <input type="text" th:field="*{plan.title}" name="title" id="title" style="border-radius: 5px;">
+  <div class="justify-content-center container w-75">
+    <form onsubmit="submitForm(this); return false;" th:action="@{|/travel/design/modification/basic/${plan.id}|}" method="post"
+          class="card card mt-2 w-100">
+      <div class="m-auto w-100">
+        <div class="input-group m-3 w-75">
+          <span class="input-group-text text-black" id="inputGroup-sizing-lg">여행이름</span>
+          <input type="text" name="title" th:field="*{plan.title}" id="title" class="form-control" aria-label="Sizing example input"
+                 aria-describedby="inputGroup-sizing-default">
+        </div>
+        <div class="input-group m-3 w-75">
+          <span class="input-group-text text-black" id="inputGroup-sizing-default">여행일수</span>
+          <input name="size" th:field="*{plan.size}" id="size" type="text" class="form-control" aria-label="Sizing example input"
+                 aria-describedby="inputGroup-sizing-default">
+        </div>
+        <div class="input-group m-3 w-75">
+          <span class="input-group-text text-black">Memo</span>
+          <textarea class="form-control" name="memo" id="memo" th:field="*{plan.memo}" aria-label="With textarea"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary m-3 w-75">저장</button>
       </div>
-      <div class="m-4" >
-        <span class="text-center mb-2">여행일수</span>
-        <br>
-        <input style="border-radius: 5px;" th:field="*{plan.size}" type="text" name="size" id="size">
-      </div>
-      <div class="m-4">
-        <span class="text-center mb-2">Memo</span>
-        <textarea name="memo" id="memo" cols="25" rows="10" th:field="*{plan.memo}"></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary mb-2 mx-2">저장</button>
     </form>
   </div>
 </div>

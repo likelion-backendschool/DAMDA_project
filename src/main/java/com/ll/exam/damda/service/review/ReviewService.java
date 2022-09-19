@@ -27,7 +27,7 @@ public class ReviewService {
 
     public Review getReview(long id) {
         return reviewRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException("no %d question not found,".formatted(id)));
+                .orElseThrow(() -> new DataNotFoundException("no review not found,".formatted(id)));
     }
 
     public void create(String title, String content) {
@@ -37,4 +37,11 @@ public class ReviewService {
         review.setStart_date(LocalDateTime.now());
         reviewRepository.save(review);
     }
+
+    public void modify(Review review, String title, String content) {
+        review.setTitle(title);
+        review.setContent(content);
+        reviewRepository.save(review);
+    }
+
 }

@@ -150,7 +150,12 @@
                     </table>
                 </div>
             </div>
-            <button type="submit" class="btn btn-outline-primary">수정</button>
+
+            <!--sec:authorize="isAuthenticated()"
+               th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"-->
+            <a th:href="@{|/review/modify/${review.id}|}" class="btn btn-outline-primary"
+               th:text="수정"></a>
+
             <button type="submit" class="btn btn-outline-primary">삭제</button>
             <div class="card my-3">
                 <div class="card-body">

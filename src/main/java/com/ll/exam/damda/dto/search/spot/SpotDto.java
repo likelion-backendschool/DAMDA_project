@@ -30,6 +30,7 @@ public class SpotDto {
     private long urlId;
     private String x;
     private String y;
+    private String thumbNailImgPath;
 
     /* Page<Entity> -> Page<Dto> 변환처리 */
     public Page<SpotDto> toDtoList(Page<Spot> spots) {
@@ -40,6 +41,7 @@ public class SpotDto {
                         .city(spot.getCity())
                         .address(spot.getAddress())
                         .description(spot.getDescription())
+                        .thumbNailImgPath(spot.getThumbNailImgPath())
                         .tagInfo(spot.getTagMap())
                         .mostTags(spot.getMostTagList())
                         .reviews(spot.getReviews())
@@ -66,6 +68,7 @@ public class SpotDto {
                 .urlId(spot.getUrlId())
                 .x(spot.getX())
                 .y(spot.getY())
+                .thumbNailImgPath(spot.getThumbNailImgPath())
                 .build();
     }
 

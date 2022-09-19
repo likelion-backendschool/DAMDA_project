@@ -58,6 +58,8 @@ public class Spot {
 
     private String selfMadeFlag;
 
+    private String thumbNailImgPath;
+
     //==조회 로직==//
     public Map<Tag, Integer> getTagMap() {
         Map<Tag, Integer> tagInfo = new HashMap<>();

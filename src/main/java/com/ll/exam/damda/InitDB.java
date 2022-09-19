@@ -36,53 +36,35 @@ public class InitDB {
         private final SpotRepository spotRepository;
         private final ReviewRepository reviewRepository;
 
+        public void createSpot(String name, String city, String address, String description, long urlId, String x, String y, String flag, String thumbNailImgPath) {
+            Spot spot = Spot.builder()
+                    .name(name)
+                    .city(city)
+                    .address(address)
+                    .description(description)
+                    .urlId(urlId)
+                    .x(x)
+                    .y(y)
+                    .selfMadeFlag(flag)
+                    .thumbNailImgPath(thumbNailImgPath)
+                    .build();
+
+            em.persist(spot);
+        }
+
         public void testDBInit() {
 
             Random rand = new Random();
 
-            /*여행지 생성*/
-            em.persist(Spot.builder()
-                    .name("원앤온리")
-                    .city("제주")
-                    .address("제주특별자치도 서귀포시 안덕면 산방로 141")
-                    .description("아메리카노가 맛있는 카페!")
-                    .urlId(217787831)
-                    .x("126.319192490757")
-                    .y("33.2392223486155")
-                    .selfMadeFlag("Y")
-                    .build());
-            em.persist(Spot.builder()
-                    .name("올래국수 본점")
-                    .city("제주")
-                    .address("제주특별자치도 제주시 귀아랑길 24")
-                    .description("제주 국수 맛집!")
-                    .urlId(1387964178)
-                    .x("126.49726716501328")
-                    .y("33.49152862178827")
-                    .selfMadeFlag("Y")
-                    .build());
-            em.persist(Spot.builder()
-                    .name("연돈")
-                    .city("제주")
-                    .address("제주특별자치도 서귀포시 일주서로 968-10")
-                    .description("골목식당 돈까스 맛집!")
-                    .urlId(1890778114)
-                    .x("126.40715814631936")
-                    .y("33.258895288625645")
-                    .selfMadeFlag("Y")
-                    .build());
+            /*여행지 & 여행지 이미지 생성*/
+            createSpot("원앤온리", "제주", "제주특별자치도 서귀포시 안덕면 산방로 141", "아메리카노가 맛있는 카페!"
+                    , 217787831, "126.319192490757", "33.2392223486155", "Y", "/images/thumbnail/원앤온리.png");
 
-            /*여행지 이미지 생성*/
-            for (Spot spot : spotRepository.findAll()) {
-                for (int i = 0; i < 3; i++) {
-                    SpotImage spotImage = SpotImage.builder()
-                            .URL("https://picsum.photos/400")
-                            .spot(spot)
-                            .build();
-                    spot.getSpotImageURLs().add(spotImage);
-                    em.persist(spotImage);
-                }
-            }
+            createSpot("올래국수", "제주", "제주특별자치도 제주시 귀아랑길 24", "제주 국수 맛집!"
+                    , 1387964178, "126.49726716501328", "33.49152862178827", "Y", "/images/thumbnail/올래국수.png");
+
+            createSpot("연돈", "제주", "제주특별자치도 서귀포시 일주서로 968-10", "골목식당 돈까스 맛집!"
+                    , 1890778114, "126.40715814631936", "33.258895288625645", "Y", "/images/thumbnail/연돈.png");
 
             /*여행지 리뷰 생성*/
             for (Spot spot : spotRepository.findAll()) {

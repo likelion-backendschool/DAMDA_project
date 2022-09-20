@@ -1,4 +1,16 @@
 <html layout:decorate="~{layout/layout}">
+<head>
+<!--캘린더css, js-->
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/calendar-15/fonts/icomoon/style.css}">
+<link rel="stylesheet" th:href="@{/calendar-15/css/rome.css}">
+<!-- Bootstrap CSS -->
+<!--<link rel="stylesheet" th:href="@{/calendar-15/css/bootstrap.min.css}">-->
+<!-- Style -->
+<link rel="stylesheet" th:href="@{/calendar-15/css/style.css}">
+<!--캘린더css, js-->
+</head>
 <div layout:fragment="content">
     <div class="justify-content-center container align-items-center w-75">
         <script>
@@ -9,9 +21,15 @@
                     form.title.focus();
                     return false;
                 }
-                form.size.value = form.size.value.trim();
-                if (form.size.value.length == 0) {
-                    alert('여행일수를 입력해주세요.');
+                form.start_date.value = form.start_date.value.trim();
+                if (form.start_date.value.length == 0) {
+                    alert('여행날짜를 입력해주세요.');
+                    form.size.focus();
+                    return false;
+                }
+                form.end_date.value = form.end_date.value.trim();
+                if (form.end_date.value.length == 0) {
+                    alert('여행날짜를 입력해주세요.');
                     form.size.focus();
                     return false;
                 }
@@ -27,9 +45,25 @@
                            aria-describedby="inputGroup-sizing-default">
                 </div>
                 <div class="input-group m-3 w-75">
-                    <span class="input-group-text text-black" id="inputGroup-sizing-default">여행일수</span>
-                    <input name="size" id="size" type="text" class="form-control" aria-label="Sizing example input"
-                           aria-describedby="inputGroup-sizing-default">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="input_from">From</label>
+                            <input type="text" class="form-control" id="input_from" name="start_date" placeholder="Start Date">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="input_from">To</label>
+                            <input type="text" class="form-control" id="input_to" name="end_date" placeholder="End Date">
+                        </div>
+                    </div>
+<!--                    <script th:src="@{/calendar-15/js/jquery-3.3.1.min.js}"></script>-->
+                    <script th:src="@{/calendar-15/js/popper.min.js}"></script>
+<!--                    <script th:src="@{/calendar-15/js/bootstrap.min.js}"></script>-->
+                    <script th:src="@{/calendar-15/js/rome.js}"></script>
+                    <script th:src="@{/calendar-15/js/main.js}"></script>
+<!--                    <input name="size" id="size" type="text" class="form-control" aria-label="Sizing example input"-->
+<!--                           aria-describedby="inputGroup-sizing-default">-->
                 </div>
                 <div class="input-group m-3 w-75">
                     <span class="input-group-text text-black">Memo</span>

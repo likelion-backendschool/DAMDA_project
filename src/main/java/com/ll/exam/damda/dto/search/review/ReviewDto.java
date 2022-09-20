@@ -22,8 +22,8 @@ public class ReviewDto {
                 .id(review.getId())
                 .content(review.getContent())
                 .title(review.getTitle())
-                .start_data(review.getStart_date())
-                .end_date(review.getEnd_date())
+                .start_data(review.getStartDate())
+                .end_date(review.getEndDate())
                 .build();
     }
 }

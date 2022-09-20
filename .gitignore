@@ -38,3 +38,4 @@ out/
 
 ### yml ###
 application-db.yml
+application-user.yml

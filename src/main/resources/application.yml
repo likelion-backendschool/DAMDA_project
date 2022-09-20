@@ -13,8 +13,16 @@ spring:
     hibernate:
       ddl-auto: update
   profiles:
-    include: db
+    include: db, user
+devtools:
+  livereload:
+    restart:
+      enabled: 'true'
+    enabled: 'true'
+output:
+  ansi:
+    enabled: always
+
 server:
   port: '8087'
-
 

@@ -1,6 +1,11 @@
 package com.ll.exam.damda.entity.search;
 
+import com.ll.exam.damda.entity.design.map.Busket;
 import lombok.*;
+
+import javax.persistence.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 import java.util.*;
@@ -13,16 +18,16 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Spot {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
-    @Column(name = "spot_name", nullable = false)
+    @Column(name = "spot_name")
+
     private String name;
 
-    @Column(name = "spot_city", nullable = false)
+    @Column(name = "spot_city")
     private String city;
 
     @Column(name = "spot_address")
@@ -39,8 +44,23 @@ public class Spot {
     @Builder.Default
     private Set<Review> reviews = new LinkedHashSet<>();
 
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    @Builder.Default
+    private Set<Busket> buskets = new LinkedHashSet<>();
+
     @Column(name = "spot_review_cnt", nullable = false)
     private int reviewCnt = 0;
+
+    @Column
+    private long urlId;
+
+    private String x;
+
+    private String y;
+
+    private String selfMadeFlag;
+
+    private String thumbNailImgPath;
 
     //==조회 로직==//
     public Map<Tag, Integer> getTagMap() {
@@ -76,5 +96,4 @@ public class Spot {
 
         return mostTagList;
     }
-
 }

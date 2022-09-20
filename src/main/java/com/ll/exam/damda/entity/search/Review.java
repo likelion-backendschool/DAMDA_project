@@ -1,5 +1,6 @@
 package com.ll.exam.damda.entity.search;
 
+import com.ll.exam.damda.entity.user.SiteUser;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,10 +26,10 @@ public class Review {
     private String content;
 
     @Column(name = "review_travel_start_date")
-    private LocalDateTime start_date;
+    private LocalDateTime startDate;
 
     @Column(name = "review_travel_end_date")
-    private LocalDateTime end_date;
+    private LocalDateTime endDate;
 
     @Column(name = "review_first_created_date")
     private LocalDateTime first_created_date;
@@ -48,6 +49,10 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id")
     private Spot spot;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "siteUser_id")
+    private SiteUser siteUser;
 
     @OneToMany(mappedBy = "review")
     @Builder.Default

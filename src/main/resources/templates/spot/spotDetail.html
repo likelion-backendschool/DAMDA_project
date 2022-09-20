@@ -15,19 +15,13 @@
         <div class="row">
             <div class="col-lg-8">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <th:block th:each="image, index : ${spotDto.spotImages}">
-                            <li th:if="${index.index} > 0" data-target="#carouselExampleIndicators" th:data-slide-to="${index.index}"></li>
-                        </th:block>
-                    </ol>
                     <div class="carousel-inner" style="height: 600px;">
                         <div class="carousel-item active">
-                            <img class="d-block w-100" th:src="${spotDto.spotImages[0].URL}" alt="First slide" style="border-radius: 10px;object-fit: cover;">
+                            <img class="d-block w-100" th:src="${imgUrlList[0]}" alt="First slide" style="width: 1000px; height: 900px;">
                         </div>
-                        <th:block th:each="image, index : ${spotDto.spotImages}">
+                        <th:block th:each="url, index : ${imgUrlList}">
                             <div th:if="${index.index} > 0" class="carousel-item">
-                                <img class="d-block w-100" th:src="${image.URL}" style="border-radius: 10px;object-fit: cover;">
+                                <img class="d-block w-100" th:src="${url}" style="width: 1000px; height: 900px;">
                             </div>
                         </th:block>
                     </div>
@@ -48,7 +42,12 @@
                             <strong class="text-muted d-block mb-2">Description</strong>
                             <span th:text="|${spotDto.description}|"></span>
                             <br/>
-                            <button type="button" class="mt-2 mb-2 btn btn-sm btn-pill btn-outline-primary mx-auto" style="width: 70px;">담기</button>
+                            <form action="/spot/addBusket" method="get">
+                                <input type="hidden" name="spotId" th:value="${spotDto.id}">
+                                <button type="submit" formaction="/spot/addBusket" class="mt-2 mb-2 btn btn-sm btn-pill btn-outline-primary mx-auto" style="width: 70px;">
+                                    담기
+                                </button>
+                            </form>
                         </li>
                     </ul>
                 </div>

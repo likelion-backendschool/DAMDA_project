@@ -1,0 +1,43 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+  <script>
+    function submitForm(form) {
+      form.title.value = form.title.value.trim();
+      if (form.title.value.length == 0) {
+        alert('여행이름을 입력해주세요.');
+        form.title.focus();
+        return false;
+      }
+      form.size.value = form.size.value.trim();
+      if (form.size.value.length == 0) {
+        alert('여행일수를 입력해주세요.');
+        form.size.focus();
+        return false;
+      }
+      form.submit();
+    }
+  </script>
+  <div class="justify-content-center container w-75">
+    <form onsubmit="submitForm(this); return false;" th:action="@{|/travel/design/modification/basic/${plan.id}|}" method="post"
+          class="card card mt-2 w-100">
+      <div class="m-auto w-100">
+        <div class="input-group m-3 w-75">
+          <span class="input-group-text text-black" id="inputGroup-sizing-lg">여행이름</span>
+          <input type="text" name="title" th:field="*{plan.title}" id="title" class="form-control" aria-label="Sizing example input"
+                 aria-describedby="inputGroup-sizing-default">
+        </div>
+        <div class="input-group m-3 w-75">
+          <span class="input-group-text text-black" id="inputGroup-sizing-default">여행일수</span>
+          <input name="size" th:field="*{plan.size}" id="size" type="text" class="form-control" aria-label="Sizing example input"
+                 aria-describedby="inputGroup-sizing-default">
+        </div>
+        <div class="input-group m-3 w-75">
+          <span class="input-group-text text-black">Memo</span>
+          <textarea class="form-control" name="memo" id="memo" th:field="*{plan.memo}" aria-label="With textarea"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary m-3 w-75">저장</button>
+      </div>
+    </form>
+  </div>
+</div>
+</html>

@@ -21,16 +21,16 @@
                     form.title.focus();
                     return false;
                 }
-                form.start_date.value = form.start_date.value.trim();
-                if (form.start_date.value.length == 0) {
+                form.startDate.value = form.startDate.value.trim();
+                if (form.startDate.value.length == 0) {
                     alert('여행날짜를 입력해주세요.');
-                    form.size.focus();
+                    form.startDate.focus();
                     return false;
                 }
-                form.end_date.value = form.end_date.value.trim();
-                if (form.end_date.value.length == 0) {
+                form.endDate.value = form.endDate.value.trim();
+                if (form.endDate.value.length == 0) {
                     alert('여행날짜를 입력해주세요.');
-                    form.size.focus();
+                    form.endDate.focus();
                     return false;
                 }
                 form.submit();

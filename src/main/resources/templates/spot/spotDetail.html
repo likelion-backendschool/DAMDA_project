@@ -14,11 +14,11 @@
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner" style="height: 600px;">
                         <div class="carousel-item active">
-                            <img class="d-block w-100" th:src="${imgUrlList[0]}" alt="First slide" style="width: 1000px; height: 900px;">
+                            <img class="d-block w-100" th:src="${imgUrlList[0]}" alt="First slide" style="object-fit: fill;">
                         </div>
                         <th:block th:each="url, index : ${imgUrlList}">
                             <div th:if="${index.index} > 0" class="carousel-item">
-                                <img class="d-block w-100" th:src="${url}" style="width: 1000px; height: 900px;">
+                                <img class="d-block w-100" th:src="${url}" style="object-fit: fill;">
                             </div>
                         </th:block>
                     </div>

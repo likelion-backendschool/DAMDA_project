@@ -11,6 +11,7 @@ import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
+import com.ll.exam.damda.repository.user.UserPlanRepository;
 import com.ll.exam.damda.service.design.chat.ChatService;
 import com.ll.exam.damda.service.design.map.BusketService;
 import com.ll.exam.damda.service.design.map.CourseService;
@@ -35,6 +36,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/travel/design")
 public class PlanController {
+    private final UserPlanRepository userPlanRepository;
     private final BusketService busketService;
     private final ObjectMapper objectMapper;
     private final PlanService planService;
@@ -159,6 +161,8 @@ public class PlanController {
     @GetMapping("/plan/delete/{planId}")
     public String deletePlan(@PathVariable long planId) {
         Plan plan = planService.getPlan(planId);
+        UserPlan userPlan = userPlanRepository.findByPlan(plan);
+        userPlanRepository.delete(userPlan);
         planService.delete(plan);
         return "redirect:/travel/design/plan/list";
     }

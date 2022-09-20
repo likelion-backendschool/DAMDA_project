@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +24,10 @@ public class Plan {
 
     @Column
     private Long size;
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
 
     @CreatedDate
     private LocalDateTime createdDate;

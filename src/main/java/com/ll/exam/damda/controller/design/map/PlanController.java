@@ -274,8 +274,15 @@ public class PlanController {
     }
 
     @GetMapping("/share/invite/{link}")
-    public String planInvite(@PathVariable String link){
-        return "테스트중";
+    public String planInvite(Model model, Principal principal, @PathVariable String link){
+        UserPlan userPlan = userPlanRepository.findByLink(link);
+        planService.createUserPlan(principal.getName(), userPlan);
+
+        String alert = "추가완료";
+        String redirectUri = "/travel/design/plan/list";
+
+        MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.GET, null);
+        return showMessageAndRedirect(message, model);
     }
 
     private String showMessageAndRedirect(final MessageDto params, Model model) {

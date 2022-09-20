@@ -115,4 +115,11 @@ public class PlanService {
         userPlan.setCreateDate(LocalDateTime.now());
         userPlanRepository.save(userPlan);
     }
+
+    public void createUserPlan(String name, UserPlan userPlan1) {
+        UserPlan userPlan = new UserPlan();
+        userPlan.setPlan(userPlan1.getPlan());
+        userPlan.setSiteUser(userService.getUser(name));
+        userPlanRepository.save(userPlan);
+    }
 }

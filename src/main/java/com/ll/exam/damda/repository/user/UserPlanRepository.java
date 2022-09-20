@@ -14,4 +14,6 @@ public interface UserPlanRepository extends JpaRepository<UserPlan, Long> {
     UserPlan findByPlanId(long planId);
 
     UserPlan findByPlan(Plan plan);
+
+    UserPlan findByLink(String link);
 }

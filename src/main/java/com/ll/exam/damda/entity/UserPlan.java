@@ -1,5 +1,6 @@
 package com.ll.exam.damda.entity;
 
+import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.user.SiteUser;
 import lombok.Getter;
@@ -7,6 +8,8 @@ import lombok.Setter;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,4 +27,6 @@ public class UserPlan {
     @JoinColumn(name = "siteUser_id")
     private SiteUser siteUser;
 
+    @OneToOne(mappedBy = "userPlan", cascade = CascadeType.REMOVE)
+    private Invite invite;
 }

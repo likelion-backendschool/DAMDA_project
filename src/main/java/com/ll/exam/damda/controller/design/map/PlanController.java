@@ -59,8 +59,8 @@ public class PlanController {
 
     @PostMapping("/new")
     public String createPlan(@RequestParam(value = "title") String title,
-                             @RequestParam(value = "startDate") LocalDate startDate,
-                             @RequestParam(value = "endDate") LocalDate endDate,
+                             @RequestParam(value = "startDate") String startDate,
+                             @RequestParam(value = "endDate") String endDate,
 //                             @RequestParam(value = "size") long size,
                              @RequestParam(value = "memo") String memo,
                              Principal principal) {

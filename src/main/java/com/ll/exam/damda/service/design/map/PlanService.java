@@ -28,7 +28,9 @@ public class PlanService {
     private final CourseService courseService;
 
 
-    public Plan create(String title, LocalDate startDate, LocalDate endDate, String memo, String name) {
+    public Plan create(String title, String startDateString, String endDateString, String memo, String name) {
+        LocalDate startDate = LocalDate.parse(startDateString);
+        LocalDate endDate = LocalDate.parse(endDateString);
         Period period = Period.between(startDate, endDate);
         long size = (long)(period.getDays() + 1);
         Plan plan = new Plan();

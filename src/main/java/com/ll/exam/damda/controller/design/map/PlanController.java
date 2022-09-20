@@ -3,16 +3,14 @@ package com.ll.exam.damda.controller.design.map;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.exam.damda.config.user.DataNotFoundException;
-import com.ll.exam.damda.dto.user.MailDto;
 import com.ll.exam.damda.dto.user.MessageDto;
 import com.ll.exam.damda.dto.user.SiteUserContext;
+import com.ll.exam.damda.entity.UserPlan;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
-import com.ll.exam.damda.entity.design.chat.ChatRoom;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
-import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.service.design.chat.ChatService;
 import com.ll.exam.damda.service.design.map.BusketService;
 import com.ll.exam.damda.service.design.map.CourseService;
@@ -248,10 +246,20 @@ public class PlanController {
     }
 
     @GetMapping("/share/{planId}")
-    public String planShare(Model model) {
-        String shareLink = "http://localhost:8080/travel/design/share/invite/"+getTempLink();
-        String alert = shareLink;
+    public String planShare(Model model, Principal principal, @PathVariable long planId) {
+        String alert = "소유자만 공유 가능합니다";
         String redirectUri = "/travel/design/plan/list";
+
+        UserPlan userPlan = planService.getUserPlan(planId);
+
+        if (userPlan.getSiteUser().getUsername().equals(principal.getName())){
+            String tempLink = getTempLink();
+            planService.invite(userPlan, tempLink);
+
+            String shareLink = "링크를 공유하세요 : "+"http://localhost:8080/travel/design/share/invite/"+tempLink;
+            alert = shareLink;
+            redirectUri = "/travel/design/plan/list";
+        }
 
         MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.GET, null);
         return showMessageAndRedirect(message, model);

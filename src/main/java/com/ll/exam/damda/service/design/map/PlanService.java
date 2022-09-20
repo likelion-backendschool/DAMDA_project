@@ -12,6 +12,7 @@ import com.ll.exam.damda.repository.user.UserPlanRepository;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class PlanService {
     private final BusketService busketService;
     private final PlanRepository planRepository;
     private final CourseService courseService;
+
 
     public Plan create(String title, long size, String memo, String name) {
         Plan plan = new Plan();
@@ -99,5 +101,14 @@ public class PlanService {
         } else {
             return;
         }
+    }
+
+    public UserPlan getUserPlan(long planId) {
+        return userPlanRepository.findByPlanId(planId);
+    }
+
+    public void invite(UserPlan userPlan, String tempLink) {
+        userPlan.setLink(tempLink);
+        userPlan.setCreateDate(LocalDateTime.now());
     }
 }

@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +28,15 @@ public class PlanService {
     private final CourseService courseService;
 
 
-    public Plan create(String title, long size, String memo, String name) {
+    public Plan create(String title, LocalDate startDate, LocalDate endDate, String memo, String name) {
+        Period period = Period.between(startDate, endDate);
+        long size = (long)(period.getDays() + 1);
         Plan plan = new Plan();
         plan.setTitle(title);
         plan.setCreatedDate(LocalDateTime.now());
         plan.setFirstCreator(name);
+        plan.setStartDate(startDate);
+        plan.setEndDate(endDate);
         plan.setSize(size);
         plan.setMemo(memo);
         planRepository.save(plan);

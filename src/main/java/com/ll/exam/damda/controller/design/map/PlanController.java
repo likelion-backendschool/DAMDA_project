@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.exam.damda.config.user.DataNotFoundException;
 import com.ll.exam.damda.dto.user.MessageDto;
 import com.ll.exam.damda.dto.user.SiteUserContext;
-import com.ll.exam.damda.entity.UserPlan;
+import com.ll.exam.damda.entity.user.UserPlan;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
 import com.ll.exam.damda.entity.design.map.Course;
@@ -17,6 +17,7 @@ import com.ll.exam.damda.service.design.map.CourseService;
 import com.ll.exam.damda.service.design.map.PlanService;
 import com.ll.exam.damda.service.search.spot.SpotService;
 import com.ll.exam.damda.service.user.UserService;
+import com.ll.exam.damda.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -253,11 +254,11 @@ public class PlanController {
         UserPlan userPlan = planService.getUserPlan(planId);
 
         if (userPlan.getSiteUser().getUsername().equals(principal.getName())){
-            String tempLink = getTempLink();
+
+            String tempLink = Util.getRandomText(10);
             planService.invite(userPlan, tempLink);
 
-            String shareLink = "링크를 공유하세요 : "+"http://localhost:8080/travel/design/share/invite/"+tempLink;
-            alert = shareLink;
+            alert = "링크를 공유하세요 : "+"http://localhost:8080/travel/design/share/invite/"+tempLink;
             redirectUri = "/travel/design/plan/list";
         }
 
@@ -273,21 +274,5 @@ public class PlanController {
     private String showMessageAndRedirect(final MessageDto params, Model model) {
         model.addAttribute("params", params);
         return "user/messageRedirect";
-    }
-
-
-    public String getTempLink() {
-        char[] charSet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-
-        String str = "";
-
-        // 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
-        int idx = 0;
-        for (int i = 0; i < 10; i++) {
-            idx = (int) (charSet.length * Math.random());
-            str += charSet[idx];
-        }
-        return str;
     }
 }

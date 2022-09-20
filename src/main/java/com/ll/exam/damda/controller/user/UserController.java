@@ -12,6 +12,7 @@ import com.ll.exam.damda.form.user.UserCreateForm;
 import com.ll.exam.damda.form.user.UserEditForm;
 import com.ll.exam.damda.service.user.MailService;
 import com.ll.exam.damda.service.user.UserService;
+import com.ll.exam.damda.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -153,7 +154,7 @@ public class UserController {
         if (userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail()) != null)
         {
             SiteUser user = userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail());
-            String newPw = userService.getTempPassword();
+            String newPw = Util.getRandomText(10);
             String findPwMsg = "임시 비밀번호는 " + newPw + " 입니다.";
             userService.edit(user,newPw);
 

@@ -1,4 +1,4 @@
-package com.ll.exam.damda.entity;
+package com.ll.exam.damda.entity.user;
 
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.user.SiteUser;

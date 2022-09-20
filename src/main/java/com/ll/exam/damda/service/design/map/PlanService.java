@@ -1,18 +1,13 @@
 package com.ll.exam.damda.service.design.map;
 
-import com.ll.exam.damda.dto.search.spot.SpotDto;
-import com.ll.exam.damda.dto.user.SiteUserContext;
-import com.ll.exam.damda.entity.UserPlan;
+import com.ll.exam.damda.entity.user.UserPlan;
 import com.ll.exam.damda.entity.design.map.Busket;
-import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
-import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.design.map.PlanRepository;
 import com.ll.exam.damda.repository.user.UserPlanRepository;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -110,5 +105,6 @@ public class PlanService {
     public void invite(UserPlan userPlan, String tempLink) {
         userPlan.setLink(tempLink);
         userPlan.setCreateDate(LocalDateTime.now());
+        userPlanRepository.save(userPlan);
     }
 }

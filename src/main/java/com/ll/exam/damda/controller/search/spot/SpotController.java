@@ -2,28 +2,20 @@ package com.ll.exam.damda.controller.search.spot;
 
 import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.dto.user.SiteUserContext;
-import com.ll.exam.damda.entity.UserPlan;
-import com.ll.exam.damda.entity.design.map.Busket;
-import com.ll.exam.damda.entity.user.SiteUser;
-import com.ll.exam.damda.repository.design.map.BusketRepository;
+import com.ll.exam.damda.entity.user.UserPlan;
 import com.ll.exam.damda.repository.user.UserPlanRepository;
-import com.ll.exam.damda.service.design.map.PlanService;
 import com.ll.exam.damda.service.search.spot.SpotService;
-import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @PreAuthorize("isAuthenticated()")

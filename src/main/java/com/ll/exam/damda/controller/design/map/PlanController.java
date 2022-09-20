@@ -3,22 +3,21 @@ package com.ll.exam.damda.controller.design.map;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.exam.damda.config.user.DataNotFoundException;
-import com.ll.exam.damda.dto.user.MailDto;
 import com.ll.exam.damda.dto.user.MessageDto;
 import com.ll.exam.damda.dto.user.SiteUserContext;
+import com.ll.exam.damda.entity.user.UserPlan;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
-import com.ll.exam.damda.entity.design.chat.ChatRoom;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
-import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.service.design.chat.ChatService;
 import com.ll.exam.damda.service.design.map.BusketService;
 import com.ll.exam.damda.service.design.map.CourseService;
 import com.ll.exam.damda.service.design.map.PlanService;
 import com.ll.exam.damda.service.search.spot.SpotService;
 import com.ll.exam.damda.service.user.UserService;
+import com.ll.exam.damda.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,6 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -59,10 +59,12 @@ public class PlanController {
 
     @PostMapping("/new")
     public String createPlan(@RequestParam(value = "title") String title,
-                             @RequestParam(value = "size") long size,
+                             @RequestParam(value = "startDate") String startDate,
+                             @RequestParam(value = "endDate") String endDate,
+//                             @RequestParam(value = "size") long size,
                              @RequestParam(value = "memo") String memo,
                              Principal principal) {
-        Plan plan = planService.create(title, size, memo, principal.getName());
+        Plan plan = planService.create(title, startDate, endDate, memo, principal.getName());
         /* 플래너 생성시 채팅방 생성 */
         chatService.createRoom(plan);
         return "redirect:/travel/design/modification/%d?order=%d".formatted(plan.getId(), 1);
@@ -248,10 +250,20 @@ public class PlanController {
     }
 
     @GetMapping("/share/{planId}")
-    public String planShare(Model model) {
-        String shareLink = "http://localhost:8080/travel/design/share/invite/"+getTempLink();
-        String alert = shareLink;
+    public String planShare(Model model, Principal principal, @PathVariable long planId) {
+        String alert = "소유자만 공유 가능합니다";
         String redirectUri = "/travel/design/plan/list";
+
+        UserPlan userPlan = planService.getUserPlan(planId);
+
+        if (userPlan.getSiteUser().getUsername().equals(principal.getName())){
+
+            String tempLink = Util.getRandomText(10);
+            planService.invite(userPlan, tempLink);
+
+            alert = "링크를 공유하세요 : "+"http://localhost:8080/travel/design/share/invite/"+tempLink;
+            redirectUri = "/travel/design/plan/list";
+        }
 
         MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.GET, null);
         return showMessageAndRedirect(message, model);
@@ -265,21 +277,5 @@ public class PlanController {
     private String showMessageAndRedirect(final MessageDto params, Model model) {
         model.addAttribute("params", params);
         return "user/messageRedirect";
-    }
-
-
-    public String getTempLink() {
-        char[] charSet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-
-        String str = "";
-
-        // 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 구문을 작성함
-        int idx = 0;
-        for (int i = 0; i < 10; i++) {
-            idx = (int) (charSet.length * Math.random());
-            str += charSet[idx];
-        }
-        return str;
     }
 }

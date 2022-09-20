@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ class ChatServiceTest {
     @DisplayName("대화방 저장 테스트")
     @Rollback(false)
     void createRoom() {
-        Plan plan = planService.create("테스트 계획", 3, "테스트", "사용자");
+        Plan plan = planService.create("테스트 계획", "2022-10-10", "2022-10-15", "테스트", "사용자");
         chatRoomRepository.save(ChatRoom.builder()
                 .plan(plan)
                 .roomTitle("테스트 대화방")
@@ -56,7 +57,7 @@ class ChatServiceTest {
     @DisplayName("메시지 저장 테스트")
     @Rollback(false)
     void saveChatMessage() {
-        Plan plan = planService.create("테스트 계획", 3, "테스트", "사용자");
+        Plan plan = planService.create("테스트 계획", "2022-10-10", "2022-10-15", "테스트", "사용자");
         ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.builder()
                 .plan(plan)
                 .roomTitle("테스트 대화방")
@@ -73,7 +74,7 @@ class ChatServiceTest {
     @DisplayName("계획 아이디로 채팅방 가져오기")
     @Rollback(false)
     void getChatRoom() {
-        Plan plan = planService.create("테스트 계획", 3, "테스트", "사용자");
+        Plan plan = planService.create("테스트 계획", "2022-10-10", "2022-10-15", "테스트", "사용자");
         chatRoomRepository.save(ChatRoom.builder()
                 .plan(plan)
                 .roomTitle(plan.getTitle())

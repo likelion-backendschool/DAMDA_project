@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface UserPlanRepository extends JpaRepository<UserPlan, Long> {
     List<UserPlan> findBySiteUserId(long siteUserId);
+
+    UserPlan findByPlanId(long planId);
 }

@@ -1,6 +1,6 @@
 package com.ll.exam.damda.entity.design.map;
 
-import com.ll.exam.damda.entity.UserPlan;
+import com.ll.exam.damda.entity.user.UserPlan;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;

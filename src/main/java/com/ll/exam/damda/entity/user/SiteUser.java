@@ -2,11 +2,9 @@ package com.ll.exam.damda.entity.user;
 
 import javax.persistence.*;
 
-import com.ll.exam.damda.entity.UserPlan;
 import com.ll.exam.damda.entity.search.Review;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Set;

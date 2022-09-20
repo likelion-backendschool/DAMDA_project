@@ -3,7 +3,7 @@ package com.ll.exam.damda.controller.search.spot;
 import com.ll.exam.damda.HttpUtil;
 import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.dto.user.SiteUserContext;
-import com.ll.exam.damda.entity.UserPlan;
+import com.ll.exam.damda.entity.user.UserPlan;
 import com.ll.exam.damda.repository.user.UserPlanRepository;
 import com.ll.exam.damda.service.search.spot.SpotService;
 import lombok.RequiredArgsConstructor;

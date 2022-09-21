@@ -2,6 +2,7 @@ package com.ll.exam.damda.dto.design.chat;
 
 import com.ll.exam.damda.entity.design.chat.ChatMessage;
 import com.ll.exam.damda.entity.design.chat.ChatRoom;
+import com.ll.exam.damda.entity.user.SiteUser;
 import lombok.*;
 
 @Getter
@@ -17,10 +18,10 @@ public class ChatMessageDto {
     //내용
     private String content;
 
-    public ChatMessage toEntity(ChatRoom chatRoom) {
+    public ChatMessage toEntity(ChatRoom chatRoom, SiteUser user) {
         return ChatMessage.builder()
                 .chatRoom(chatRoom)
-                .userId(user)
+                .user(user)
                 .content(content)
                 .build();
     }

@@ -19,7 +19,7 @@
             <td>
                 <a th:href="@{|/review/show/${review.id}|}" th:text="${review.title}"></a>
             </td>
-            <td th:text="${#temporals.format(review.start_date, 'yy-MM-dd HH:mm')}"></td>
+            <td th:text="${#temporals.format(review.firstCreatedDate, 'yy-MM-dd HH:mm')}"></td>
         </tr>
         </tbody>
     </table>

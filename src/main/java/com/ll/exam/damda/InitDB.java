@@ -72,8 +72,8 @@ public class InitDB {
                     Review review = Review.builder()
                             .title("good")
                             .content("so fun")
-                            .startDate(LocalDateTime.of(2022, Month.APRIL, 1, 0, 0))
-                            .endDate(LocalDateTime.of(2022, Month.APRIL, 2, 0, 0))
+                            .firstCreatedDate(LocalDateTime.of(2022, Month.APRIL, 1, 0, 0))
+                            .lastModifiedDate(LocalDateTime.of(2022, Month.APRIL, 2, 0, 0))
                             .build();
                     review.setSpot(spot);
                     em.persist(review);

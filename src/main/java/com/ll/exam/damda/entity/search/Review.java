@@ -25,26 +25,17 @@ public class Review {
     @Column(name = "review_content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "review_travel_start_date")
-    private LocalDateTime startDate;
-
-    @Column(name = "review_travel_end_date")
-    private LocalDateTime endDate;
-
     @Column(name = "review_first_created_date")
-    private LocalDateTime first_created_date;
+    private LocalDateTime firstCreatedDate;
 
     @Column(name = "review_last_created_date")
-    private LocalDateTime last_created_date;
+    private LocalDateTime lastModifiedDate;
 
     @Column(name = "review_first_creater")
-    private String first_creater;
+    private String firstCreater;
 
     @Column(name = "review_last_creater")
-    private String last_creater;
-
-    @Column(name = "countLike")
-    private Long countLike;
+    private String lastCreater;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id")

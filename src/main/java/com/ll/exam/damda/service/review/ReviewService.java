@@ -34,7 +34,7 @@ public class ReviewService {
         Review review = new Review();
         review.setTitle(title);
         review.setContent(content);
-        review.setStartDate(LocalDateTime.now());
+        review.setFirstCreatedDate(LocalDateTime.now());
         reviewRepository.save(review);
     }
 

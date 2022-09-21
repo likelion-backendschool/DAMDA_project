@@ -12,13 +12,14 @@ import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.repository.user.UserPlanRepository;
+import com.ll.exam.damda.repository.user.UserRepository;
 import com.ll.exam.damda.service.design.chat.ChatService;
 import com.ll.exam.damda.service.design.map.BusketService;
 import com.ll.exam.damda.service.design.map.CourseService;
 import com.ll.exam.damda.service.design.map.PlanService;
 import com.ll.exam.damda.service.search.spot.SpotService;
+import com.ll.exam.damda.service.user.UserSecurityService;
 import com.ll.exam.damda.service.user.UserService;
-import com.ll.exam.damda.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,8 +29,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.util.List;
+
+import static com.ll.exam.damda.util.Util.getRandomText;
+import static com.ll.exam.damda.util.Util.showMessageAndRedirect;
 
 @Controller
 @PreAuthorize("isAuthenticated()")
@@ -43,6 +46,7 @@ public class PlanController {
     private final CourseService courseService;
     private final SpotService spotService;
     private final ChatService chatService;
+    private final UserRepository userRepository;
     private final UserService userService;
 
     //플래너 리스트
@@ -260,13 +264,12 @@ public class PlanController {
 
         UserPlan userPlan = planService.getUserPlan(planId);
 
-        if (userPlan.getSiteUser().getUsername().equals(principal.getName())){
+        if (userPlan.getSiteUser().getUsername().equals(principal.getName())) {
 
-            String tempLink = Util.getRandomText(10);
+            String tempLink = getRandomText(10);
             planService.invite(userPlan, tempLink);
 
-            alert = "링크를 공유하세요 : "+"http://localhost:8080/travel/design/share/invite/"+tempLink;
-            redirectUri = "/travel/design/plan/list";
+            alert = "링크를 공유하세요 : " + "http://localhost:8080/travel/design/share/invite/" + tempLink;
         }
 
         MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.GET, null);
@@ -274,19 +277,20 @@ public class PlanController {
     }
 
     @GetMapping("/share/invite/{link}")
-    public String planInvite(Model model, Principal principal, @PathVariable String link){
-        UserPlan userPlan = userPlanRepository.findByLink(link);
-        planService.createUserPlan(principal.getName(), userPlan);
-
-        String alert = "추가완료";
+    public String planInvite(Model model, Principal principal, @PathVariable String link) {
+        String alert = "이미 추가되어 있거나 링크가 유효하지 않습니다";
         String redirectUri = "/travel/design/plan/list";
+
+//        userPlanRepository.existsByUserIdAndPlanId(userService.getUser(principal.getName())) == null
+        if (userPlanRepository.findByLink(link) != null) {
+            UserPlan userPlan = userPlanRepository.findByLink(link);
+            if (userPlanRepository.findBySiteUserIdAndPlanId(userService.getUserId(userService.getUser(principal.getName())), userPlan.getPlan().getId()) == null) {
+                alert = "추가완료";
+                planService.createUserPlan(principal.getName(), userPlan);
+            }
+        }
 
         MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.GET, null);
         return showMessageAndRedirect(message, model);
-    }
-
-    private String showMessageAndRedirect(final MessageDto params, Model model) {
-        model.addAttribute("params", params);
-        return "user/messageRedirect";
     }
 }

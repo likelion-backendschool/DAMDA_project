@@ -110,6 +110,10 @@ public class PlanService {
         return userPlanRepository.findByPlanId(planId);
     }
 
+    public UserPlan getUserPlan(long siteUserId, long planId) {
+        return userPlanRepository.findBySiteUserIdAndPlanId(siteUserId, planId);
+    }
+
     public void invite(UserPlan userPlan, String tempLink) {
         userPlan.setLink(tempLink);
         userPlan.setCreateDate(LocalDateTime.now());

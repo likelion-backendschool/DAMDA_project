@@ -262,7 +262,7 @@ public class PlanController {
         String alert = "소유자만 공유 가능합니다";
         String redirectUri = "/travel/design/plan/list";
 
-        UserPlan userPlan = planService.getUserPlan(planId);
+        UserPlan userPlan = planService.getUserPlan(userService.getUserId(userService.getUser(principal.getName())), planId);
 
         if (userPlan.getSiteUser().getUsername().equals(principal.getName())) {
 
@@ -281,7 +281,7 @@ public class PlanController {
         String alert = "이미 추가되어 있거나 링크가 유효하지 않습니다";
         String redirectUri = "/travel/design/plan/list";
 
-//        userPlanRepository.existsByUserIdAndPlanId(userService.getUser(principal.getName())) == null
+
         if (userPlanRepository.findByLink(link) != null) {
             UserPlan userPlan = userPlanRepository.findByLink(link);
             if (userPlanRepository.findBySiteUserIdAndPlanId(userService.getUserId(userService.getUser(principal.getName())), userPlan.getPlan().getId()) == null) {

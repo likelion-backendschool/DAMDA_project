@@ -185,7 +185,7 @@ function getBusket(plan_id) {
         success: function (spot) {
             console.log(spot);
             const html = `
-                        <div class="p-2 border-bottom border-1 my-1">
+                        <div class="p-2 border-bottom border-1 my-1" style="width:200px;">
                         <a class="font-weight-bold" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>${spot.name}</a>
                         <br>
                         <span class="mb-1">${spot.address}</span>

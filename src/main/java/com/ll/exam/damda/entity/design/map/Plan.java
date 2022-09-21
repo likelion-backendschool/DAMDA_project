@@ -1,5 +1,6 @@
 package com.ll.exam.damda.entity.design.map;
 
+import com.ll.exam.damda.entity.design.chat.ChatRoom;
 import com.ll.exam.damda.entity.user.UserPlan;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,6 +50,9 @@ public class Plan {
 
     @OneToMany(mappedBy = "plan")
     private Set<UserPlan> userPlanSet;
+
+    @OneToOne(mappedBy = "plan", cascade = CascadeType.REMOVE)
+    private ChatRoom chatRoom;
 
 //    @ManyToOne
 //    private SiteUser siteUser;

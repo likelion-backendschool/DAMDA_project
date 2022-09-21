@@ -110,9 +110,20 @@ public class PlanService {
         return userPlanRepository.findByPlanId(planId);
     }
 
+    public UserPlan getUserPlan(long siteUserId, long planId) {
+        return userPlanRepository.findBySiteUserIdAndPlanId(siteUserId, planId);
+    }
+
     public void invite(UserPlan userPlan, String tempLink) {
         userPlan.setLink(tempLink);
         userPlan.setCreateDate(LocalDateTime.now());
+        userPlanRepository.save(userPlan);
+    }
+
+    public void createUserPlan(String name, UserPlan userPlan1) {
+        UserPlan userPlan = new UserPlan();
+        userPlan.setPlan(userPlan1.getPlan());
+        userPlan.setSiteUser(userService.getUser(name));
         userPlanRepository.save(userPlan);
     }
 }

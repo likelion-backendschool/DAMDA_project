@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.Principal;
 
+import static com.ll.exam.damda.util.Util.*;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/user")
@@ -154,7 +156,7 @@ public class UserController {
         if (userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail()) != null)
         {
             SiteUser user = userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail());
-            String newPw = Util.getRandomText(10);
+            String newPw = getRandomText(10);
             String findPwMsg = "임시 비밀번호는 " + newPw + " 입니다.";
             userService.edit(user,newPw);
 
@@ -170,16 +172,5 @@ public class UserController {
 
         MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.POST, null);
         return showMessageAndRedirect(message, model);
-    }
-
-    // 사용자에게 메시지를 전달하고, 페이지를 리다이렉트 한다.
-    private String showMessageAndRedirect(final MessageDto params, Model model) {
-        model.addAttribute("params", params);
-        return "user/messageRedirect";
-    }
-
-    // 3자리 이후 마스킹
-    private String masking(String str){
-        return str.replaceAll("(?<=.{3}).(?=.*)", "*");
     }
 }

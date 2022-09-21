@@ -1,43 +1,82 @@
 <html layout:decorate="~{layout/layout}">
+<!--캘린더css, js-->
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/calendar-15/fonts/icomoon/style.css}">
+<link rel="stylesheet" th:href="@{/calendar-15/css/rome.css}">
+<!-- Bootstrap CSS -->
+<!--<link rel="stylesheet" th:href="@{/calendar-15/css/bootstrap.min.css}">-->
+<!-- Style -->
+<link rel="stylesheet" th:href="@{/calendar-15/css/style.css}">
+<!--캘린더css, js-->
 <div layout:fragment="content">
-  <script>
-    function submitForm(form) {
-      form.title.value = form.title.value.trim();
-      if (form.title.value.length == 0) {
-        alert('여행이름을 입력해주세요.');
-        form.title.focus();
-        return false;
-      }
-      form.size.value = form.size.value.trim();
-      if (form.size.value.length == 0) {
-        alert('여행일수를 입력해주세요.');
-        form.size.focus();
-        return false;
-      }
-      form.submit();
-    }
-  </script>
-  <div class="justify-content-center container w-75">
-    <form onsubmit="submitForm(this); return false;" th:action="@{|/travel/design/modification/basic/${plan.id}|}" method="post"
-          class="card card mt-2 w-100">
-      <div class="m-auto w-100">
-        <div class="input-group m-3 w-75">
-          <span class="input-group-text text-black" id="inputGroup-sizing-lg">여행이름</span>
-          <input type="text" name="title" th:field="*{plan.title}" id="title" class="form-control" aria-label="Sizing example input"
-                 aria-describedby="inputGroup-sizing-default">
+    <div class="justify-content-center container align-items-center w-75">
+
+        <script>
+            function submitForm(form) {
+                form.title.value = form.title.value.trim();
+                if (form.title.value.length == 0) {
+                    alert('여행이름을 입력해주세요.');
+                    form.title.focus();
+                    return false;
+                }
+                form.startDate.value = form.startDate.value.trim();
+                if (form.startDate.value.length == 0) {
+                    alert('여행날짜를 입력해주세요.');
+                    form.startDate.focus();
+                    return false;
+                }
+                form.endDate.value = form.endDate.value.trim();
+                if (form.endDate.value.length == 0) {
+                    alert('여행날짜를 입력해주세요.');
+                    form.endDate.focus();
+                    return false;
+                }
+                form.submit();
+            }
+        </script>
+        <div class="justify-content-center container w-75">
+            <form onsubmit="submitForm(this); return false;"
+                  th:action="@{|/travel/design/modification/basic/${plan.id}|}"
+                  method="post"
+                  class="card card mt-2 w-100">
+                <div class="m-auto w-100">
+                    <div class="input-group m-3 w-75">
+                        <span class="input-group-text text-black" id="inputGroup-sizing-lg">여행이름</span>
+                        <input type="text" name="title" th:field="*{plan.title}" id="title" class="form-control"
+                               aria-label="Sizing example input"
+                               aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <div class="input-group m-3 w-75">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="input_from">From</label>
+                                <input type="text" class="form-control" th:field="*{plan.startDate}" id="input_from" name="startDate" placeholder="Start Date">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="input_from">To</label>
+                                <input type="text" class="form-control" th:field="*{plan.endDate}" id="input_to" name="endDate" placeholder="End Date">
+                            </div>
+                        </div>
+                        <!--                    <script th:src="@{/calendar-15/js/jquery-3.3.1.min.js}"></script>-->
+                        <script th:src="@{/calendar-15/js/popper.min.js}"></script>
+                        <!--                    <script th:src="@{/calendar-15/js/bootstrap.min.js}"></script>-->
+                        <script th:src="@{/calendar-15/js/rome.js}"></script>
+                        <script th:src="@{/calendar-15/js/main.js}"></script>
+                        <!--                    <input name="size" id="size" type="text" class="form-control" aria-label="Sizing example input"-->
+                        <!--                           aria-describedby="inputGroup-sizing-default">-->
+                    </div>
+                    <div class="input-group m-3 w-75">
+                        <span class="input-group-text text-black">Memo</span>
+                        <textarea class="form-control" name="memo" id="memo" th:field="*{plan.memo}"
+                                  aria-label="With textarea"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary m-3 w-75">저장</button>
+                </div>
+            </form>
         </div>
-        <div class="input-group m-3 w-75">
-          <span class="input-group-text text-black" id="inputGroup-sizing-default">여행일수</span>
-          <input name="size" th:field="*{plan.size}" id="size" type="text" class="form-control" aria-label="Sizing example input"
-                 aria-describedby="inputGroup-sizing-default">
-        </div>
-        <div class="input-group m-3 w-75">
-          <span class="input-group-text text-black">Memo</span>
-          <textarea class="form-control" name="memo" id="memo" th:field="*{plan.memo}" aria-label="With textarea"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary m-3 w-75">저장</button>
-      </div>
-    </form>
-  </div>
+    </div>
 </div>
 </html>

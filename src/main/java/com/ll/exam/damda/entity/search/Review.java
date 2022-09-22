@@ -31,12 +31,6 @@ public class Review {
     @Column(name = "review_last_created_date")
     private LocalDateTime lastModifiedDate;
 
-    @Column(name = "review_first_creater")
-    private String firstCreater;
-
-    @Column(name = "review_last_creater")
-    private String lastCreater;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id")
     private Spot spot;
@@ -73,7 +67,4 @@ public class Review {
         return tagInfo;
     }
 
-
-    @ManyToOne
-    private SiteUser author;
 }

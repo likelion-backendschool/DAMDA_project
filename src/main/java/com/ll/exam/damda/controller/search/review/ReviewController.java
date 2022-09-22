@@ -37,9 +37,19 @@ public class ReviewController {
         return "review/readReview";
     }
 
+
+    @GetMapping("/review/show/{id}")
+    public String detail(Model model, @PathVariable long id, ReviewForm reviewForm) {
+        Review review = reviewService.getReview(id);
+
+        model.addAttribute("review", review);
+
+        return "review/readReview";
+    }
+
     /*@PreAuthorize("isAuthenticated()")*/
     @GetMapping("/review/modify/{id}")
-    public String reviewModify(ReviewForm reviewForm, @PathVariable("id") long id) {
+    public String reviewModify(Principal principal, ReviewForm reviewForm, @PathVariable("id") long id) {
         //, Principal principal
         Review review = this.reviewService.getReview(id);
 
@@ -47,11 +57,11 @@ public class ReviewController {
             throw new DataNotFoundException("해당 질문은 존재하지 않습니다.");
         }
 
-        /*
-        if(!review.getAuthor().getUsername().equals(principal.getName())) {
+
+        if(!review.getSiteUser().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
-        */
+
         reviewForm.setTitle(review.getTitle());
         reviewForm.setContent(review.getContent());
 
@@ -59,8 +69,8 @@ public class ReviewController {
     }
 
     @PostMapping("/review/modify/{id}")
-    public String reviewModify(@Valid ReviewForm reviewForm, BindingResult bindingResult, @PathVariable("id") long id) {
-        //Principal principal,
+    public String reviewModify(Principal principal, @Valid ReviewForm reviewForm, BindingResult bindingResult, @PathVariable("id") long id) {
+
         if (bindingResult.hasErrors()) {
             return "review/createReview";
         }
@@ -71,11 +81,11 @@ public class ReviewController {
         }
 
 
-        /*
-        if (!review.getAuthor().getUsername().equals(principal.getName())) {
+
+        if (!review.getSiteUser().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
-        */
+
         reviewService.modify(review, reviewForm.getTitle(), reviewForm.getContent());
 
         return String.format("redirect:/review/show/%s", id);
@@ -89,28 +99,12 @@ public class ReviewController {
     }
 
     @RequestMapping("/review/myList")
-    public String myList(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<Review> paging = reviewService.getList(page);
+    public String myList(Principal principal, Model model, @RequestParam(defaultValue = "0") int page) {
+        String name = principal.getName();
+        Page<Review> paging = reviewService.getListByUser(name, page);
         model.addAttribute("paging", paging);
 
         return "review/myReviewList";
-    }
-/*
-    @RequestMapping("/review/list")
-    public String list(Model model, int user_id, @RequestParam(defaultValue = "0") int page) {
-        Page<Review> paging = reviewService.getListByUser(user_id, page);
-        model.addAttribute("paging", paging);
-
-        return "review/reviewList";
-    }
-*/
-    @GetMapping("/review/show/{id}")
-    public String detail(Model model, @PathVariable long id, ReviewForm reviewForm) {
-        Review review = reviewService.getReview(id);
-
-        model.addAttribute("review", review);
-
-        return "review/readReview";
     }
 
 
@@ -142,9 +136,9 @@ public class ReviewController {
             throw new DataNotFoundException("%d번 질문은 존재하지 않습니다.");
         }
 
-        /*if (!review.getAuthor().getUsername().equals(principal.getName())) {
+        if (!review.getSiteUser().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
-        }*/
+        }
 
         reviewService.delete(review);
 

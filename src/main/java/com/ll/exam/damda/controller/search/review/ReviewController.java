@@ -87,6 +87,14 @@ public class ReviewController {
 
         return "review/reviewList";
     }
+
+    @RequestMapping("/review/myList")
+    public String myList(Model model, @RequestParam(defaultValue = "0") int page) {
+        Page<Review> paging = reviewService.getList(page);
+        model.addAttribute("paging", paging);
+
+        return "review/myReviewList";
+    }
 /*
     @RequestMapping("/review/list")
     public String list(Model model, int user_id, @RequestParam(defaultValue = "0") int page) {

@@ -10,6 +10,7 @@
         <tr>
             <th>번호</th>
             <th>제목</th>
+            <th>여행지</th>
             <th>작성일시</th>
         </tr>
         </thead>
@@ -18,6 +19,9 @@
             <td th:text="${paging.number * paging.size+loop.index+1} "></td>
             <td>
                 <a th:href="@{|/review/show/${review.id}|}" th:text="${review.title}"></a>
+            </td>
+            <td>
+                <span th:text="${review.spot?.name}"></span>
             </td>
             <td th:text="${#temporals.format(review.firstCreatedDate, 'yy-MM-dd')}"></td>
         </tr>

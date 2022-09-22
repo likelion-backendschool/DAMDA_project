@@ -6,10 +6,7 @@ import com.ll.exam.damda.config.user.SignupUsernameDuplicatedException;
 import com.ll.exam.damda.dto.user.MailDto;
 import com.ll.exam.damda.dto.user.MessageDto;
 import com.ll.exam.damda.entity.user.SiteUser;
-import com.ll.exam.damda.form.user.FindIdForm;
-import com.ll.exam.damda.form.user.FindPwForm;
-import com.ll.exam.damda.form.user.UserCreateForm;
-import com.ll.exam.damda.form.user.UserEditForm;
+import com.ll.exam.damda.form.user.*;
 import com.ll.exam.damda.service.user.MailService;
 import com.ll.exam.damda.service.user.UserService;
 import com.ll.exam.damda.util.Util;
@@ -82,19 +79,46 @@ public class UserController {
     public String mypage(Principal principal, UserEditForm userEditForm) {
         SiteUser siteUser = userService.getUser(principal.getName());
 
+        // 소셜 로그인
+        if (!siteUser.getMethod().equals("d")) {
+            userEditForm.setNickname(siteUser.getNickname());
+            userEditForm.setEmail(siteUser.getEmail());
+            userEditForm.setPassword("****");
+            userEditForm.setPassword_check("****");
+            return "user/my_page_form";
+        }
+
+        // 소셜 로그인 x
         userEditForm.setNickname(siteUser.getNickname());
         userEditForm.setEmail(siteUser.getEmail());
-
         return "user/my_page_form";
     }
 
     @PostMapping("/my_page")
     public String mypage(Principal principal, Model model, @Valid UserEditForm userEditForm, BindingResult bindingResult) {
+        SiteUser siteUser = userService.getUser(principal.getName());
+
+        // 소셜 로그인
+        if (!siteUser.getMethod().equals("d")) {
+            if (bindingResult.hasErrors()) {
+                return "user/my_page_form";
+            }
+            try {
+                userService.edit(siteUser, userEditForm.getNickname());
+            }  catch (SignupNicknameDuplicatedException e) {
+                bindingResult.reject("signupNicknameDuplicated", e.getMessage());
+                return "user/my_page_form";
+            }
+
+            MessageDto message = new MessageDto("정보 변경이 완료되었습니다.", "/user/my_page", RequestMethod.POST, null);
+            return showMessageAndRedirect(message, model);
+        }
+
+
+        // 소셜 로그인 x
         if (bindingResult.hasErrors()) {
             return "user/my_page_form";
         }
-        SiteUser siteUser = userService.getUser(principal.getName());
-
         if (!userEditForm.getPassword().equals(userEditForm.getPassword_check())) {
             bindingResult.rejectValue("password_check", "passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
@@ -107,7 +131,7 @@ public class UserController {
             bindingResult.reject("signupEmailDuplicated", e.getMessage());
             return "user/my_page_form";
         } catch (SignupNicknameDuplicatedException e) {
-            bindingResult.reject("signupUsernameDuplicated", e.getMessage());
+            bindingResult.reject("signupNicknameDuplicated", e.getMessage());
             return "user/my_page_form";
         } catch (SignupUsernameDuplicatedException e) {
             bindingResult.reject("signupUsernameDuplicated", e.getMessage());
@@ -130,8 +154,7 @@ public class UserController {
         }
         String alert = "일치하는 아이디를 찾을 수 없습니다.";
         String redirectUri = "/user/find_id";
-        if (userService.getUserRepository().findByEmail(findIdForm.getEmail()) != null)
-        {
+        if (userService.getUserRepository().findByEmail(findIdForm.getEmail()) != null) {
             String findId = userService.getUserRepository().findByEmail(findIdForm.getEmail()).getUsername();
             alert = "아이디는 " + masking(findId) + "입니다.";
             redirectUri = "/user/login";
@@ -153,12 +176,11 @@ public class UserController {
 
         String alert = "일치하는 아이디를 찾을 수 없습니다.";
         String redirectUri = "/user/find_pw";
-        if (userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail()) != null)
-        {
+        if (userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail()) != null) {
             SiteUser user = userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail());
             String newPw = getRandomText(10);
             String findPwMsg = "임시 비밀번호는 " + newPw + " 입니다.";
-            userService.edit(user,newPw);
+            userService.edit_password(user, newPw);
 
             MailDto mailDto = new MailDto();
             mailDto.setAddress(findPwForm.getEmail());

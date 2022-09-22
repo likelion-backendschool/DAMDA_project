@@ -12,6 +12,8 @@
 </head>
 <div layout:fragment="content" class="mt-3 container justify-content-around"
      style="width: 95%; min-height: 100%; position:relative;">
+    <input type="hidden" name="plan_id" th:value="${plan.id}">
+    <input type="hidden" name="plan_size" th:value="${plan.size}">
     <input type="hidden" name="course" th:value="${course}">
     <button onclick="spotsPrint();">testbutton</button>
     <!--제목과 수정, 삭제 버튼-->
@@ -57,10 +59,7 @@
                 <script type="text/javascript"
                         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3398f87064ef2d4f364684990589c167&libraries=services"></script>
                 <script th:inline="javascript">
-                    var spots = [[${spotList}]];
-                    function spotsPrint() {
-                        alert(spots);
-                    }
+
                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
                         mapOption = {
                             center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -123,92 +122,58 @@
                 <!--지도 끝-->
             </div>
         </div>
-<!--        <div class="content">-->
-            <div style="width: 45%;" id='calendar'></div>
-        </div>
+        <!--        <div class="content">-->
+        <div style="width: 45%;" id='calendar'></div>
+    </div>
 
-        <!--            <script th:src="@{/calendar-19/js/jquery-3.3.1.min.js}"></script>-->
-        <script th:src="@{/calendar-19/js/popper.min.js}"></script>
-        <!--            <script th:src="@{calendar-19/js/bootstrap.min.js}"></script>-->
+    <!--            <script th:src="@{/calendar-19/js/jquery-3.3.1.min.js}"></script>-->
+    <script th:src="@{/calendar-19/js/popper.min.js}"></script>
+    <!--            <script th:src="@{calendar-19/js/bootstrap.min.js}"></script>-->
 
-        <script th:src='@{/calendar-19/fullcalendar/packages/core/main.js}'></script>
-        <script th:src='@{/calendar-19/fullcalendar/packages/interaction/main.js}'></script>
-        <script th:src='@{/calendar-19/fullcalendar/packages/daygrid/main.js}'></script>
+    <script th:src='@{/calendar-19/fullcalendar/packages/core/main.js}'></script>
+    <script th:src='@{/calendar-19/fullcalendar/packages/interaction/main.js}'></script>
+    <script th:src='@{/calendar-19/fullcalendar/packages/daygrid/main.js}'></script>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var calendarEl = document.getElementById('calendar');
+    <script th:inline="javascript">
+        var plan_id = $('input[name=plan_id]').val();
+        var plan_size = $('input[name=plan_size]').val();
+        var spots = [[${spotList}]];
+        var size = plan_size;
 
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    plugins: ['interaction', 'dayGrid'],
-                    defaultDate: Date.now(),
-                    editable: true,
-                    eventLimit: true, // allow "more" link when too many events
-                    events: [
-                        {
-                            title: 'TODAY',
-                            start: Date.now()
-                        },
-                        {
-                            title: 'Long Event',
-                            start: '2020-02-07',
-                            end: '2020-02-10'
-                        },
-                        {
-                            groupId: 999,
-                            title: 'Repeating Event',
-                            start: '2020-02-09T16:00:00'
-                        },
-                        {
-                            groupId: 999,
-                            title: 'Repeating Event',
-                            start: '2020-02-16T16:00:00'
-                        },
-                        {
-                            title: 'Conference',
-                            start: '2020-02-11',
-                            end: '2020-02-13'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2020-02-12T10:30:00',
-                            end: '2020-02-12T12:30:00'
-                        },
-                        {
-                            title: 'Lunch',
-                            start: '2020-02-12T12:00:00'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2020-02-12T14:30:00'
-                        },
-                        {
-                            title: 'Happy Hour',
-                            start: '2020-02-12T17:30:00'
-                        },
-                        {
-                            title: 'Dinner',
-                            start: '2020-02-12T20:00:00'
-                        },
-                        {
-                            title: 'Birthday Party',
-                            start: '2020-02-13T07:00:00'
-                        },
-                        {
-                            title: 'Click for Google',
-                            url: 'http://google.com/',
-                            start: '2022-09-28'
-                        }
-                    ]
-                });
+        function spotsPrint() {
+            console.log('planId : ' + plan_id,
+                'size : ' + size,
+                'spots : ' + spots);
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var eventList = [
+                {
+                    title: 'TODAY',
+                    start: Date.now()
+                },
 
-                calendar.render();
+                {
+                    title: 'Click for Google',
+                    url: 'http://google.com/',
+                    start: '2022-09-28'
+                }
+            ]
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid'],
+                defaultDate: Date.now(),
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: eventList
             });
 
-        </script>
+            calendar.render();
+        });
 
-        <script th:src="@{/calendar-19/js/main.js}"></script>
+    </script>
 
-<!--    </div>-->
+    <script th:src="@{/calendar-19/js/main.js}"></script>
+
+    <!--    </div>-->
 </div>
 </html>

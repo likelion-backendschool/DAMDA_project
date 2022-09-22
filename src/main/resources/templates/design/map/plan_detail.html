@@ -1,18 +1,19 @@
 <html layout:decorate="~{layout/layout}">
 <head>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" th:href="@{/calendar-19/fonts/icomoon/style.css}">
-<link th:href='@{/calendar-19/fullcalendar/packages/core/main.css}' rel='stylesheet' />
-<link th:href='@{/calendar-19/fullcalendar/packages/daygrid/main.css}' rel='stylesheet' />
-<!-- Bootstrap CSS -->
-<!--<link rel="stylesheet" th:href="@{/calendar-19/css/bootstrap.min.css}">-->
-<!-- Style -->
-<link rel="stylesheet" th:href="@{/calendar-19/css/style.css}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/calendar-19/fonts/icomoon/style.css}">
+    <link th:href='@{/calendar-19/fullcalendar/packages/core/main.css}' rel='stylesheet'/>
+    <link th:href='@{/calendar-19/fullcalendar/packages/daygrid/main.css}' rel='stylesheet'/>
+    <!-- Bootstrap CSS -->
+    <!--<link rel="stylesheet" th:href="@{/calendar-19/css/bootstrap.min.css}">-->
+    <!-- Style -->
+    <link rel="stylesheet" th:href="@{/calendar-19/css/style.css}">
 </head>
 <div layout:fragment="content" class="mt-3 container justify-content-around"
      style="width: 95%; min-height: 100%; position:relative;">
     <input type="hidden" name="course" th:value="${course}">
+    <button onclick="spotsPrint();">testbutton</button>
     <!--제목과 수정, 삭제 버튼-->
     <div class="justify-content-between d-flex mb-2" style="height: 10%;">
         <h1 th:text="${plan.title}"></h1>
@@ -37,7 +38,7 @@
     </div>
     <!--여행지 코스 정보 / 지도 + 캘린터-->
     <div class="justify-content-around d-flex" style="max-height: 80%;">
-        <div style="width: 50%; height: 100%;">
+        <div style="width: 45%; height: 100%;">
             <!--코스 정보-->
             <div class="card card overflow-scroll container mx-1 row" style="width:100%; max-height:100%;">
                 <div class="border-bottom border-1 py-1 my-1 d-flex overflow-scroll"
@@ -55,7 +56,11 @@
 
                 <script type="text/javascript"
                         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3398f87064ef2d4f364684990589c167&libraries=services"></script>
-                <script>
+                <script th:inline="javascript">
+                    var spots = [[${spotList}]];
+                    function spotsPrint() {
+                        alert(spots);
+                    }
                     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
                         mapOption = {
                             center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -88,9 +93,9 @@
 
                     }
 
-                    for (var i = 0; i < positions.length; i++) {
+                    for (var i = 0; i < spots.length; i++) {
                         // 주소로 좌표를 검색합니다
-                        geocoder.addressSearch(positions[i].address, function (result, status) {
+                        geocoder.addressSearch(spots[i].address, function (result, status) {
 
                             // 정상적으로 검색이 완료됐으면
                             if (status === kakao.maps.services.Status.OK) {
@@ -105,7 +110,7 @@
 
                                 // 인포윈도우로 장소에 대한 설명을 표시합니다
                                 var infowindow = new kakao.maps.InfoWindow({
-                                    content: '<div style="width:150px;text-align:center;padding:6px 0;"></div>'
+                                    content: '<div style="width:150px;text-align:center;padding:6px 0;">${spots[i].name}</div>'
                                 });
                                 infowindow.open(map, marker);
 
@@ -118,94 +123,92 @@
                 <!--지도 끝-->
             </div>
         </div>
-        <div>
-            <div class="content">
-                <div id='calendar'></div>
-            </div>
-
-<!--            <script th:src="@{/calendar-19/js/jquery-3.3.1.min.js}"></script>-->
-            <script th:src="@{/calendar-19/js/popper.min.js}"></script>
-<!--            <script th:src="@{calendar-19/js/bootstrap.min.js}"></script>-->
-
-            <script th:src='@{/calendar-19/fullcalendar/packages/core/main.js}'></script>
-            <script th:src='@{/calendar-19/fullcalendar/packages/interaction/main.js}'></script>
-            <script th:src='@{/calendar-19/fullcalendar/packages/daygrid/main.js}'></script>
-
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    var calendarEl = document.getElementById('calendar');
-
-                    var calendar = new FullCalendar.Calendar(calendarEl, {
-                        plugins: [ 'interaction', 'dayGrid' ],
-                        defaultDate: Date.now(),
-                        editable: true,
-                        eventLimit: true, // allow "more" link when too many events
-                        events: [
-                            {
-                                title: 'TODAY',
-                                start: Date.now()
-                            },
-                            {
-                                title: 'Long Event',
-                                start: '2020-02-07',
-                                end: '2020-02-10'
-                            },
-                            {
-                                groupId: 999,
-                                title: 'Repeating Event',
-                                start: '2020-02-09T16:00:00'
-                            },
-                            {
-                                groupId: 999,
-                                title: 'Repeating Event',
-                                start: '2020-02-16T16:00:00'
-                            },
-                            {
-                                title: 'Conference',
-                                start: '2020-02-11',
-                                end: '2020-02-13'
-                            },
-                            {
-                                title: 'Meeting',
-                                start: '2020-02-12T10:30:00',
-                                end: '2020-02-12T12:30:00'
-                            },
-                            {
-                                title: 'Lunch',
-                                start: '2020-02-12T12:00:00'
-                            },
-                            {
-                                title: 'Meeting',
-                                start: '2020-02-12T14:30:00'
-                            },
-                            {
-                                title: 'Happy Hour',
-                                start: '2020-02-12T17:30:00'
-                            },
-                            {
-                                title: 'Dinner',
-                                start: '2020-02-12T20:00:00'
-                            },
-                            {
-                                title: 'Birthday Party',
-                                start: '2020-02-13T07:00:00'
-                            },
-                            {
-                                title: 'Click for Google',
-                                url: 'http://google.com/',
-                                start: '2020-02-28'
-                            }
-                        ]
-                    });
-
-                    calendar.render();
-                });
-
-            </script>
-
-            <script th:src="@{/calendar-19/js/main.js}"></script>
+<!--        <div class="content">-->
+            <div style="width: 45%;" id='calendar'></div>
         </div>
 
-    </div>
+        <!--            <script th:src="@{/calendar-19/js/jquery-3.3.1.min.js}"></script>-->
+        <script th:src="@{/calendar-19/js/popper.min.js}"></script>
+        <!--            <script th:src="@{calendar-19/js/bootstrap.min.js}"></script>-->
+
+        <script th:src='@{/calendar-19/fullcalendar/packages/core/main.js}'></script>
+        <script th:src='@{/calendar-19/fullcalendar/packages/interaction/main.js}'></script>
+        <script th:src='@{/calendar-19/fullcalendar/packages/daygrid/main.js}'></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var calendarEl = document.getElementById('calendar');
+
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    plugins: ['interaction', 'dayGrid'],
+                    defaultDate: Date.now(),
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: [
+                        {
+                            title: 'TODAY',
+                            start: Date.now()
+                        },
+                        {
+                            title: 'Long Event',
+                            start: '2020-02-07',
+                            end: '2020-02-10'
+                        },
+                        {
+                            groupId: 999,
+                            title: 'Repeating Event',
+                            start: '2020-02-09T16:00:00'
+                        },
+                        {
+                            groupId: 999,
+                            title: 'Repeating Event',
+                            start: '2020-02-16T16:00:00'
+                        },
+                        {
+                            title: 'Conference',
+                            start: '2020-02-11',
+                            end: '2020-02-13'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2020-02-12T10:30:00',
+                            end: '2020-02-12T12:30:00'
+                        },
+                        {
+                            title: 'Lunch',
+                            start: '2020-02-12T12:00:00'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2020-02-12T14:30:00'
+                        },
+                        {
+                            title: 'Happy Hour',
+                            start: '2020-02-12T17:30:00'
+                        },
+                        {
+                            title: 'Dinner',
+                            start: '2020-02-12T20:00:00'
+                        },
+                        {
+                            title: 'Birthday Party',
+                            start: '2020-02-13T07:00:00'
+                        },
+                        {
+                            title: 'Click for Google',
+                            url: 'http://google.com/',
+                            start: '2022-09-28'
+                        }
+                    ]
+                });
+
+                calendar.render();
+            });
+
+        </script>
+
+        <script th:src="@{/calendar-19/js/main.js}"></script>
+
+<!--    </div>-->
 </div>
 </html>

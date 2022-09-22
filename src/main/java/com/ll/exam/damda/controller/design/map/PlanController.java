@@ -246,13 +246,14 @@ public class PlanController {
     }
 
     @GetMapping("/plan/detail/{planId}")
-    public String planDetail(Model model, @PathVariable long planId, @RequestParam long order) {
+    public String planDetail(Model model, @PathVariable long planId, @RequestParam long order) throws JsonProcessingException {
         Plan plan = planService.getPlan(planId);
         Course course = courseService.getCourse(plan, order);
-
+        List<Spot> spotList = course.getSpotList();
+        String spotsString = objectMapper.writeValueAsString(spotList);
         model.addAttribute("plan", plan);
         model.addAttribute("course", course);
-        model.addAttribute("spotList", course.getSpotList());
+        model.addAttribute("spotList", spotsString);
 
         return "design/map/plan_detail";
     }

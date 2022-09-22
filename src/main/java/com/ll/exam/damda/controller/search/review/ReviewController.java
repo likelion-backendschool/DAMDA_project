@@ -2,8 +2,10 @@ package com.ll.exam.damda.controller.search.review;
 
 import com.ll.exam.damda.dto.search.review.ReviewDto;
 import com.ll.exam.damda.entity.search.Review;
+import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.service.review.DataNotFoundException;
 import com.ll.exam.damda.service.review.ReviewService;
+import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ import java.util.List;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final UserService userService;
 
     @RequestMapping("/review")
     public String createReview() {
@@ -77,8 +80,6 @@ public class ReviewController {
 
         return String.format("redirect:/review/show/%s", id);
     }
-    
-
     @RequestMapping("/review/list")
     public String list(Model model, @RequestParam(defaultValue = "0") int page) {
         Page<Review> paging = reviewService.getList(page);
@@ -86,9 +87,16 @@ public class ReviewController {
 
         return "review/reviewList";
     }
+/*
+    @RequestMapping("/review/list")
+    public String list(Model model, int user_id, @RequestParam(defaultValue = "0") int page) {
+        Page<Review> paging = reviewService.getListByUser(user_id, page);
+        model.addAttribute("paging", paging);
 
+        return "review/reviewList";
+    }
+*/
     @GetMapping("/review/show/{id}")
-
     public String detail(Model model, @PathVariable long id, ReviewForm reviewForm) {
         Review review = reviewService.getReview(id);
 
@@ -105,13 +113,14 @@ public class ReviewController {
     }
 
     @PostMapping("/review/create")
-    public String reviewCreate(Model model, @Valid ReviewForm reviewForm, BindingResult bindingResult) {
+    public String reviewCreate(Principal principal,Model model, @Valid ReviewForm reviewForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "review/createReview";
         }
 
-        reviewService.create(reviewForm.getTitle(), reviewForm.getContent());
+        SiteUser siteUser = userService.getUser(principal.getName());
+        reviewService.create(reviewForm.getTitle(), reviewForm.getContent(), siteUser);
 
         return "redirect:list";
     }

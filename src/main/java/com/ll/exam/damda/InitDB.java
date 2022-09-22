@@ -70,7 +70,7 @@ public class InitDB {
 
             /*여행지 리뷰 생성*/
             for (Spot spot : spotRepository.findAll()) {
-                for (int i = 0; i < rand.nextInt(10); i++) {
+                for (int i = 0; i < rand.nextInt(20); i++) {
                     Review review = Review.builder()
                             .title("good")
                             .content("so fun")

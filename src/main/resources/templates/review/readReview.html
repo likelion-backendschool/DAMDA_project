@@ -14,91 +14,11 @@
 
                     <h4 th:text="${review.title}"></h4>
                     <div class="d-flex justify-content-end">
-                        <div class="badge bg-light text-dark p-2 text-start">
-                            <div th:text="${#temporals.format(review.first_created_date, 'yyyy-MM-dd HH:mm')}"></div>
-                        </div>
+                        <div th:text="${#temporals.format(review.firstCreatedDate, '작성일 yyyy-MM-dd HH:mm')}"></div>
+                        <div th:text="${#temporals.format(review.lastModifiedDate, '수정일 yyyy-MM-dd HH:mm')}"></div>
                     </div>
 
-                    <hr>
-                    <!-- 검색 태그 조건 -->
-                    <div class="form-row">
-                        <fieldset class="col">
-                            <label class="form-label">여행지 태그</label>
-                            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                <input type="checkbox" id="alone" name="checkedValue" checked="checked"
-                                       disabled="disabled"
-                                       class="custom-control-input" value="혼자">
-                                <label class="custom-control-label" for="alone">혼자</label>
-                            </div>
-                            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                <input type="checkbox" id="withCouple" name="checkedValue" checked="checked"
-                                       disabled="disabled"
-                                       class="custom-control-input" value="연인끼리">
-                                <label class="custom-control-label" for="withCouple">연인끼리</label>
-                            </div>
-                            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                <input type="checkbox" id="withFamily" name="checkedValue" checked="checked"
-                                       disabled="disabled"
-                                       class="custom-control-input" value="가족끼리">
-                                <label class="custom-control-label" for="withFamily">가족끼리</label>
-                            </div>
-                            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                <input type="checkbox" id="withFriend" name="checkedValue"
-                                       class="custom-control-input" value="친구끼리">
-                                <label class="custom-control-label" for="withFriend">친구끼리</label>
-                            </div>
-                        </fieldset>
-                        <fieldset class="col">
-                            <br>
-                            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                <input type="checkbox" id="spring" name="checkedValue" checked="checked"
-                                       disabled="disabled"
-                                       class="custom-control-input" value="봄">
-                                <label class="custom-control-label" for="spring">봄</label>
-                            </div>
-                            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                <input type="checkbox" id="summer" name="checkedValue" checked="checked"
-                                       disabled="disabled"
-                                       class="custom-control-input" value="여름">
-                                <label class="custom-control-label" for="summer">여름</label>
-                            </div>
-                            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                <input type="checkbox" id="autumn" name="checkedValue"
-                                       class="custom-control-input" value="가을">
-                                <label class="custom-control-label" for="autumn">가을</label>
-                            </div>
-                            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                <input type="checkbox" id="winter" name="checkedValue"
-                                       class="custom-control-input" value="겨울">
-                                <label class="custom-control-label" for="winter">겨울</label>
-                            </div>
-                        </fieldset>
-                        <fieldset class="col">
-                            <br>
-                            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                <input type="checkbox" id="insta" name="checkedValue"
-                                       class="custom-control-input" value="인스타">
-                                <label class="custom-control-label" for="insta">인스타</label>
-                            </div>
-                            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                <input type="checkbox" id="activity" name="checkedValue"
-                                       class="custom-control-input" value="액티비티">
-                                <label class="custom-control-label" for="activity">액티비티</label>
-                            </div>
-                            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                <input type="checkbox" id="watching" name="checkedValue"
-                                       class="custom-control-input" value="볼거리">
-                                <label class="custom-control-label" for="watching">볼거리</label>
-                            </div>
-                            <div class="custom-control custom-toggle custom-toggle-sm mb-1">
-                                <input type="checkbox" id="refresh" name="checkedValue"
-                                       class="custom-control-input" value="휴양">
-                                <label class="custom-control-label" for="refresh">휴양</label>
-                            </div>
-                        </fieldset>
-                        <!-- Small Outline Checkbox -->
-
-                    </div>
+                    <!-- 검색 태그 결과 -->
 
                     <table class="table">
                         <tbody>
@@ -145,12 +65,6 @@
 
                     <hr>
                     <div class="card-body">
-
-                        <div class="badge bg-light text-dark p-2 text-start">
-                            <div style="margin-bottom: 8px"
-                                 th:text="${#temporals.format(review.start_date, '작성일 yyyy-MM-dd HH:mm')}"></div>
-                        </div>
-
                         <div style="white-space: pre-line;" th:text="${review.content}"></div>
                     </div>
                     </table>
@@ -164,26 +78,7 @@
             <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/review/delete/${review.id}|}"
                class="btn btn-outline-primary"
                th:text="삭제"></a>
-            <button type="button" class="btn btn-white">
-                <span class="text-success"><i class="material-icons">check</i></span> Like
-            </button>
-
-
-            <div class="card my-3">
-                <div class="card-body">
-                    <div style="white-space: pre-line;">댓글 기능 추가 시 사용</div>
-
-                    <div class="d-flex justify-content-end">
-                        <div class="badge bg-light text-dark p-2 text-start">
-                            <div th:text="${#temporals.format(review.start_date, 'yyyy-MM-dd HH:mm')}"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
-
-
 </div>
 </html>

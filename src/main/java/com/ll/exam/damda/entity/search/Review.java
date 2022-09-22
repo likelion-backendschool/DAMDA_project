@@ -72,4 +72,8 @@ public class Review {
 
         return tagInfo;
     }
+
+
+    @ManyToOne
+    private SiteUser author;
 }

@@ -93,8 +93,23 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "user/my_page_form";
         }
+
         SiteUser siteUser = userService.getUser(principal.getName());
 
+        // 소셜 로그인
+        if (!siteUser.getMethod().equals("d")){
+            try {
+                userService.edit(siteUser, userEditForm.getNickname());
+            } catch (SignupEmailDuplicatedException e) {
+                bindingResult.reject("signupEmailDuplicated", e.getMessage());
+                return "user/my_page_form";
+            }
+
+            MessageDto message = new MessageDto("정보 변경이 완료되었습니다.", "/user/my_page", RequestMethod.POST, null);
+            return showMessageAndRedirect(message, model);
+        }
+
+        // 소셜 로그인 x
         if (!userEditForm.getPassword().equals(userEditForm.getPassword_check())) {
             bindingResult.rejectValue("password_check", "passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
@@ -107,7 +122,7 @@ public class UserController {
             bindingResult.reject("signupEmailDuplicated", e.getMessage());
             return "user/my_page_form";
         } catch (SignupNicknameDuplicatedException e) {
-            bindingResult.reject("signupUsernameDuplicated", e.getMessage());
+            bindingResult.reject("signupNicknameDuplicated", e.getMessage());
             return "user/my_page_form";
         } catch (SignupUsernameDuplicatedException e) {
             bindingResult.reject("signupUsernameDuplicated", e.getMessage());
@@ -158,7 +173,7 @@ public class UserController {
             SiteUser user = userService.getUserRepository().findByUsernameAndEmail(findPwForm.getUsername(), findPwForm.getEmail());
             String newPw = getRandomText(10);
             String findPwMsg = "임시 비밀번호는 " + newPw + " 입니다.";
-            userService.edit(user,newPw);
+            userService.edit_password(user,newPw);
 
             MailDto mailDto = new MailDto();
             mailDto.setAddress(findPwForm.getEmail());

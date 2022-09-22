@@ -47,6 +47,7 @@ public class UserService {
         return user;
     }
 
+    //  소셜 로그인이 아닌 사용자의 정보 변경
     public void edit(SiteUser user, String nickname, String email, String password) {
         user.setNickname(nickname);
         user.setEmail(email);
@@ -62,7 +63,19 @@ public class UserService {
         }
     }
 
-    public void edit(SiteUser user, String password) {
+    // 소셜 로그인 사용자의 정보 변경
+    public void edit(SiteUser user, String nickname) {
+        user.setNickname(nickname);
+        try {
+            userRepository.save(user);
+        } catch (DataIntegrityViolationException e) {
+            if (userRepository.existsByNickname(nickname)) {
+                throw new SignupEmailDuplicatedException("이미 사용중인 닉네임 입니다.");
+            }
+        }
+    }
+
+    public void edit_password(SiteUser user, String password) {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
     }

@@ -135,30 +135,44 @@
     <script th:src='@{/calendar-19/fullcalendar/packages/daygrid/main.js}'></script>
 
     <script th:inline="javascript">
+        // window.onload = function () {
+        //     spotsPrint();
+        // }
         var plan_id = $('input[name=plan_id]').val();
         var plan_size = $('input[name=plan_size]').val();
         var spots = [[${spotList}]];
         var size = plan_size;
-
+        var plan_startDate = [[${plan.startDate}]];
         function spotsPrint() {
             console.log('planId : ' + plan_id,
                 'size : ' + size,
                 'spots : ' + spots);
+            addEvent();
         }
+        function addEvent() {
+            for(var i = 0; i < plan_size; i++) {
+                // eventList[i] = {
+                //     title: `${i}일차`,
+                //     start: plan_plan.startDate,
+                //     url: `/travel/design/plan/detail/${plan_id}?order=${i+1}`
+                // }
+                console.log('title: ' + `${i+1}일차 ` + 'start:' +  plan_startDate + ' url:' + `/travel/design/plan/detail/${plan_id}?order=${i+1}`);
+            }
+        }
+        var eventList = [
+            {
+                title: 'TODAY',
+                start: Date.now()
+            },
+
+            {
+                title: 'Click for Google',
+                url: 'http://google.com/',
+                start: '2022-09-28'
+            }
+        ]
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
-            var eventList = [
-                {
-                    title: 'TODAY',
-                    start: Date.now()
-                },
-
-                {
-                    title: 'Click for Google',
-                    url: 'http://google.com/',
-                    start: '2022-09-28'
-                }
-            ]
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['interaction', 'dayGrid'],
                 defaultDate: Date.now(),

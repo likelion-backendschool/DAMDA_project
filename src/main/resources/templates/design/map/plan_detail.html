@@ -15,7 +15,7 @@
     <input type="hidden" name="plan_id" th:value="${plan.id}">
     <input type="hidden" name="plan_size" th:value="${plan.size}">
     <input type="hidden" name="course" th:value="${course}">
-    <button onclick="spotsPrint();">testbutton</button>
+    <button onclick="testButton();">testbutton</button>
     <!--제목과 수정, 삭제 버튼-->
     <div class="justify-content-between d-flex mb-2" style="height: 10%;">
         <h1 th:text="${plan.title}"></h1>
@@ -137,52 +137,75 @@
     <script th:inline="javascript">
         // window.onload = function () {
         //     spotsPrint();
+        //     addEvent();
+        //     addEventListenerBig();
         // }
         var plan_id = $('input[name=plan_id]').val();
         var plan_size = $('input[name=plan_size]').val();
         var spots = [[${spotList}]];
         var size = plan_size;
         var plan_startDate = [[${plan.startDate}]];
+
+        var eventList = [
+            // {
+            //     title: 'TODAY',
+            //     start: Date.now()
+            // },
+            //
+            // {
+            //     title: 'Click for Google',
+            //     url: 'http://google.com/',
+            //     start: '2022-09-28'
+            // }
+        ];
+
+        function testButton() {
+            spotsPrint()
+            addEvent();
+        }
         function spotsPrint() {
+            //콘솔에 테스트 출력
             console.log('planId : ' + plan_id,
                 'size : ' + size,
                 'spots : ' + spots);
-            addEvent();
         }
+
         function addEvent() {
-            for(var i = 0; i < plan_size; i++) {
-                // eventList[i] = {
-                //     title: `${i}일차`,
-                //     start: plan_plan.startDate,
-                //     url: `/travel/design/plan/detail/${plan_id}?order=${i+1}`
-                // }
-                console.log('title: ' + `${i+1}일차 ` + 'start:' +  plan_startDate + ' url:' + `/travel/design/plan/detail/${plan_id}?order=${i+1}`);
+            // const travelStartDate = new Date(plan_startDate.getFullYear, plan_startDate.getMonth, plan_startDate.getDate);
+            var splitDate = plan_startDate.split('-');
+            // console.log(travelStartDate);
+            console.log(splitDate);
+            for (var i = 0; i < plan_size; i++) {
+                var travelDate = splitDate[0] + "-" + splitDate[1] + "-" + (Number(splitDate[2])+i);
+                // var travelDate =
+                //콘솔에 테스트 출력
+                console.log('title: ' + `${i + 1}일차 ` + 'start:' + travelDate + ' url:' + `/travel/design/plan/detail/${plan_id}?order=${i + 1}`);
+                //eventList에 추가
+                eventList[i] = {
+                    title: `${i + 1}일차`,
+                    start: travelDate,
+                    url: `/travel/design/plan/detail/${plan_id}?order=${i + 1}`
+                }
             }
         }
-        var eventList = [
-            {
-                title: 'TODAY',
-                start: Date.now()
-            },
 
-            {
-                title: 'Click for Google',
-                url: 'http://google.com/',
-                start: '2022-09-28'
-            }
-        ]
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                plugins: ['interaction', 'dayGrid'],
-                defaultDate: Date.now(),
-                editable: true,
-                eventLimit: true, // allow "more" link when too many events
-                events: eventList
+
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('addEventListener');
+                spotsPrint();
+                addEvent();
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    plugins: ['interaction', 'dayGrid'],
+                    defaultDate: Date.now(),
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: eventList
+                });
+                console.log('calendar.render');
+
+                calendar.render();
             });
-
-            calendar.render();
-        });
 
     </script>
 

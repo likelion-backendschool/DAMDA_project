@@ -40,7 +40,73 @@
     </div>
     <!--여행지 코스 정보 / 지도 + 캘린터-->
     <div class="justify-content-around d-flex" style="max-height: 80%;">
-        <div style="width: 45%; height: 100%;">
+        <!--        <div class="content">-->
+        <div style="width: 40%;" id='calendar'></div>
+
+        <!--            <script th:src="@{/calendar-19/js/jquery-3.3.1.min.js}"></script>-->
+        <script th:src="@{/calendar-19/js/popper.min.js}"></script>
+        <!--            <script th:src="@{calendar-19/js/bootstrap.min.js}"></script>-->
+
+        <script th:src='@{/calendar-19/fullcalendar/packages/core/main.js}'></script>
+        <script th:src='@{/calendar-19/fullcalendar/packages/interaction/main.js}'></script>
+        <script th:src='@{/calendar-19/fullcalendar/packages/daygrid/main.js}'></script>
+
+        <script th:inline="javascript">
+            var plan_id = $('input[name=plan_id]').val();
+            var plan_size = $('input[name=plan_size]').val();
+            var spots = [[${spotList}]];
+            var size = plan_size;
+            var plan_startDate = [[${plan.startDate}]];
+
+            var eventList = [];
+
+            function spotsPrint() {
+                //콘솔에 테스트 출력
+                console.log('planId : ' + plan_id,
+                    'size : ' + size,
+                    'spots : ' + spots);
+            }
+
+            function addEvent() {
+                var splitDate = plan_startDate.split('-');
+                console.log(splitDate);
+                for (var i = 0; i < plan_size; i++) {
+                    var travelDate = splitDate[0] + "-" + splitDate[1] + "-" + (Number(splitDate[2]) + i);
+                    //콘솔에 테스트 출력
+                    console.log('title: ' + `${i + 1}일차 ` + 'start:' + travelDate + ' url:' + `/travel/design/plan/detail/${plan_id}?order=${i + 1}`);
+                    //eventList에 추가
+                    eventList[i] = {
+                        title: `${i + 1}일차`,
+                        start: travelDate.toString(),
+                        url: `/travel/design/plan/detail/${plan_id}?order=${i + 1}`
+                    }
+                }
+            }
+
+            //캘린더 랜더링시 일부 날짜의 일차가 나오지 않는 문제
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('addEventListener');
+                spotsPrint();
+                addEvent();
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    plugins: ['interaction', 'dayGrid'],
+                    defaultDate: Date.now(),
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: eventList
+                });
+                console.log('calendar.render');
+
+                calendar.render();
+            });
+
+        </script>
+
+        <script th:src="@{/calendar-19/js/main.js}"></script>
+
+
+        <div style="width: 50%; height: 100%;">
             <!--코스 정보-->
             <div class="card card overflow-scroll container mx-1 row" style="width:100%; max-height:100%;">
                 <div class="border-bottom border-1 py-1 my-1 d-flex overflow-scroll"
@@ -122,71 +188,7 @@
                 <!--지도 끝-->
             </div>
         </div>
-        <!--        <div class="content">-->
-        <div style="width: 45%;" id='calendar'></div>
     </div>
-
-    <!--            <script th:src="@{/calendar-19/js/jquery-3.3.1.min.js}"></script>-->
-    <script th:src="@{/calendar-19/js/popper.min.js}"></script>
-    <!--            <script th:src="@{calendar-19/js/bootstrap.min.js}"></script>-->
-
-    <script th:src='@{/calendar-19/fullcalendar/packages/core/main.js}'></script>
-    <script th:src='@{/calendar-19/fullcalendar/packages/interaction/main.js}'></script>
-    <script th:src='@{/calendar-19/fullcalendar/packages/daygrid/main.js}'></script>
-
-    <script th:inline="javascript">
-        var plan_id = $('input[name=plan_id]').val();
-        var plan_size = $('input[name=plan_size]').val();
-        var spots = [[${spotList}]];
-        var size = plan_size;
-        var plan_startDate = [[${plan.startDate}]];
-
-        var eventList = [];
-
-        function spotsPrint() {
-            //콘솔에 테스트 출력
-            console.log('planId : ' + plan_id,
-                'size : ' + size,
-                'spots : ' + spots);
-        }
-
-        function addEvent() {
-            var splitDate = plan_startDate.split('-');
-            console.log(splitDate);
-            for (var i = 0; i < plan_size; i++) {
-                var travelDate = splitDate[0] + "-" + splitDate[1] + "-" + (Number(splitDate[2])+i);
-                //콘솔에 테스트 출력
-                console.log('title: ' + `${i + 1}일차 ` + 'start:' + travelDate + ' url:' + `/travel/design/plan/detail/${plan_id}?order=${i + 1}`);
-                //eventList에 추가
-                eventList[i] = {
-                    title: `${i + 1}일차`,
-                    start: travelDate,
-                    url: `/travel/design/plan/detail/${plan_id}?order=${i + 1}`
-                }
-            }
-        }
-
-//캘린더 랜더링시 일부 날짜의 일차가 나오지 않는 문제
-            document.addEventListener('DOMContentLoaded', function () {
-                console.log('addEventListener');
-                spotsPrint();
-                addEvent();
-                var calendarEl = document.getElementById('calendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    plugins: ['interaction', 'dayGrid'],
-                    defaultDate: Date.now(),
-                    editable: true,
-                    eventLimit: true, // allow "more" link when too many events
-                    events: eventList
-                });
-                console.log('calendar.render');
-
-                calendar.render();
-            });
-
-    </script>
-
-    <script th:src="@{/calendar-19/js/main.js}"></script>
 
     <!--    </div>-->
 </div>

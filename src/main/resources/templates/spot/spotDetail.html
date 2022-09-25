@@ -75,7 +75,9 @@
                                 </div>
                                 <p th:text="|${review.content}|" class="m-0 my-1 mb-2 text-muted"></p>
                                 <div class="blog-comments__actions">
+
                                     <div class="btn-group btn-group-sm">
+                                        <!-- button 안으로 review.id가 입력이 되지 않습니다. (디자인 보류)
                                         <button type="button" class="btn btn-white">
                                             <span class="text-success">
                                                 <i class="material-icons">check</i>
@@ -88,6 +90,20 @@
                                             <span class="text-light">
                                                 <i class="material-icons">more_vert</i>
                                             </span> Edit </button>
+
+                                        <button type="button" class="btn btn-white" th:onclick="|location.href='@{/review/modify/${review.id}}'|">
+                                            <span class="text-light">
+                                                <i class="material-icons">more_vert</i>
+                                            </span> Edit </button>
+                                        -->
+                                        <a th:href="@{|/review/modify/${review.id}|}" class="btn btn-outline-primary"
+                                           sec:authorize="isAuthenticated()"
+                                           th:if="${review.siteUser != null and #authentication.getPrincipal().getUsername() == review.siteUser.username}"
+                                           th:text="수정"></a>
+                                        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/review/delete/${review.id}|}"
+                                           class="btn btn-outline-primary" sec:authorize="isAuthenticated()"
+                                           th:if="${review.siteUser != null and #authentication.getPrincipal().getUsername() == review.siteUser.username}"
+                                           th:text="삭제"></a>
                                     </div>
                                 </div>
                             </div>

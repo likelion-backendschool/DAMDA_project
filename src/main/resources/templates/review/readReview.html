@@ -71,12 +71,13 @@
                 </div>
             </div>
 
-            <!--sec:authorize="isAuthenticated()"
-               th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"-->
             <a th:href="@{|/review/modify/${review.id}|}" class="btn btn-outline-primary"
+               sec:authorize="isAuthenticated()"
+               th:if="${review.siteUser != null and #authentication.getPrincipal().getUsername() == review.siteUser.username}"
                th:text="수정"></a>
             <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/review/delete/${review.id}|}"
-               class="btn btn-outline-primary"
+               class="btn btn-outline-primary" sec:authorize="isAuthenticated()"
+               th:if="${review.siteUser != null and #authentication.getPrincipal().getUsername() == review.siteUser.username}"
                th:text="삭제"></a>
         </div>
     </div>

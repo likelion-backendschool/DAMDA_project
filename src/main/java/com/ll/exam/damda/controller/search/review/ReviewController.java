@@ -130,7 +130,7 @@ public class ReviewController {
         SiteUser siteUser = userService.getUser(principal.getName());
         reviewService.create( reviewForm.getReviewTags(), reviewForm.getTitle(), reviewForm.getContent(), siteUser, spot);
 
-        return "redirect:list";
+      return "redirect:list";
     }
 
     //@PreAuthorize("isAuthenticated()")

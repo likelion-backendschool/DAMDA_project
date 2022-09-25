@@ -48,6 +48,7 @@ public class ReviewService {
     }
 
     public void create(Set<ReviewTag> checkedValue, String title, String content, SiteUser siteUser, Spot spot) {
+
         Review review = new Review();
         review.setSpot(spot);
         review.setTitle(title);

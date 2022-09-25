@@ -3,6 +3,7 @@ package com.ll.exam.damda.controller.search.review;
 import com.ll.exam.damda.dto.search.review.ReviewDto;
 import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.entity.search.Review;
+import com.ll.exam.damda.entity.search.ReviewTag;
 import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.service.review.DataNotFoundException;
@@ -21,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -115,7 +117,10 @@ public class ReviewController {
     }
 
     @PostMapping("/review/create")
-    public String reviewCreate(@RequestParam("spotId") Long spotId, Principal principal, Model model, @Valid ReviewForm reviewForm, BindingResult bindingResult) {
+    public String reviewCreate(@RequestParam("spotId") Long spotId, Principal principal,
+                               @RequestParam(value = "checkedValue", defaultValue = "") Set<ReviewTag> checkedValue,
+                               Model model, @Valid ReviewForm reviewForm,
+                               BindingResult bindingResult) {
         Spot spot = spotService.getSpot(spotId);
 
         if (bindingResult.hasErrors()) {
@@ -123,7 +128,7 @@ public class ReviewController {
         }
 
         SiteUser siteUser = userService.getUser(principal.getName());
-        reviewService.create(reviewForm.getTitle(), reviewForm.getContent(), siteUser, spot);
+        reviewService.create(reviewForm.getTitle(), reviewForm.getContent(), siteUser, spot, checkedValue);
 
         return "redirect:list";
     }

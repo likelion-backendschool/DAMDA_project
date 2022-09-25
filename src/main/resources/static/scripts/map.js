@@ -125,10 +125,13 @@ function getAllCourse(course_id) {
             </div>
 
             `;
+                $('.course').empty();
                 $('.course').append(html);
             });
         }
+
     });
+    setTimeout(getAllCourse, 3000); //3초 뒤에 수행
 }
 function removeCourse(course_id, spot_id, btn) {
     $.ajax({

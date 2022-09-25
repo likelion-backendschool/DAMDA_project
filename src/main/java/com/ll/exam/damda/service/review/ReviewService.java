@@ -1,6 +1,9 @@
 package com.ll.exam.damda.service.review;
 
+import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.entity.search.Review;
+import com.ll.exam.damda.entity.search.ReviewTag;
+import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.search.review.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -45,12 +49,14 @@ public class ReviewService {
                 .orElseThrow(() -> new DataNotFoundException("no review not found,".formatted(id)));
     }
 
-    public void create(String title, String content, SiteUser siteUser) {
+    public void create(String title, String content, SiteUser siteUser, Spot spot) {
         Review review = new Review();
+        review.setSpot(spot);
         review.setTitle(title);
         review.setContent(content);
         review.setSiteUser(siteUser);
         review.setFirstCreatedDate(LocalDateTime.now());
+        //review.setReviewTags(reviewTags);
         reviewRepository.save(review);
     }
 

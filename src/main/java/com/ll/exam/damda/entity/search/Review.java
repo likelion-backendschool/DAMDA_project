@@ -39,6 +39,8 @@ public class Review {
     @JoinColumn(name = "siteUser_id")
     private SiteUser siteUser;
 
+
+
     @OneToMany(mappedBy = "review")
     @Builder.Default
     private Set<ReviewTag> reviewTags = new LinkedHashSet<>();

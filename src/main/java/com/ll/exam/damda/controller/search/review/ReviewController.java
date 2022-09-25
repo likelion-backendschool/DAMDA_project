@@ -1,10 +1,13 @@
 package com.ll.exam.damda.controller.search.review;
 
 import com.ll.exam.damda.dto.search.review.ReviewDto;
+import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.entity.search.Review;
+import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.service.review.DataNotFoundException;
 import com.ll.exam.damda.service.review.ReviewService;
+import com.ll.exam.damda.service.search.spot.SpotService;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,6 +29,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final UserService userService;
+    private SpotService spotService;
 
     @RequestMapping("/review")
     public String createReview() {
@@ -56,7 +60,6 @@ public class ReviewController {
             throw new DataNotFoundException("해당 질문은 존재하지 않습니다.");
         }
 
-
         if(!review.getSiteUser().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
@@ -78,8 +81,6 @@ public class ReviewController {
         if (review == null) {
             throw new DataNotFoundException("해당 리뷰는 존재하지 않습니다.");
         }
-
-
 
         if (!review.getSiteUser().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
@@ -114,14 +115,15 @@ public class ReviewController {
     }
 
     @PostMapping("/review/create")
-    public String reviewCreate(Principal principal,Model model, @Valid ReviewForm reviewForm, BindingResult bindingResult) {
+    public String reviewCreate(@RequestParam("spotId") Long spotId, Principal principal, Model model, @Valid ReviewForm reviewForm, BindingResult bindingResult) {
+        Spot spot = spotService.getSpot(spotId);
 
         if (bindingResult.hasErrors()) {
             return "review/createReview";
         }
 
         SiteUser siteUser = userService.getUser(principal.getName());
-        reviewService.create(reviewForm.getTitle(), reviewForm.getContent(), siteUser);
+        reviewService.create(reviewForm.getTitle(), reviewForm.getContent(), siteUser, spot);
 
         return "redirect:list";
     }

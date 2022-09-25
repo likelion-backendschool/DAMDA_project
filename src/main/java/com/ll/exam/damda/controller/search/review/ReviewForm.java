@@ -1,5 +1,6 @@
 package com.ll.exam.damda.controller.search.review;
 
+import com.ll.exam.damda.entity.search.ReviewTag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Set;
 
 @AllArgsConstructor
 @Getter
@@ -19,7 +21,4 @@ public class ReviewForm {
     private String content;
     @NotEmpty(message = "태그는 필수항목입니다.")
     private String reviewTags;
-
-
-
 }

@@ -137,13 +137,14 @@
                     var mapContainer = document.getElementById('mapTotal'), // 지도를 표시할 div
                         mapOption = {
                             center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-                            level: 3 // 지도의 확대 레벨
+                            level: 7 // 지도의 확대 레벨
                         };
 
                     // 지도를 생성합니다
                     var map = new kakao.maps.Map(mapContainer, mapOption);
 
-
+                    // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+                    var bounds = new kakao.maps.LatLngBounds();
                     // for(let i = 0; i < spots.length; i++) {
                     //     positions.push({
                     //         title: spots.name,

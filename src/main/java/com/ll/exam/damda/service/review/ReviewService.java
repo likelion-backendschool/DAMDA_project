@@ -6,6 +6,7 @@ import com.ll.exam.damda.entity.search.ReviewTag;
 import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.search.review.ReviewRepository;
+import com.ll.exam.damda.repository.search.review.ReviewTagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,10 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -49,14 +47,17 @@ public class ReviewService {
                 .orElseThrow(() -> new DataNotFoundException("no review not found,".formatted(id)));
     }
 
-    public void create(String title, String content, SiteUser siteUser, Spot spot) {
+    public void create(Set<ReviewTag> checkedValue, String title, String content, SiteUser siteUser, Spot spot) {
         Review review = new Review();
         review.setSpot(spot);
         review.setTitle(title);
         review.setContent(content);
         review.setSiteUser(siteUser);
         review.setFirstCreatedDate(LocalDateTime.now());
-        //review.setReviewTags(reviewTags);
+
+        Set<ReviewTag> reviewTags = new HashSet<>(checkedValue);
+        review.setReviewTags(reviewTags);
+
         reviewRepository.save(review);
     }
 

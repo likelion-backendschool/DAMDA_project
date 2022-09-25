@@ -126,6 +126,7 @@ function getAllCourse(course_id) {
         }
 
     });
+    console.log('getAllCourse수행');
     setTimeout(getAllCourse, 3000); //3초 뒤에 수행
 }
 function removeCourse(course_id, spot_id, btn) {

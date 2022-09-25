@@ -30,14 +30,14 @@
         </div>
     </div>
     <!--일차 이동 바-->
-<!--    <div class="w-100 d-flex mb-2 justify-content-start" style="height: 10%; white-space: nowrap; overflow: auto;">-->
-<!--        <div class="card card py-3 px-5 mr-2" th:each="courses : ${plan.courseList}">-->
-<!--            <a th:if="${courses.id != course.id}"-->
-<!--               th:href="@{|/travel/design/plan/detail/${plan.id}?order=${courses.orders}|}"-->
-<!--               th:text="|${courses.orders}일차|"></a>-->
-<!--            <a class="font-weight-bold" th:if="${courses.id == course.id}" th:text="|${courses.orders}일차|"></a>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <div class="w-100 d-flex mb-2 justify-content-start" style="height: 10%; white-space: nowrap; overflow: auto;">-->
+    <!--        <div class="card card py-3 px-5 mr-2" th:each="courses : ${plan.courseList}">-->
+    <!--            <a th:if="${courses.id != course.id}"-->
+    <!--               th:href="@{|/travel/design/plan/detail/${plan.id}?order=${courses.orders}|}"-->
+    <!--               th:text="|${courses.orders}일차|"></a>-->
+    <!--            <a class="font-weight-bold" th:if="${courses.id == course.id}" th:text="|${courses.orders}일차|"></a>-->
+    <!--        </div>-->
+    <!--    </div>-->
     <!--여행지 코스 정보 / 지도 + 캘린터-->
     <div class="justify-content-around d-flex" style="max-height: 80%;">
         <!--        <div class="content">-->
@@ -64,16 +64,17 @@
                 //콘솔에 테스트 출력
                 console.log('planId : ' + plan_id,
                     'size : ' + size,
-                    'spots : ' + spots);
+                    'spots : ' + spots
+                );
             }
 
             function addEvent() {
                 var splitDate = plan_startDate.split('-');
-                console.log(splitDate);
+                // console.log(splitDate);
                 for (var i = 0; i < plan_size; i++) {
                     var travelDate = splitDate[0] + "-" + splitDate[1] + "-" + (Number(splitDate[2]) + i);
                     //콘솔에 테스트 출력
-                    console.log('title: ' + `${i + 1}일차 ` + 'start:' + travelDate + ' url:' + `/travel/design/plan/detail/${plan_id}?order=${i + 1}`);
+                    // console.log('title: ' + `${i + 1}일차 ` + 'start:' + travelDate + ' url:' + `/travel/design/plan/detail/${plan_id}?order=${i + 1}`);
                     //eventList에 추가
                     eventList[i] = {
                         title: `${i + 1}일차`,
@@ -86,7 +87,7 @@
             //캘린더 랜더링시 일부 날짜의 일차가 나오지 않는 문제
             document.addEventListener('DOMContentLoaded', function () {
                 console.log('addEventListener');
-                spotsPrint();
+                // spotsPrint();
                 addEvent();
                 var calendarEl = document.getElementById('calendar');
                 var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -96,7 +97,7 @@
                     eventLimit: true, // allow "more" link when too many events
                     events: eventList
                 });
-                console.log('calendar.render');
+                // console.log('calendar.render');
 
                 calendar.render();
             });
@@ -124,8 +125,15 @@
                 <!--지도-->
                 <div id="mapTotal" style="width:100%;height:350px;"></div>
 
-                <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3398f87064ef2d4f364684990589c167&libraries=services"></script>
-                <script>
+                <script type="text/javascript"
+                        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3398f87064ef2d4f364684990589c167&libraries=services"></script>
+                <script th:inline="javascript">
+                    // var plan_id = $('input[name=plan_id]').val();
+                    // var plan_size = $('input[name=plan_size]').val();
+                    // var spots = [[${spotList}]];
+                    // var size = plan_size;
+                    // var plan_startDate = [[${plan.startDate}]];
+
                     var mapContainer = document.getElementById('mapTotal'), // 지도를 표시할 div
                         mapOption = {
                             center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -135,31 +143,52 @@
                     // 지도를 생성합니다
                     var map = new kakao.maps.Map(mapContainer, mapOption);
 
+
+                    // for(let i = 0; i < spots.length; i++) {
+                    //     positions.push({
+                    //         title: spots.name,
+                    //         addressMap: spots.address
+                    //     });
+                    // }
+
                     var positions = [
-                        {
-                            address:'충남 부여군 부여읍 석탑로 49 문광사서점',
-                            title: '문광사서점'
-                        },
-                        {
-                            address:'충남 부여군 부여읍 성왕로 215 카페써니',
-                            title: '카페써니'
-                        },
-                        {
-                            address:'충남 부여군 부여읍 중앙로 10 추성희헤어스투디오',
-                            title: '추성희헤어스투디오'
-                        }
-                        ,{
-                            address:'충남 부여군 부여읍 중앙로 7 리헤어리더',
-                            title:'리헤어리더'
-                        }
+                        // {
+                        //     addressMap: '충남 부여군 부여읍 석탑로 49 문광사서점',
+                        //     title: '문광사서점'
+                        // },
+                        // {
+                        //     addressMap: '충남 부여군 부여읍 성왕로 215 카페써니',
+                        //     title: '카페써니'
+                        // },
+                        // {
+                        //     addressMap: '충남 부여군 부여읍 중앙로 10 추성희헤어스투디오',
+                        //     title: '추성희헤어스투디오'
+                        // }
+                        // , {
+                        //     addressMap: '충남 부여군 부여읍 중앙로 7 리헤어리더',
+                        //     title: '리헤어리더'
+                        // }
                     ];
+                    spots.forEach(spot => {
+                        // console.log('spotsEach');
+                        // console.log(spot.name);
+                        // console.log(spot.address);
+                        positions.push(
+                            {
+                                title: spot.name,
+                                addressMap: spot.address
+                            }
+                        );
+                    });
+
 
                     // 주소-좌표 변환 객체를 생성합니다
                     var geocoder = new kakao.maps.services.Geocoder();
 
-                    positions.forEach(function(position) {
+                    positions.forEach(function (position) {
+                        // console.log('positionsEach');
                         // 주소로 좌표를 검색합니다
-                        geocoder.addressSearch(position.address, function(result, status) {
+                        geocoder.addressSearch(position.addressMap, function (result, status) {
 
                             // 정상적으로 검색이 완료됐으면
                             if (status === kakao.maps.services.Status.OK) {
@@ -174,7 +203,7 @@
 
                                 // 인포윈도우로 장소에 대한 설명을 표시합니다
                                 var infowindow = new kakao.maps.InfoWindow({
-                                    content: '<div style="width:150px;text-align:center;padding:6px 0;">'+position.title+'</div>'
+                                    content: '<div style="width:150px;text-align:center;padding:6px 0;">' + position.title + '</div>'
                                 });
                                 infowindow.open(map, marker);
 

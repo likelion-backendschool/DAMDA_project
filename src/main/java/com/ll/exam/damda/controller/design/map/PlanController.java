@@ -250,10 +250,10 @@ public class PlanController {
         Plan plan = planService.getPlan(planId);
         Course course = courseService.getCourse(plan, order);
         List<Spot> spotList = course.getSpotList();
-        String spotsString = objectMapper.writeValueAsString(spotList);
+//        String spotsString = objectMapper.writeValueAsString(spotList);
         model.addAttribute("plan", plan);
         model.addAttribute("course", course);
-        model.addAttribute("spotList", spotsString);
+        model.addAttribute("spotList", spotList);
 
         return "design/map/plan_detail";
     }

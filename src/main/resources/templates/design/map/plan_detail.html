@@ -30,14 +30,14 @@
         </div>
     </div>
     <!--일차 이동 바-->
-    <div class="w-100 d-flex mb-2 justify-content-start" style="height: 10%; white-space: nowrap; overflow: auto;">
-        <div class="card card py-3 px-5 mr-2" th:each="courses : ${plan.courseList}">
-            <a th:if="${courses.id != course.id}"
-               th:href="@{|/travel/design/plan/detail/${plan.id}?order=${courses.orders}|}"
-               th:text="|${courses.orders}일차|"></a>
-            <a class="font-weight-bold" th:if="${courses.id == course.id}" th:text="|${courses.orders}일차|"></a>
-        </div>
-    </div>
+<!--    <div class="w-100 d-flex mb-2 justify-content-start" style="height: 10%; white-space: nowrap; overflow: auto;">-->
+<!--        <div class="card card py-3 px-5 mr-2" th:each="courses : ${plan.courseList}">-->
+<!--            <a th:if="${courses.id != course.id}"-->
+<!--               th:href="@{|/travel/design/plan/detail/${plan.id}?order=${courses.orders}|}"-->
+<!--               th:text="|${courses.orders}일차|"></a>-->
+<!--            <a class="font-weight-bold" th:if="${courses.id == course.id}" th:text="|${courses.orders}일차|"></a>-->
+<!--        </div>-->
+<!--    </div>-->
     <!--여행지 코스 정보 / 지도 + 캘린터-->
     <div class="justify-content-around d-flex" style="max-height: 80%;">
         <!--        <div class="content">-->

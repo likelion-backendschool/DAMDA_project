@@ -31,7 +31,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final UserService userService;
-    private SpotService spotService;
+    private final SpotService spotService;
 
     @RequestMapping("/review")
     public String createReview() {
@@ -118,7 +118,7 @@ public class ReviewController {
 
     @PostMapping("/review/create")
     public String reviewCreate(@RequestParam("spotId") Long spotId, Principal principal,
-                               @RequestParam(value = "checkedValue", defaultValue = "")
+                               //@RequestParam(value = "checkedValue", defaultValue ="") List<String> checkedValue,
                                Model model, @Valid ReviewForm reviewForm,
                                BindingResult bindingResult) {
         Spot spot = spotService.getSpot(spotId);
@@ -128,8 +128,8 @@ public class ReviewController {
         }
 
         SiteUser siteUser = userService.getUser(principal.getName());
-        reviewService.create( reviewForm.getReviewTags(), reviewForm.getTitle(), reviewForm.getContent(), siteUser, spot);
-
+        Review review= reviewService.create( reviewForm.getTitle(), reviewForm.getContent(), siteUser, spot);
+        reviewService.saveReviewTag(review, reviewForm.getReviewTags());
       return "redirect:list";
     }
 

@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -20,5 +21,5 @@ public class ReviewForm {
     @NotEmpty(message = "내용은 필수항목입니다.")
     private String content;
     @NotEmpty(message = "태그는 필수항목입니다.")
-    private Set<ReviewTag> reviewTags;
+    private List<String> reviewTags;
 }

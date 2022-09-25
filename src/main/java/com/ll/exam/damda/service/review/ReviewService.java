@@ -4,9 +4,11 @@ import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.entity.search.Review;
 import com.ll.exam.damda.entity.search.ReviewTag;
 import com.ll.exam.damda.entity.search.Spot;
+import com.ll.exam.damda.entity.search.Tag;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.search.review.ReviewRepository;
 import com.ll.exam.damda.repository.search.review.ReviewTagRepository;
+import com.ll.exam.damda.repository.search.review.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +24,19 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
+    private final ReviewTagRepository reviewTagRepository;
+    private final TagRepository tagRepository;
+
+    public void saveReviewTag(Review review, List<String> tagList){
+        for (String _tag : tagList){
+            Tag tag = tagRepository.findByName(_tag);
+            ReviewTag reviewTag = ReviewTag.builder()
+                            .review(review)
+                                    .tag(tag)
+                                            .build();
+            reviewTagRepository.save(reviewTag);
+        }
+    }
 
     public Page<Review> getList(int page) {
         List<Sort.Order> sorts = new ArrayList<>();
@@ -47,7 +62,7 @@ public class ReviewService {
                 .orElseThrow(() -> new DataNotFoundException("no review not found,".formatted(id)));
     }
 
-    public void create(Set<ReviewTag> checkedValue, String title, String content, SiteUser siteUser, Spot spot) {
+    public Review create(String title, String content, SiteUser siteUser, Spot spot) {
 
         Review review = new Review();
         review.setSpot(spot);
@@ -56,10 +71,8 @@ public class ReviewService {
         review.setSiteUser(siteUser);
         review.setFirstCreatedDate(LocalDateTime.now());
 
-        Set<ReviewTag> reviewTags = new HashSet<>(checkedValue);
-        review.setReviewTags(reviewTags);
-
         reviewRepository.save(review);
+        return review;
     }
 
     public void modify(Review review, String title, String content) {

@@ -1,9 +1,4 @@
 
-window.onload = function () {
-    console.log('getAllBusket');
-    // getAllBusket(plan_id);
-    getAllCourse(course_id);
-}
 var plan_id = $('input[name=plan_id]').val();
 var course_id = $('input[name=course_id]').val();
 // var courseId =

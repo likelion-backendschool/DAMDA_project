@@ -1,9 +1,6 @@
 package com.ll.exam.damda.controller.search.review;
 
-import com.ll.exam.damda.dto.search.review.ReviewDto;
-import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.entity.search.Review;
-import com.ll.exam.damda.entity.search.ReviewTag;
 import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.service.review.DataNotFoundException;
@@ -21,8 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
-import java.util.Set;
 
 
 @Controller
@@ -97,7 +92,7 @@ public class ReviewController {
         Page<Review> paging = reviewService.getList(page);
         model.addAttribute("paging", paging);
 
-        return "review/list";
+        return "allReviewList";
     }
 
     @RequestMapping("/review/spotReviewList/{spotId}")

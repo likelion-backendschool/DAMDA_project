@@ -1,0 +1,120 @@
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+        layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content" class="container my-3">
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <!-- Add New Post Form -->
+            <div class="card card-small mb-3">
+                <div class="card-body">
+                    <form class="add-new-post" th:action="@{''}" th:object="${reviewForm}" method="post">
+
+
+                        <legend>Review</legend>
+
+                        <hr>
+                        <div class="alert alert-primary" role="alert" th:if="${#fields.hasAnyErrors()}">
+                            <div th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+                        </div>
+
+                        <!-- 추천 태그 -->
+                        <div class="form-row mx-5">
+
+                            <fieldset class="col">
+                                <label class="form-label">여행지 태그 선택</label>
+                                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                    <input type="checkbox" id="alone" name="checkedValue" th:field="*{reviewTags}"
+                                           class="custom-control-input" value="혼자">
+                                    <label class="custom-control-label" for="alone">혼자</label>
+                                </div>
+                                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                    <input type="checkbox" id="withCouple" name="checkedValue" th:field="*{reviewTags}"
+                                           class="custom-control-input" value="연인끼리">
+                                    <label class="custom-control-label" for="withCouple">연인끼리</label>
+                                </div>
+                                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                    <input type="checkbox" id="withFamily" name="checkedValue" th:field="*{reviewTags}"
+                                           class="custom-control-input" value="가족끼리">
+                                    <label class="custom-control-label" for="withFamily">가족끼리</label>
+                                </div>
+                                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                    <input type="checkbox" id="withFriend" name="checkedValue" th:field="*{reviewTags}"
+                                           class="custom-control-input" value="친구끼리">
+                                    <label class="custom-control-label" for="withFriend">친구끼리</label>
+                                </div>
+                            </fieldset>
+                            <fieldset class="col">
+                                <br>
+                                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                    <input type="checkbox" id="spring" name="checkedValue" th:field="*{reviewTags}"
+                                           class="custom-control-input" value="봄">
+                                    <label class="custom-control-label" for="spring">봄</label>
+                                </div>
+                                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                    <input type="checkbox" id="summer" name="checkedValue" th:field="*{reviewTags}"
+                                           class="custom-control-input" value="여름">
+                                    <label class="custom-control-label" for="summer">여름</label>
+                                </div>
+                                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                    <input type="checkbox" id="autumn" name="checkedValue" th:field="*{reviewTags}"
+                                           class="custom-control-input" value="가을">
+                                    <label class="custom-control-label" for="autumn">가을</label>
+                                </div>
+                                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                    <input type="checkbox" id="winter" name="checkedValue" th:field="*{reviewTags}"
+                                           class="custom-control-input" value="겨울">
+                                    <label class="custom-control-label" for="winter">겨울</label>
+                                </div>
+                            </fieldset>
+                            <fieldset class="col">
+                                <br>
+                                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                    <input type="checkbox" id="insta" name="checkedValue" th:field="*{reviewTags}"
+                                           class="custom-control-input" value="인스타">
+                                    <label class="custom-control-label" for="insta">인스타</label>
+                                </div>
+                                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                    <input type="checkbox" id="activity" name="checkedValue" th:field="*{reviewTags}"
+                                           class="custom-control-input" value="액티비티">
+                                    <label class="custom-control-label" for="activity">액티비티</label>
+                                </div>
+                                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                    <input type="checkbox" id="watching" name="checkedValue" th:field="*{reviewTags}"
+                                           class="custom-control-input" value="볼거리">
+                                    <label class="custom-control-label" for="watching">볼거리</label>
+                                </div>
+                                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                                    <input type="checkbox" id="refresh" name="checkedValue" th:field="*{reviewTags}"
+                                           class="custom-control-input" value="휴양">
+                                    <label class="custom-control-label" for="refresh">휴양</label>
+                                </div>
+                            </fieldset>
+
+
+                        </div>
+
+                        <hr>
+
+                        <label class="form-label">제목</label>
+                        <input class="form-control form-control-lg mb-3 " type="text" th:field="*{title}" placeholder="제목을 입력해주세요.">
+
+                        <div class="mb-3">
+                            <label class="form-label">내용</label>
+                            <textarea name="content" class="form-control" rows="30" th:field="*{content}" placeholder="내용을 입력해주세요."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-outline-primary">저장</button>
+                    </form>
+                </div>
+            </div>
+            <!-- / Add New Post Form -->
+        </div>
+    </div>
+</div>
+
+
+</div>
+</html>

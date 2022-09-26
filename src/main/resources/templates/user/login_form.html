@@ -1,0 +1,63 @@
+<html layout:decorate="~{layout/layout_user}">
+
+<!-- login slide start -->
+<div layout:fragment="content" class="login-form-slider">
+    <div class="login-form-slider login-slide slide">
+        <div class="sign-up-txt">
+            계정이 없으신가요? <a class="sign-up-click" th:onclick="|location.href='@{/user/signup}'|">회원가입하기</a>
+        </div>
+        <div class="d-flex height-100-percentage max-width-400 margin-0-auto padding-10px">
+            <div class="align-self-center width-100-percentage">
+                <h2>로그인</h2>
+                <form class="floating-form" th:action="@{/user/login}" method="post">
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger">
+                            사용자ID 또는 비밀번호를 확인해 주세요.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control">
+                        <label class="label">아이디</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control">
+                        <label class="label">비밀번호</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="remember-me"
+                               name="remember-me" checked>
+                        <label class="form-check-label" for="remember-me"
+                               aria-describedby="rememberMeHelp">로그인 유지</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="forgot-txt">
+                                <a class="forgot-id-click" th:onclick="|location.href='@{/user/find_id}'|">아이디찾기</a>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="forgot-txt">
+                                <a class="forgot-password-click"
+                                   th:onclick="|location.href='@{/user/find_pw}'|">비밀번호찾기</a>
+                            </div>
+                        </div>
+                        <div class="col-4 row-6">
+                            <div class="form-group text-right">
+                                <input type="submit" class="submit" value="Login">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 text-center mt-3">
+
+                        <a href="/oauth2/authorization/kakao">
+                            <img alt="카카오로그인" th:src="@{/assets/kakao_login_medium_wide.png}">
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- login slide end -->
+</div>
+<!-- login style5 right side end -->
+</html>

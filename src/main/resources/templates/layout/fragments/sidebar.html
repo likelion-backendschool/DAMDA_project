@@ -19,22 +19,40 @@
             <div class="nav-wrapper">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/spot/show}">
+                        <a class="nav-link" th:href="@{/spot/show}">
                             <i class="material-icons">vertical_split</i>
 
                             <span>여행지 탐색</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="#">
+                        <a class="nav-link " th:href="@{/travel/design/plan/list}">
+                            <i class="material-icons">edit</i>
+                            <span>내 여행 계획</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " th:href="@{/travel/design/new}">
                             <i class="material-icons">edit</i>
                             <span>여행 계획 세우기</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="#">
+                        <a class="nav-link " th:href="@{/user/my_page}" th:if="${#authentication.principal.method.equals('d')}">
                             <i class="material-icons">person</i>
                             <span>마이페이지</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " th:href="@{/user/my_page_social}" th:if="!${#authentication.principal.method.equals('d')}">
+                            <i class="material-icons">person</i>
+                            <span>마이페이지</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " th:href="@{/review/myList}">
+                            <i class="material-icons">person</i>
+                            <span>내 여행 리뷰</span>
                         </a>
                     </li>
                 </ul>
@@ -91,20 +109,27 @@
                                 <a class="dropdown-item notification__all text-center" href="#"> View all Notifications </a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown p-2">
+                        <!-- 비로그인 렌더링-->
+                        <li class="p-2" sec:authorize="isAnonymous()">
+                            <a class="nav-link text-nowrap px-3" th:href="@{/user/login}" role="button">
+                                <span class="d-none d-md-inline-block">Login</span>
+                            </a>
+                        </li>
+                        <!-- 로그인 렌더링-->
+                        <li class="nav-item dropdown p-2" sec:authorize="isAuthenticated()">
                             <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons account_circle">&#xe853;</i>
-                                <span class="d-none d-md-inline-block">Sierra Brooks</span>
+                                <span class="d-none d-md-inline-block" th:text="${#authentication.principal.nickname}"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
-                                <a class="dropdown-item" href="user-profile-lite.html">
-                                    <i class="material-icons">&#xE7FD;</i> Profile</a>
-                                <a class="dropdown-item" href="components-blog-posts.html">
-                                    <i class="material-icons">vertical_split</i> Blog Posts</a>
-                                <a class="dropdown-item" href="add-new-post.html">
-                                    <i class="material-icons">note_add</i> Add New Post</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">
+<!--                                <a class="dropdown-item" href="user-profile-lite.html">-->
+<!--                                    <i class="material-icons">&#xE7FD;</i> Profile</a>-->
+<!--                                <a class="dropdown-item" href="components-blog-posts.html">-->
+<!--                                    <i class="material-icons">vertical_split</i> Blog Posts</a>-->
+<!--                                <a class="dropdown-item" href="add-new-post.html">-->
+<!--                                    <i class="material-icons">note_add</i> Add New Post</a>-->
+<!--                                <div class="dropdown-divider"></div>-->
+                                <a class="dropdown-item text-danger" th:href="@{/user/logout}">
                                     <i class="material-icons text-danger">&#xE879;</i> Logout </a>
                             </div>
                         </li>

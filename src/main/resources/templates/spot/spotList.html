@@ -1,0 +1,144 @@
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+        layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <form method="get" action="/spot/show" class="py-3">
+        <div class="form-row mb-1">
+            <div class="col">
+                <input class="w-50 float-right" name="searchWord" type="text" placeholder="검색어 입력">
+            </div>
+            <div class="col align-self-center">
+                <button type="submit" class="btn btn-outline-primary">검색</button>
+            </div>
+        </div>
+        <!-- 검색 태그 조건 -->
+        <div class="form-row mx-5">
+            <span th:if="${param.checkedValue}"></span>
+            <fieldset class="col">
+                <strong class="text-muted d-block mb-2">검색 태그 조건</strong>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="withCouple" name="checkedValue" class="custom-control-input" value="연인끼리"
+                           th:checked="${#lists.contains(checkedValue, '연인끼리')}">
+                    <label class="custom-control-label" for="withCouple">연인끼리</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="withFamily" name="checkedValue" class="custom-control-input" value="가족끼리"
+                           th:checked="${#lists.contains(checkedValue, '가족끼리')}">
+                    <label class="custom-control-label" for="withFamily">가족끼리</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="withFriend" name="checkedValue" class="custom-control-input" value="친구끼리"
+                           th:checked="${#lists.contains(checkedValue, '친구끼리')}">
+                    <label class="custom-control-label" for="withFriend">친구끼리</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="alone" name="checkedValue" class="custom-control-input" value="혼자"
+                           th:checked="${#lists.contains(checkedValue, '혼자')}">
+                    <label class="custom-control-label" for="alone">혼자</label>
+                </div>
+            </fieldset>
+            <fieldset class="col">
+                <br>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="spring" name="checkedValue" class="custom-control-input" value="봄"
+                           th:checked="${#lists.contains(checkedValue, '봄')}">
+                    <label class="custom-control-label" for="spring">봄</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="summer" name="checkedValue" class="custom-control-input" value="여름"
+                           th:checked="${#lists.contains(checkedValue, '여름')}">
+                    <label class="custom-control-label" for="summer">여름</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="fall" name="checkedValue" class="custom-control-input" value="가을"
+                           th:checked="${#lists.contains(checkedValue, '가을')}">
+                    <label class="custom-control-label" for="fall">가을</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="winter" name="checkedValue" class="custom-control-input" value="겨울"
+                           th:checked="${#lists.contains(checkedValue, '겨울')}">
+                    <label class="custom-control-label" for="winter">겨울</label>
+                </div>
+            </fieldset>
+            <fieldset class="col">
+                <br>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="insta" name="checkedValue" class="custom-control-input" value="인스타"
+                           th:checked="${#lists.contains(checkedValue, '인스타')}">
+                    <label class="custom-control-label" for="insta">인스타</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="activity" name="checkedValue" class="custom-control-input" value="액티비티"
+                           th:checked="${#lists.contains(checkedValue, '액티비티')}">
+                    <label class="custom-control-label" for="activity">액티비티</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="watching" name="checkedValue" class="custom-control-input" value="볼거리"
+                           th:checked="${#lists.contains(checkedValue, '볼거리')}">
+                    <label class="custom-control-label" for="watching">볼거리</label>
+                </div>
+                <div class="custom-control custom-toggle custom-toggle-sm mb-1">
+                    <input type="checkbox" id="healing" name="checkedValue" class="custom-control-input" value="휴량"
+                           th:checked="${#lists.contains(checkedValue, '휴양')}">
+                    <label class="custom-control-label" for="healing">휴양</label>
+                </div>
+            </fieldset>
+        </div>
+    </form>
+
+    <div class="main-content-container container-fluid px-4">
+        <div class="row">
+            <div th:each="spot : ${spotDtoList}" class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                <div class="card card-small card-post h-100">
+                    <div class="card-post__image" th:style="'background-image: url(..' + ${spot.thumbNailImgPath} + ');'"></div>
+                    <div class="card-body">
+                        <div class="form-row">
+                            <h5 class="card-title col">
+                                <a class="text-fiord-blue" th:href="@{/spot/detail (spot=${spot.id})}" th:text="${spot.name}"></a>
+                                <span th:text="|(${spot.reviews.size()})|" class="text-danger small ms-2"></span>
+                            </h5>
+                            <span th:text="${spot.city}" class="d-inline-block float-right"></span>
+                        </div>
+                        <p th:text="${spot.description}" class="card-text"></p>
+                    </div>
+                    <div class="card-footer text-muted border-top py-3">
+                        <span th:each="tag : ${spot.MostTags}" th:text="|${tag.name} |"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:if="${!spotDtoList.isEmpty()}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${spotDtoList.number == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{?(page=0, searchWord=${param.searchWord}, checkedValue=${param.checkedValue})}">
+                    <span>처음</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${!spotDtoList.hasPrevious} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{?(page=${spotDtoList.number-1}, searchWord=${param.searchWord}, checkedValue=${param.checkedValue})}">
+                    <span>이전</span>
+                </a>
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, spotDtoList.totalPages-1)}"
+                th:if="${page >= spotDtoList.number-5 and page <= spotDtoList.number+5}"
+                th:classappend="${page == spotDtoList.number} ? 'active'"
+                class="page-item">
+                <a th:text="${page}" class="page-link" th:href="@{?(page=${page}, searchWord=${param.searchWord}, checkedValue=${param.checkedValue})}"></a>
+            </li>
+            <li class="page-item" th:classappend="${!spotDtoList.hasNext} ? 'disabled'">
+                <a class="page-link" th:href="@{?(page=${spotDtoList.number+1}, searchWord=${param.searchWord}, checkedValue=${param.checkedValue})}">
+                    <span>다음</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${spotDtoList.number == spotDtoList.totalPages - 1} ? 'disabled'">
+                <a class="page-link" th:href="@{?(page=${spotDtoList.totalPages - 1}, searchWord=${param.searchWord}, checkedValue=${param.checkedValue})}">
+                    <span>마지막</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</html>

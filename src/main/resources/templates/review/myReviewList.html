@@ -1,0 +1,72 @@
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+        layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>내 여행 리뷰</h4>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>여행지</th>
+            <th>작성일시</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="review, loop : ${paging}">
+            <td th:text="${paging.number * paging.size+loop.index+1} "></td>
+            <td>
+                <a th:href="@{|/review/show/${review.id}|}" th:text="${review.title}"></a>
+            </td>
+            <td>
+                <span th:text="${review.spot?.name}"></span>
+            </td>
+            <td th:text="${#temporals.format(review.firstCreatedDate, 'yy-MM-dd')}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- 페이징처리 시작 -->
+    <div th:if="${!paging.isEmpty()}">
+        <!--bootstrap 클래스-->
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${paging.number == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{?(page=0, searchWord=${param.searchWord}, checkedValue=${param.checkedValue})}">
+                    <span>처음</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{|?page=${paging.number-1}|}">
+                    <span>이전</span>
+                </a>
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                th:if="${page >= paging.number/10*10 and page <= paging.number/10*10+9}"
+                th:classappend="${page == paging.number} ? 'active'"
+                class="page-item">
+                <a th:text="${page+1}" class="page-link" th:href="@{|?page=${page}|}"></a>
+            </li>
+
+            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                    <span>다음</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${paging.number == paging.totalPages-1} ? 'disabled'">
+                <a class="page-link" th:href="@{?(page=${paging.totalPages - 1}, searchWord=${param.searchWord}, checkedValue=${param.checkedValue})}">
+                    <span>마지막</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- 페이징처리 끝 -->
+
+
+</div>
+</html>

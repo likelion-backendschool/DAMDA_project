@@ -1,0 +1,172 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content" class=" d-flex justify-content-around mt-3"
+     style="width:95%; height:100%; position:absolute;">
+    <script>
+        window.onload = function () {
+            console.log('getAllBusket');
+            // getAllBusket(plan_id);
+            getAllCourse(course_id);
+        }
+    </script>
+
+    <style>
+        .busket::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <input type="hidden" name="plan_id" th:value="${plan.id}">
+    <input type="hidden" name="course_id" th:value="${course.id}">
+    <div class="card card py-3" style="width:20%; height:80%;">
+        <div class="text-center mb-3">장바구니</div>
+        <div class="busket row justify-content-center d-flex align-items-center" style="overflow-y: scroll;">
+            <!--여기에 장바구니 목록 들어옴-->
+            <th:block th:if="${spotList.size() > 0}" th:each="spot : ${spotList}">
+                <div class="p-2 border-bottom border-1 my-1" style="width: 200px;">
+                    <a class="font-weight-bold" th:onclick="'window.open(\'http://place.map.kakao.com/' + ${spot.urlId} + '\')'" th:text="${spot.name}"></a>
+                    <br>
+                    <span class="mb-1" th:text="${spot.address}"></span>
+                    <br>
+                    <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
+                        <button type="button" class="btn btn-outline-primary" th:onclick="|insertCourse(${spot.id})|">+</button>
+                        <button type="button" class="btn btn-outline-primary" th:onclick="|removeAtBusket(${spot.id}, this);|">x</button>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </div>
+    <div class="mx-2" style="width: 65%; height: 80%">
+        <div class="d-flex container justify-content-around mb-2">
+            <a class="px-5 card card"
+               th:if="${course.orders - 1 > 0}"
+               th:href="@{|?order=${course.orders - 1}|}"
+               th:text="|${course.orders - 1}일차|"
+            >
+            </a>
+            <a class="px-5 card card" th:text="|${course.orders}일차|"></a>
+            <a class="px-5 card card"
+               th:if="${course.orders + 1 <= plan.size}"
+               th:text="|${course.orders + 1}일차|"
+               th:href="@{|?order=${course.orders + 1}|}"></a>
+        </div>
+        <div class="course mb-2 d-flex bg-white shadow p-3 bg-body rounded justify-content-start"
+             style="height:10%; height: 15%; overflow: auto; white-space: nowrap;"></div>
+        <!--지도-->
+        <div class="map_wrap">
+            <div id="map" style="width:100%;height:100%;position:absolute;overflow:hidden;"></div>
+
+            <div id="menu_wrap" class="bg_white">
+                <div class="option">
+                    <div>
+                        <form onsubmit="searchPlaces(); return false;">
+                            키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15">
+                            <button type="submit">검색하기</button>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <ul id="placesList"></ul>
+                <div id="pagination"></div>
+            </div>
+        </div>
+        <script type="text/javascript"
+                src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c67e5e4d2bd37b972933cf07ff9ec9a7&libraries=services"></script>
+        <!--지도 끝-->
+    </div>
+    <div style="width:20%; height:80%;">
+        <div class="card card py-3 mb-4" style="width:100%; height:85%;">
+            <div class="text-center mb-2">채팅방</div>
+            <div class="chat" id="app" v-cloak>
+                <div>
+                    <h2 th:text=${room.roomName}></h2>
+                    <input type="hidden" id="roomId" th:value=${room.roomId}>
+                    <input type="hidden" id="nickName" th:value="${#authentication.principal.nickname}"></input>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">내용</label>
+                    </div>
+                    <input type="text" class="form-control" v-model="content" v-on:keypress.enter="sendMessage">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" @click="sendMessage">보내기</button>
+                    </div>
+                </div>
+                <ul style="overflow: scroll; height: 300px" class="list-group">
+                    <li class="list-group-item" v-for="message in messages">
+                        {{message.user}} - {{message.content}}
+                    </li>
+                </ul>
+                <div></div>
+            </div>
+            <!-- JavaScript -->
+            <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8"></script>
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+            <script>
+                // websocket & stomp initialize
+                var sock = new SockJS("/ws/chat");
+                var ws = Stomp.over(sock);
+                var reconnect = 0;
+                // vue.js
+                var vm = new Vue({
+                    el: '#app',
+                    data: {
+                        roomId: '',
+                        room: {},
+                        user: '',
+                        content: '',
+                        messages: []
+                    },
+                    created() {
+                        this.roomId = document.getElementById("roomId").value;
+                        this.user = document.getElementById("nickName").value;;
+                        this.findRoom();
+                        this.findMessages();
+                    },
+                    methods: {
+                        findRoom: function() {
+                            axios.get('/chat/room/'+this.roomId).then(response => { this.room = response.data; });
+                        },
+                        findMessages: function() {
+                            axios.get('/chat/room/messages/'+this.roomId).then(response => { this.messages = response.data; });
+                        },
+                        sendMessage: function() {
+                            ws.send("/app/chat/message", {}, JSON.stringify({roomId:this.roomId, user:this.user, content:this.content}));
+                            this.content = '';
+                        },
+                        recvMessage: function(recv) {
+                            this.messages.unshift({"user":recv.user,"content":recv.content})
+                        }
+                    }
+                });
+
+                function connect() {
+                    // pub/sub event
+                    ws.connect({}, function(frame) {
+                        ws.subscribe("/topic/chat/room/"+vm.$data.roomId, function(message) {
+                            var recv = JSON.parse(message.body);
+                            vm.recvMessage(recv);
+                        });
+                        ws.send("/app/chat/message", {}, JSON.stringify({roomId:vm.$data.roomId, user:vm.$data.user, content:vm.$data.user + "가 채팅방에 입장했습니다."}));
+                    }, function(error) {
+                        if(reconnect++ <= 5) {
+                            setTimeout(function() {
+                                console.log("connection reconnect");
+                                sock = new SockJS("/ws/chat");
+                                ws = Stomp.over(sock);
+                                connect();
+                            },10*1000);
+                        }
+                    });
+                }
+                connect();
+            </script>
+        </div>
+        <div>
+            <a class="btn btn-primary py-4" style="width:100%;"
+               th:href="@{|/travel/design/plan/detail/${plan.id}?order=1|}"
+            >저장</a>
+        </div>
+    </div>
+</div>
+</html>

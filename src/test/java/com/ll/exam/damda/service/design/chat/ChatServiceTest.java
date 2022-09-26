@@ -3,10 +3,11 @@ package com.ll.exam.damda.service.design.chat;
 import com.ll.exam.damda.entity.design.chat.ChatMessage;
 import com.ll.exam.damda.entity.design.chat.ChatRoom;
 import com.ll.exam.damda.entity.design.map.Plan;
+import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.design.chat.ChatMessageRepository;
 import com.ll.exam.damda.repository.design.chat.ChatRoomRepository;
 import com.ll.exam.damda.service.design.map.PlanService;
-import org.assertj.core.api.Assertions;
+import com.ll.exam.damda.service.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -33,6 +31,9 @@ class ChatServiceTest {
 
     @Autowired
     private PlanService planService;
+
+    @Autowired
+    private UserService userService;
 
     @Test
     void findAllRoom() {
@@ -63,9 +64,10 @@ class ChatServiceTest {
                 .roomTitle("테스트 대화방")
                 .build());
 
+        SiteUser siteUser = userService.create("user4", "nick4", "user4@email.com", "1234");
         chatRoom.getChatMessages().add(ChatMessage.builder()
                 .chatRoom(chatRoom)
-                .userId("관리자")
+                .user(siteUser)
                 .content("테스트 메시지")
                 .build());
     }

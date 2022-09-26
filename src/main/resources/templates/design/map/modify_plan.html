@@ -79,6 +79,7 @@
                 <div>
                     <h2 th:text=${room.roomName}></h2>
                     <input type="hidden" id="roomId" th:value=${room.roomId}>
+                    <input type="hidden" id="nickName" th:value="${#authentication.principal.nickname}"></input>
                 </div>
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -118,7 +119,7 @@
                     },
                     created() {
                         this.roomId = document.getElementById("roomId").value;
-                        this.user = "테스트 사용자" + Math.floor(Math.random() * 100);
+                        this.user = document.getElementById("nickName").value;;
                         this.findRoom();
                         this.findMessages();
                     },

@@ -7,6 +7,7 @@ import com.ll.exam.damda.entity.design.chat.ChatRoom;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.repository.design.chat.ChatMessageRepository;
 import com.ll.exam.damda.repository.design.chat.ChatRoomRepository;
+import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class ChatService {
 
     private final ChatRoomRepository chatRoomRepository;
 
+    private final UserService userService;
 
     //채팅방 불러오기
     @Transactional(readOnly = true)
@@ -79,7 +81,6 @@ public class ChatService {
     public void saveChatMessage(ChatMessageDto chatMessageDto) {
         ChatRoom chatRoom = chatRoomRepository.findById(chatMessageDto.getRoomId())
                 .orElseThrow(() -> new NoSuchElementException("채팅방이 존재하지 않습니다."));
-
-        chatRoom.getChatMessages().add(chatMessageDto.toEntity(chatRoom));
+        chatRoom.getChatMessages().add(chatMessageDto.toEntity(chatRoom, userService.getUser(chatMessageDto.getUser())));
     }
 }

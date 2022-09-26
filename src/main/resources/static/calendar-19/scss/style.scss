@@ -1,0 +1,57 @@
+
+
+@import "bootstrap/functions";
+@import "bootstrap/variables";
+@import "bootstrap/mixins";
+
+$font-family-sans-serif-2: 'Poppins', sans-serif;
+$font-family-serif: 'Source Serif Pro', serif;
+
+
+
+body {
+	font-family: $font-family-sans-serif;
+	background-color: #efefef;
+}
+p {
+	color: darken(#ccc, 10%);
+	font-weight: 300;
+}
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	font-family: $font-family-sans-serif;
+}
+a {
+	transition: .3s all ease;
+	&, &:hover {
+		text-decoration: none!important;
+	}
+}
+.content {
+	padding: 7rem 0;
+}
+h2 {
+	font-size: 20px;
+}
+
+.form-control {
+	&:active, &:focus {
+		outline: none;
+		box-shadow: none;
+	}
+}
+
+#calendar {
+  max-width: 900px;
+  margin: 0 auto;
+
+  .fc-view-container {
+  	padding: 30px;
+  	background-color: $white;
+  	box-shadow: 0 15px 30px 0 rgba($black, .2);
+  }
+}
+
+
+
+

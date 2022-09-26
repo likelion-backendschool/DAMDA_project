@@ -14,10 +14,9 @@
             <li class="list-group-item p-3">
                 <div class="row">
                     <div class="col">
-
-                        <!-- 소셜 로그인 X -->
-                        <form th:action="@{/user/my_page}" th:object="${userEditForm}" method="post"
-                              th:if="${#authentication.principal.method} == 'd'">
+                        <!-- 소셜 로그인 O -->
+                        <form th:action="@{/user/my_page_social}" th:object="${userEditForm_social}" method="post"
+                              th:if="${#authentication.principal.method} != 'd'">
 
                             <div th:replace="user/form_errors :: formErrorsFragment"></div>
 
@@ -29,20 +28,20 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="form-label">이메일</label>
-                                    <input type="email" th:field="*{email}" class="form-control"
-                                           placeholder="example@example.com">
+                                    <input type="email" class="form-control"
+                                           th:placeholder="${#authentication.principal.email}" disabled>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label class="form-label">비밀번호</label>
-                                    <input type="password" th:field="*{password}" class="form-control"
-                                           placeholder="Password">
+                                    <input type="password" class="form-control"
+                                           placeholder="Password" disabled>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="form-label">비밀번호 확인</label>
-                                    <input type="password" th:field="*{password_check}" class="form-control"
-                                           placeholder="Password">
+                                    <input type="password" class="form-control"
+                                           placeholder="Password" disabled>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">정보 수정</button>

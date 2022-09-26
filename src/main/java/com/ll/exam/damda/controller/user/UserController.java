@@ -9,10 +9,7 @@ import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.form.user.*;
 import com.ll.exam.damda.service.user.MailService;
 import com.ll.exam.damda.service.user.UserService;
-import com.ll.exam.damda.util.Util;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -79,16 +76,6 @@ public class UserController {
     public String mypage(Principal principal, UserEditForm userEditForm) {
         SiteUser siteUser = userService.getUser(principal.getName());
 
-        // 소셜 로그인
-        if (!siteUser.getMethod().equals("d")) {
-            userEditForm.setNickname(siteUser.getNickname());
-            userEditForm.setEmail(siteUser.getEmail());
-            userEditForm.setPassword("****");
-            userEditForm.setPassword_check("****");
-            return "user/my_page_form";
-        }
-
-        // 소셜 로그인 x
         userEditForm.setNickname(siteUser.getNickname());
         userEditForm.setEmail(siteUser.getEmail());
         return "user/my_page_form";
@@ -96,29 +83,11 @@ public class UserController {
 
     @PostMapping("/my_page")
     public String mypage(Principal principal, Model model, @Valid UserEditForm userEditForm, BindingResult bindingResult) {
-        SiteUser siteUser = userService.getUser(principal.getName());
-
-        // 소셜 로그인
-        if (!siteUser.getMethod().equals("d")) {
-            if (bindingResult.hasErrors()) {
-                return "user/my_page_form";
-            }
-            try {
-                userService.edit(siteUser, userEditForm.getNickname());
-            }  catch (SignupNicknameDuplicatedException e) {
-                bindingResult.reject("signupNicknameDuplicated", e.getMessage());
-                return "user/my_page_form";
-            }
-
-            MessageDto message = new MessageDto("정보 변경이 완료되었습니다.", "/user/my_page", RequestMethod.POST, null);
-            return showMessageAndRedirect(message, model);
-        }
-
-
-        // 소셜 로그인 x
         if (bindingResult.hasErrors()) {
             return "user/my_page_form";
         }
+        SiteUser siteUser = userService.getUser(principal.getName());
+
         if (!userEditForm.getPassword().equals(userEditForm.getPassword_check())) {
             bindingResult.rejectValue("password_check", "passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
@@ -139,6 +108,35 @@ public class UserController {
         }
 
         MessageDto message = new MessageDto("정보 변경이 완료되었습니다.", "/user/my_page", RequestMethod.POST, null);
+        return showMessageAndRedirect(message, model);
+    }
+
+    @GetMapping("/my_page_social")
+    public String mypage_social(Principal principal, UserEditForm_social userEditForm_social) {
+        SiteUser siteUser = userService.getUser(principal.getName());
+
+        userEditForm_social.setNickname(siteUser.getNickname());
+
+        return "user/my_page_form_social";
+
+    }
+
+    @PostMapping("/my_page_social")
+    public String mypage_social(Principal principal, Model model, @Valid UserEditForm_social userEditForm_social, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "user/my_page_form_social";
+        }
+
+        SiteUser siteUser = userService.getUser(principal.getName());
+
+        try {
+            userService.edit(siteUser, userEditForm_social.getNickname());
+        } catch (SignupNicknameDuplicatedException e) {
+            bindingResult.reject("signupNicknameDuplicated", e.getMessage());
+            return "user/my_page_form_social";
+        }
+
+        MessageDto message = new MessageDto("정보 변경이 완료되었습니다.", "/user/my_page_social", RequestMethod.POST, null);
         return showMessageAndRedirect(message, model);
     }
 

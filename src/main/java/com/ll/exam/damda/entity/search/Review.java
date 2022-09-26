@@ -4,8 +4,10 @@ import com.ll.exam.damda.entity.user.SiteUser;
 import lombok.*;
 
 import javax.persistence.*;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -69,4 +71,36 @@ public class Review {
         return tagInfo;
     }
 
-}
+
+    public Map<Tag, Integer> getTagMap2(Review review) {
+        Map<Tag, Integer> tagInfo = new HashMap<>();
+
+
+            for (Map.Entry<Tag, Integer> entry : review.getTagInfo().entrySet()) {
+                if (!tagInfo.containsKey(entry.getKey())) {
+                    tagInfo.put(entry.getKey(), entry.getValue());
+                } else {
+                    tagInfo.put(entry.getKey(), tagInfo.get(entry.getKey()) + 1);
+                }
+            }
+
+
+        return tagInfo;
+    }
+
+    public String getTagList(Review review) {
+      //List<ReviewTag> tagList = List.copyOf(reviewTags);
+        String tagListString = "";
+
+        List<Tag> tagList = getTagMap2(review).entrySet().stream()
+                .sorted(Comparator.comparing(Map.Entry::getValue, Comparator.reverseOrder()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        for (Tag tag : tagList) {
+            tagListString = tagListString +"" + tag.getName();
+        }
+        return tagListString;
+    }
+
+   }

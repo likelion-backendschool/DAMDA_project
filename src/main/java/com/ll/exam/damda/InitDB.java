@@ -70,12 +70,12 @@ public class InitDB {
 
             /*여행지 리뷰 생성*/
             for (Spot spot : spotRepository.findAll()) {
-                for (int i = 0; i < rand.nextInt(10); i++) {
+                for (int i = 0; i < rand.nextInt(20); i++) {
                     Review review = Review.builder()
                             .title("good")
                             .content("so fun")
-                            .startDate(LocalDateTime.of(2022, Month.APRIL, 1, 0, 0))
-                            .endDate(LocalDateTime.of(2022, Month.APRIL, 2, 0, 0))
+                            .firstCreatedDate(LocalDateTime.of(2022, Month.APRIL, 1, 0, 0))
+                            .lastModifiedDate(LocalDateTime.of(2022, Month.APRIL, 2, 0, 0))
                             .build();
                     review.setSpot(spot);
                     em.persist(review);
@@ -112,7 +112,7 @@ public class InitDB {
             /*test 유저 1,2 생성*/
             userService.create("test1","test1","test1@email.com", "test1");
             userService.create("test2","test2","test2@email.com", "test2");
-        }
 
+        }
     }
 }

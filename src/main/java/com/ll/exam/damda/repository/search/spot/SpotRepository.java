@@ -4,6 +4,7 @@ import com.ll.exam.damda.entity.search.Spot;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -21,6 +22,7 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
 
     @EntityGraph(attributePaths = {"reviews", "spotImageURLs"})
     List<Spot> findAll(Specification<Spot> spec);
+
 
     @EntityGraph(attributePaths = {"reviews", "spotImageURLs"})
     @Query("select s from Spot s where s.selfMadeFlag = 'Y'")

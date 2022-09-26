@@ -1,4 +1,7 @@
-<html layout:decorate="~{layout/layout}">
+<html
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+        layout:decorate="~{layout/layout}">
 <div layout:fragment="content">
     <div class="main-content-container container-fluid px-4" id="spotDetail">
         <!-- Page Header -->
@@ -51,8 +54,17 @@
                 <div class="card card-small blog-comments" style="height: 400px;">
                     <div class="card-header border-bottom">
                         <h6 class="m-0">Spot Review</h6>
+
+                        <form action="/review/create" method="get">
+                            <input type="hidden" name="spotId" th:value="${spotDto.id}">
+                            <button type="submit" formaction="/review/create" class="mt-2 mb-2 btn btn-sm btn-pill btn-outline-primary mx-auto" style="width: 70px;">
+                                리뷰 작성
+                            </button>
+                        </form>
+
                     </div>
                     <div class="card-body p-0" style="overflow:scroll;">
+
                         <div th:each="review : ${spotDto.reviews}" class="blog-comments__item d-flex p-3">
                             <div class="blog-comments__content">
                                 <div class="blog-comments__meta text-muted">
@@ -61,7 +73,9 @@
                                 </div>
                                 <p th:text="|${review.content}|" class="m-0 my-1 mb-2 text-muted"></p>
                                 <div class="blog-comments__actions">
+
                                     <div class="btn-group btn-group-sm">
+                                        <!-- button 안으로 review.id가 입력이 되지 않습니다. (디자인 보류)
                                         <button type="button" class="btn btn-white">
                                             <span class="text-success">
                                                 <i class="material-icons">check</i>
@@ -74,6 +88,20 @@
                                             <span class="text-light">
                                                 <i class="material-icons">more_vert</i>
                                             </span> Edit </button>
+
+                                        <button type="button" class="btn btn-white" th:onclick="|location.href='@{/review/modify/${review.id}}'|">
+                                            <span class="text-light">
+                                                <i class="material-icons">more_vert</i>
+                                            </span> Edit </button>
+                                        -->
+                                        <a th:href="@{|/review/modify/${review.id}|}" class="btn btn-outline-primary"
+                                           sec:authorize="isAuthenticated()"
+                                           th:if="${review.siteUser != null and #authentication.getPrincipal().getUsername() == review.siteUser.username}"
+                                           th:text="수정"></a>
+                                        <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/review/delete/${review.id}|}"
+                                           class="btn btn-outline-primary" sec:authorize="isAuthenticated()"
+                                           th:if="${review.siteUser != null and #authentication.getPrincipal().getUsername() == review.siteUser.username}"
+                                           th:text="삭제"></a>
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +110,9 @@
                     <div class="card-footer border-top">
                         <div class="row">
                             <div class="col text-center view-report">
+                                <a th:href="@{|/review/spotReviewList/${spotDto.id}|}">
                                 <button type="submit" class="btn btn-white">View More Reviews</button>
+                                </a>
                             </div>
                         </div>
                     </div>

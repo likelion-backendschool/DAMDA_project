@@ -1,5 +1,6 @@
 package com.ll.exam.damda.entity.search;
 
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,4 +24,5 @@ public class ReviewTag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
     private Tag tag;
+
 }

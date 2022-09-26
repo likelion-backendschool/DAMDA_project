@@ -42,4 +42,5 @@ public class SiteUser {
 
     @OneToMany(mappedBy = "siteUser")
     private Set<Review> reviewSet;
+
 }

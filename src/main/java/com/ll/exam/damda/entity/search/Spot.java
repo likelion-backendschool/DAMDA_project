@@ -22,7 +22,9 @@ public class Spot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Column(name = "spot_name")
+
     private String name;
 
     @Column(name = "spot_city")
@@ -64,6 +66,7 @@ public class Spot {
     public Map<Tag, Integer> getTagMap() {
         Map<Tag, Integer> tagInfo = new HashMap<>();
 
+
         for (Review review : this.reviews) {
             for (Map.Entry<Tag, Integer> entry : review.getTagInfo().entrySet()) {
                 if (!tagInfo.containsKey(entry.getKey())) {
@@ -94,4 +97,3 @@ public class Spot {
         return mostTagList;
     }
 }
-

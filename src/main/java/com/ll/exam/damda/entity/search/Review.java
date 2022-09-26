@@ -4,8 +4,10 @@ import com.ll.exam.damda.entity.user.SiteUser;
 import lombok.*;
 
 import javax.persistence.*;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -25,11 +27,11 @@ public class Review {
     @Column(name = "review_content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "review_travel_start_date")
-    private LocalDateTime startDate;
+    @Column(name = "review_first_created_date")
+    private LocalDateTime firstCreatedDate;
 
-    @Column(name = "review_travel_end_date")
-    private LocalDateTime endDate;
+    @Column(name = "review_last_created_date")
+    private LocalDateTime lastModifiedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spot_id")
@@ -38,6 +40,8 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "siteUser_id")
     private SiteUser siteUser;
+
+
 
     @OneToMany(mappedBy = "review")
     @Builder.Default
@@ -49,9 +53,11 @@ public class Review {
         spot.setReviewCnt(spot.getReviewCnt() + 1);
     }
 
+
     //==조회 로직==//
     public Map<Tag, Integer> getTagInfo() {
         Map<Tag, Integer> tagInfo = new HashMap<>();
+
 
         for (ReviewTag _reviewTag : this.reviewTags) {
             Tag tag = _reviewTag.getTag();
@@ -65,4 +71,36 @@ public class Review {
         return tagInfo;
     }
 
-}
+
+    public Map<Tag, Integer> getTagMap2(Review review) {
+        Map<Tag, Integer> tagInfo = new HashMap<>();
+
+
+            for (Map.Entry<Tag, Integer> entry : review.getTagInfo().entrySet()) {
+                if (!tagInfo.containsKey(entry.getKey())) {
+                    tagInfo.put(entry.getKey(), entry.getValue());
+                } else {
+                    tagInfo.put(entry.getKey(), tagInfo.get(entry.getKey()) + 1);
+                }
+            }
+
+
+        return tagInfo;
+    }
+
+    public String getTagList(Review review) {
+      //List<ReviewTag> tagList = List.copyOf(reviewTags);
+        String tagListString = "";
+
+        List<Tag> tagList = getTagMap2(review).entrySet().stream()
+                .sorted(Comparator.comparing(Map.Entry::getValue, Comparator.reverseOrder()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        for (Tag tag : tagList) {
+            tagListString = tagListString +"" + tag.getName();
+        }
+        return tagListString;
+    }
+
+   }

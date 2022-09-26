@@ -36,6 +36,7 @@ public class SpotService {
     }
 
     public Page<SpotDto> getSpotListBy(String searchWord, List<String> checkedValue, int page) {
+
         Page<SpotDto> spotDtoPages;
         Specification<Spot> spec;
 
@@ -155,6 +156,7 @@ public class SpotService {
 
             for (Tag tag : tagInfo.keySet()) { // 여행지 태그들
                 if (checkedValue.contains(tag.getName())) { // 여행지 태그가 검색 조건에 포함
+
                     if (!spotDtoList.contains(spotDto)) {
                         spotDtoList.add(spotDto);
                     }
@@ -170,6 +172,7 @@ public class SpotService {
                 return b.getTagCnt() - a.getTagCnt();
             }
         };
+
 
         Collections.sort(spotDtoList, comparator);
 

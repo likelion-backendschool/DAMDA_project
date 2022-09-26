@@ -82,7 +82,7 @@ function insertCourse(spot_id) {
         datatype: "text",
         success: function (messages) {
             console.log('insertCourse success');
-            getFinalSpotAtCourse(course_id);
+            getAllCourse(course_id);
         }
     });
 }
@@ -112,17 +112,19 @@ function getAllCourse(course_id) {
             courseId: course_id
         },
         success: function (spots) {
+            let html = ``;
             $(spots).each(function () {
-                const html = `
+                html += `
             <div class="m-2">
             <span class="p-2 badge rounded-pill badge-secondary">${this.name}
             <button type="button" class="btn-close" onclick="removeCourse(course_id, ${this.id}, this)" aria-label="Close">X</button></span>
             </div>
-
             `;
-                $('.course').empty();
-                $('.course').append(html);
             });
+            $('.course').empty();
+            console.log('empty');
+            $('.course').append(html);
+            console.log('append');
         }
 
     });

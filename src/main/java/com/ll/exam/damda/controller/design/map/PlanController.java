@@ -12,13 +12,14 @@ import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.repository.user.UserPlanRepository;
+import com.ll.exam.damda.repository.user.UserRepository;
 import com.ll.exam.damda.service.design.chat.ChatService;
 import com.ll.exam.damda.service.design.map.BusketService;
 import com.ll.exam.damda.service.design.map.CourseService;
 import com.ll.exam.damda.service.design.map.PlanService;
 import com.ll.exam.damda.service.search.spot.SpotService;
+import com.ll.exam.damda.service.user.UserSecurityService;
 import com.ll.exam.damda.service.user.UserService;
-import com.ll.exam.damda.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,8 +29,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.util.List;
+
+import static com.ll.exam.damda.util.Util.getRandomText;
+import static com.ll.exam.damda.util.Util.showMessageAndRedirect;
 
 @Controller
 @PreAuthorize("isAuthenticated()")
@@ -43,6 +46,7 @@ public class PlanController {
     private final CourseService courseService;
     private final SpotService spotService;
     private final ChatService chatService;
+    private final UserRepository userRepository;
     private final UserService userService;
 
     //플래너 리스트
@@ -73,22 +77,22 @@ public class PlanController {
     }
 
     //플래너 기본 정보 수정
-    @GetMapping("/modification/basic/{planId}")
-    public String modifyBasicPlan(Model model, @PathVariable long planId) {
-        Plan plan = planService.getPlan(planId);
-        model.addAttribute("plan", plan);
-        return "/design/map/modify_basic";
-    }
-
-    @PostMapping("/modification/basic/{planId}")
-    public String modifyBasicPlan(@PathVariable long planId,
-                                  @RequestParam(value = "title") String title,
-                                  @RequestParam(value = "size") long size,
-                                  @RequestParam(value = "memo") String memo) {
-        Plan plan = planService.getPlan(planId);
-        planService.modifyBasic(planId, title, size, memo);
-        return "redirect:/travel/design/modification/%d?order=1".formatted(planId);
-    }
+//    @GetMapping("/modification/basic/{planId}")
+//    public String modifyBasicPlan(Model model, @PathVariable long planId) {
+//        Plan plan = planService.getPlan(planId);
+//        model.addAttribute("plan", plan);
+//        return "/design/map/modify_basic";
+//    }
+//
+//    @PostMapping("/modification/basic/{planId}")
+//    public String modifyBasicPlan(@PathVariable long planId,
+//                                  @RequestParam(value = "title") String title,
+//                                  @RequestParam(value = "size") long size,
+//                                  @RequestParam(value = "memo") String memo) {
+//        Plan plan = planService.getPlan(planId);
+//        planService.modifyBasic(planId, title, size, memo);
+//        return "redirect:/travel/design/modification/%d?order=1".formatted(planId);
+//    }
 
     //플래너 수정
     @GetMapping("/modification/{planId}")
@@ -242,13 +246,14 @@ public class PlanController {
     }
 
     @GetMapping("/plan/detail/{planId}")
-    public String planDetail(Model model, @PathVariable long planId, @RequestParam long order) {
+    public String planDetail(Model model, @PathVariable long planId, @RequestParam long order) throws JsonProcessingException {
         Plan plan = planService.getPlan(planId);
         Course course = courseService.getCourse(plan, order);
-
+        List<Spot> spotList = course.getSpotList();
+//        String spotsString = objectMapper.writeValueAsString(spotList);
         model.addAttribute("plan", plan);
         model.addAttribute("course", course);
-        model.addAttribute("spotList", course.getSpotList());
+        model.addAttribute("spotList", spotList);
 
         return "design/map/plan_detail";
     }
@@ -258,15 +263,14 @@ public class PlanController {
         String alert = "소유자만 공유 가능합니다";
         String redirectUri = "/travel/design/plan/list";
 
-        UserPlan userPlan = planService.getUserPlan(planId);
+        UserPlan userPlan = planService.getUserPlan(userService.getUserId(userService.getUser(principal.getName())), planId);
 
-        if (userPlan.getSiteUser().getUsername().equals(principal.getName())){
+        if (userPlan.getSiteUser().getUsername().equals(principal.getName())) {
 
-            String tempLink = Util.getRandomText(10);
+            String tempLink = getRandomText(10);
             planService.invite(userPlan, tempLink);
 
-            alert = "링크를 공유하세요 : "+"http://localhost:8080/travel/design/share/invite/"+tempLink;
-            redirectUri = "/travel/design/plan/list";
+            alert = "링크를 공유하세요 : " + "http://localhost:8080/travel/design/share/invite/" + tempLink;
         }
 
         MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.GET, null);
@@ -274,19 +278,20 @@ public class PlanController {
     }
 
     @GetMapping("/share/invite/{link}")
-    public String planInvite(Model model, Principal principal, @PathVariable String link){
-        UserPlan userPlan = userPlanRepository.findByLink(link);
-        planService.createUserPlan(principal.getName(), userPlan);
-
-        String alert = "추가완료";
+    public String planInvite(Model model, Principal principal, @PathVariable String link) {
+        String alert = "이미 추가되어 있거나 링크가 유효하지 않습니다";
         String redirectUri = "/travel/design/plan/list";
+
+
+        if (userPlanRepository.findByLink(link) != null) {
+            UserPlan userPlan = userPlanRepository.findByLink(link);
+            if (userPlanRepository.findBySiteUserIdAndPlanId(userService.getUserId(userService.getUser(principal.getName())), userPlan.getPlan().getId()) == null) {
+                alert = "추가완료";
+                planService.createUserPlan(principal.getName(), userPlan);
+            }
+        }
 
         MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.GET, null);
         return showMessageAndRedirect(message, model);
-    }
-
-    private String showMessageAndRedirect(final MessageDto params, Model model) {
-        model.addAttribute("params", params);
-        return "user/messageRedirect";
     }
 }

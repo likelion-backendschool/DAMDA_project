@@ -1,8 +1,4 @@
-window.onload = function () {
-    console.log('getAllBusket');
-    // getAllBusket(plan_id);
-    getAllCourse(course_id);
-}
+
 var plan_id = $('input[name=plan_id]').val();
 var course_id = $('input[name=course_id]').val();
 // var courseId =
@@ -17,6 +13,17 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 
 // 지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
+
+// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+var mapTypeControl = new kakao.maps.MapTypeControl();
+
+// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+var zoomControl = new kakao.maps.ZoomControl();
+map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
 // 장소 검색 객체를 생성합니다
 var ps = new kakao.maps.services.Places();
@@ -113,10 +120,14 @@ function getAllCourse(course_id) {
             </div>
 
             `;
+                $('.course').empty();
                 $('.course').append(html);
             });
         }
+
     });
+    console.log('getAllCourse수행');
+    setTimeout(getAllCourse, 3000); //3초 뒤에 수행
 }
 function removeCourse(course_id, spot_id, btn) {
     $.ajax({
@@ -185,7 +196,7 @@ function getBusket(plan_id) {
         success: function (spot) {
             console.log(spot);
             const html = `
-                        <div class="p-2 border-bottom border-1 my-1">
+                        <div class="p-2 border-bottom border-1 my-1" style="width:200px;">
                         <a class="font-weight-bold" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>${spot.name}</a>
                         <br>
                         <span class="mb-1">${spot.address}</span>

@@ -14,7 +14,10 @@
             <li class="list-group-item p-3">
                 <div class="row">
                     <div class="col">
-                        <form th:action="@{/user/my_page}" th:object="${userEditForm}" method="post">
+
+                        <!-- 소셜 로그인 X -->
+                        <form th:action="@{/user/my_page}" th:object="${userEditForm}" method="post"
+                              th:if="${#authentication.principal.method} == 'd'">
 
                             <div th:replace="user/form_errors :: formErrorsFragment"></div>
 

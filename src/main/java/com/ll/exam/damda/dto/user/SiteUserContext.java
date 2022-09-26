@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class SiteUserContext extends User implements OAuth2User {
     private final Long id;
     private final String nickname;
+    private final String email;
 
     private final String method;
 
@@ -25,6 +26,7 @@ public class SiteUserContext extends User implements OAuth2User {
         super(user.getUsername(), user.getPassword(), authorities);
         this.id = user.getId();
         this.nickname = user.getNickname();
+        this.email = user.getEmail();
         this.method = user.getMethod();
     }
 

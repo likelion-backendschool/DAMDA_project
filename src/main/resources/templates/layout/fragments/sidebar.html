@@ -38,7 +38,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " th:href="@{/user/my_page}">
+                        <a class="nav-link " th:href="@{/user/my_page}" th:if="${#authentication.principal.method.equals('d')}">
+                            <i class="material-icons">person</i>
+                            <span>마이페이지</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " th:href="@{/user/my_page_social}" th:if="!${#authentication.principal.method.equals('d')}">
                             <i class="material-icons">person</i>
                             <span>마이페이지</span>
                         </a>

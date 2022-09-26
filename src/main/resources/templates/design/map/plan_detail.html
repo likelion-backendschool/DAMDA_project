@@ -1,6 +1,19 @@
 <html layout:decorate="~{layout/layout}">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/calendar-19/fonts/icomoon/style.css}">
+    <link th:href='@{/calendar-19/fullcalendar/packages/core/main.css}' rel='stylesheet'/>
+    <link th:href='@{/calendar-19/fullcalendar/packages/daygrid/main.css}' rel='stylesheet'/>
+    <!-- Bootstrap CSS -->
+    <!--<link rel="stylesheet" th:href="@{/calendar-19/css/bootstrap.min.css}">-->
+    <!-- Style -->
+    <link rel="stylesheet" th:href="@{/calendar-19/css/style.css}">
+</head>
 <div layout:fragment="content" class="mt-3 container justify-content-around"
      style="width: 95%; min-height: 100%; position:relative;">
+    <input type="hidden" name="plan_id" th:value="${plan.id}">
+    <input type="hidden" name="plan_size" th:value="${plan.size}">
     <input type="hidden" name="course" th:value="${course}">
     <!--제목과 수정, 삭제 버튼-->
     <div class="justify-content-between d-flex mb-2" style="height: 10%;">
@@ -16,16 +29,83 @@
         </div>
     </div>
     <!--일차 이동 바-->
-    <div class="w-100 d-flex mb-2 justify-content-start" style="height: 10%; white-space: nowrap; overflow: auto;">
-        <div class="card card py-3 px-5 mr-2" th:each="courses : ${plan.courseList}">
-            <a th:if="${courses.id != course.id}"
-               th:href="@{|/travel/design/plan/detail/${plan.id}?order=${courses.orders}|}"
-               th:text="|${courses.orders}일차|"></a>
-            <a class="font-weight-bold" th:if="${courses.id == course.id}" th:text="|${courses.orders}일차|"></a>
-        </div>
-    </div>
+    <!--    <div class="w-100 d-flex mb-2 justify-content-start" style="height: 10%; white-space: nowrap; overflow: auto;">-->
+    <!--        <div class="card card py-3 px-5 mr-2" th:each="courses : ${plan.courseList}">-->
+    <!--            <a th:if="${courses.id != course.id}"-->
+    <!--               th:href="@{|/travel/design/plan/detail/${plan.id}?order=${courses.orders}|}"-->
+    <!--               th:text="|${courses.orders}일차|"></a>-->
+    <!--            <a class="font-weight-bold" th:if="${courses.id == course.id}" th:text="|${courses.orders}일차|"></a>-->
+    <!--        </div>-->
+    <!--    </div>-->
     <!--여행지 코스 정보 / 지도 + 캘린터-->
     <div class="justify-content-around d-flex" style="max-height: 80%;">
+        <!--        <div class="content">-->
+        <div style="width: 40%;" id='calendar'></div>
+
+        <!--            <script th:src="@{/calendar-19/js/jquery-3.3.1.min.js}"></script>-->
+        <script th:src="@{/calendar-19/js/popper.min.js}"></script>
+        <!--            <script th:src="@{calendar-19/js/bootstrap.min.js}"></script>-->
+
+        <script th:src='@{/calendar-19/fullcalendar/packages/core/main.js}'></script>
+        <script th:src='@{/calendar-19/fullcalendar/packages/interaction/main.js}'></script>
+        <script th:src='@{/calendar-19/fullcalendar/packages/daygrid/main.js}'></script>
+
+        <script th:inline="javascript">
+            var plan_id = $('input[name=plan_id]').val();
+            var plan_size = $('input[name=plan_size]').val();
+            var spots = [[${spotList}]];
+            var size = plan_size;
+            var plan_startDate = [[${plan.startDate}]];
+
+            var eventList = [];
+
+            function spotsPrint() {
+                //콘솔에 테스트 출력
+                console.log('planId : ' + plan_id,
+                    'size : ' + size,
+                    'spots : ' + spots
+                );
+            }
+
+            function addEvent() {
+                var splitDate = plan_startDate.split('-');
+                // console.log(splitDate);
+                for (var i = 0; i < plan_size; i++) {
+                    var travelDate = splitDate[0] + "-" + splitDate[1] + "-" + (Number(splitDate[2]) + i);
+                    //콘솔에 테스트 출력
+                    // console.log('title: ' + `${i + 1}일차 ` + 'start:' + travelDate + ' url:' + `/travel/design/plan/detail/${plan_id}?order=${i + 1}`);
+                    //eventList에 추가
+                    eventList[i] = {
+                        title: `${i + 1}일차`,
+                        start: travelDate.toString(),
+                        url: `/travel/design/plan/detail/${plan_id}?order=${i + 1}`
+                    }
+                }
+            }
+
+            //캘린더 랜더링시 일부 날짜의 일차가 나오지 않는 문제
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('addEventListener');
+                // spotsPrint();
+                addEvent();
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    plugins: ['interaction', 'dayGrid'],
+                    defaultDate: Date.now(),
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: eventList
+                });
+                // console.log('calendar.render');
+
+                calendar.render();
+            });
+
+        </script>
+
+        <script th:src="@{/calendar-19/js/main.js}"></script>
+
+
         <div style="width: 50%; height: 100%;">
             <!--코스 정보-->
             <div class="card card overflow-scroll container mx-1 row" style="width:100%; max-height:100%;">
@@ -36,81 +116,129 @@
                         <a th:href="@{|http://place.map.kakao.com/${spot.urlId}|}" style="white-space: nowrap;"
                            target="_blank">카카오 맵에서 보기</a>
                     </div>
+                    <!--지도-->
+                    <!--지도 끝-->
                 </div>
             </div>
-            <!--지도-->
-            <div class="card card container mt-2" style="width:100%; min-height:100%;">
-                <div id="map" style="width:100%;height:350px;"></div>
+            <div class="card card container">
+                <!--지도-->
+                <div id="mapTotal" style="width:100%;height:350px;"></div>
 
                 <script type="text/javascript"
                         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3398f87064ef2d4f364684990589c167&libraries=services"></script>
-                <script>
-                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                <script th:inline="javascript">
+                    // window.onload = setBounds();
+                    // var plan_id = $('input[name=plan_id]').val();
+                    // var plan_size = $('input[name=plan_size]').val();
+                    // var spots = [[${spotList}]];
+                    // var size = plan_size;
+                    // var plan_startDate = [[${plan.startDate}]];
+
+                    var mapContainer = document.getElementById('mapTotal'), // 지도를 표시할 div
                         mapOption = {
                             center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-                            level: 10 // 지도의 확대 레벨
+                            level: 7 // 지도의 확대 레벨
                         };
 
                     // 지도를 생성합니다
                     var map = new kakao.maps.Map(mapContainer, mapOption);
 
+                    // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+                    var mapTypeControl = new kakao.maps.MapTypeControl();
+
+                    // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+                    // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+                    map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+                    // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+                    var zoomControl = new kakao.maps.ZoomControl();
+                    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+                    // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+                    var bounds = new kakao.maps.LatLngBounds();
+
+
+
+                    var positions = [
+                        // {
+                        //     addressMap: '충남 부여군 부여읍 석탑로 49 문광사서점',
+                        //     title: '문광사서점'
+                        // },
+                        // {
+                        //     addressMap: '충남 부여군 부여읍 성왕로 215 카페써니',
+                        //     title: '카페써니'
+                        // },
+                        // {
+                        //     addressMap: '충남 부여군 부여읍 중앙로 10 추성희헤어스투디오',
+                        //     title: '추성희헤어스투디오'
+                        // }
+                        // , {
+                        //     addressMap: '충남 부여군 부여읍 중앙로 7 리헤어리더',
+                        //     title: '리헤어리더'
+                        // }
+                    ];
+                    spots.forEach(spot => {
+                        // console.log('spotsEach');
+                        // console.log(spot.name);
+                        // console.log(spot.address);
+                        positions.push(
+                            {
+                                title: spot.name,
+                                addressMap: spot.address
+                            }
+                        );
+                    });
+
 
                     // 주소-좌표 변환 객체를 생성합니다
                     var geocoder = new kakao.maps.services.Geocoder();
 
-                    var positions = [
-                        {
-                            title: '카카오',
-                            address: '경기 성남시 분당구 판교역로 166 카카오 판교아지트 A동 3층'
-                        },
-                        {
-                            title: '생태연못',
-                            address: '경기 남양주시 조안면 능내리 50'
-                        },
-                        {
-                            title: '근린공원',
-                            address: '경기 남양주시 별내면 청학로68번길 40'
-                        }
-                    ];
-
-                    function addPositions(spot) {
-
-                    }
-
-                    for (var i = 0; i < positions.length; i++) {
+                    positions.forEach(function (position) {
+                        // console.log('positionsEach');
                         // 주소로 좌표를 검색합니다
-                        geocoder.addressSearch(positions[i].address, function (result, status) {
+                        geocoder.addressSearch(position.addressMap, function (result, status) {
 
                             // 정상적으로 검색이 완료됐으면
                             if (status === kakao.maps.services.Status.OK) {
 
                                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
+
                                 // 결과값으로 받은 위치를 마커로 표시합니다
                                 var marker = new kakao.maps.Marker({
                                     map: map,
                                     position: coords
                                 });
+                                marker.setMap(map);
+
+
+                                // LatLngBounds 객체에 좌표를 추가합니다
+                                bounds.extend(coords);
+
 
                                 // 인포윈도우로 장소에 대한 설명을 표시합니다
                                 var infowindow = new kakao.maps.InfoWindow({
-                                    content: '<div style="width:150px;text-align:center;padding:6px 0;"></div>'
+                                    content: '<div style="width:150px;text-align:center;padding:6px 0;">' + position.title + '</div>'
                                 });
                                 infowindow.open(map, marker);
 
                                 // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                                map.setCenter(coords);
+                                // map.setCenter(coords);
+                                setBounds()
                             }
                         });
+                    });
+                    function setBounds() {
+                        // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+                        // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+                        map.setBounds(bounds);
                     }
                 </script>
                 <!--지도 끝-->
             </div>
         </div>
-        <div>
-            <div id='calendar'></div>
-        </div>
-
     </div>
+
+    <!--    </div>-->
 </div>
 </html>

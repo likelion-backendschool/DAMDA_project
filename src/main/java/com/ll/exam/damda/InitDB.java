@@ -5,6 +5,7 @@ import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.search.review.ReviewRepository;
 import com.ll.exam.damda.repository.search.spot.SpotRepository;
 import com.ll.exam.damda.repository.user.UserRepository;
+import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,7 @@ public class InitDB {
         private final EntityManager em;
         private final SpotRepository spotRepository;
         private final ReviewRepository reviewRepository;
+        private final UserService userService;
 
         public void createSpot(String name, String city, String address, String description, long urlId, String x, String y, String flag, String thumbNailImgPath) {
             Spot spot = Spot.builder()
@@ -107,7 +109,9 @@ public class InitDB {
                     em.persist(reviewTag);
                 }
             }
-
+            /*test 유저 1,2 생성*/
+            userService.create("test1","test1","test1@email.com", "test1");
+            userService.create("test2","test2","test2@email.com", "test2");
         }
 
     }

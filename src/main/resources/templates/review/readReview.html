@@ -11,27 +11,19 @@
             <div class="card card-small mb-3">
                 <div class="card-body">
                     <!-- <form class="add-new-post" th:action="@{/review/show}" th:object="${reviewForm}"method="post">-->
-
-                    <h4 th:text="${review.title}"></h4>
-                    <div class="d-flex justify-content-end">
-                        <div th:text="${#temporals.format(review.firstCreatedDate, '작성일 yyyy-MM-dd HH:mm')}"></div>
-                        <div th:text="${#temporals.format(review.lastModifiedDate, '수정일 yyyy-MM-dd HH:mm')}"></div>
+                    <div class="my-3 border-bottom">
+                        <div>
+                            <h4 th:text="${review.title}"></h4>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <div th:text="${#temporals.format(review.firstCreatedDate, '작성일 yyyy-MM-dd HH:mm')}"></div>
+                            <div th:text="${#temporals.format(review.lastModifiedDate, '수정일 yyyy-MM-dd HH:mm')}"></div>
+                        </div>
                     </div>
 
                     <!-- 검색 태그 결과 -->
 
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td>
 
-                            </td>
-                            <td>
-
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
 
                     <div class="row">
                         <div class="col">

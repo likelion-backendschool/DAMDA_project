@@ -97,7 +97,15 @@ public class ReviewController {
         Page<Review> paging = reviewService.getList(page);
         model.addAttribute("paging", paging);
 
-        return "review/reviewList";
+        return "review/list";
+    }
+
+    @RequestMapping("/review/spotReviewList/{spotId}")
+    public String spotReviewList(Model model,@PathVariable Long spotId, @RequestParam(defaultValue = "0") int page) {
+        Page<Review> paging = reviewService.getListBySpot(spotId, page);
+        model.addAttribute("paging", paging);
+
+        return "review/spotReviewList";
     }
 
     @RequestMapping("/review/myList")
@@ -130,7 +138,7 @@ public class ReviewController {
         SiteUser siteUser = userService.getUser(principal.getName());
         Review review= reviewService.create( reviewForm.getTitle(), reviewForm.getContent(), siteUser, spot);
         reviewService.saveReviewTag(review, reviewForm.getReviewTags());
-      return "redirect:list";
+      return "redirect:myList";
     }
 
     //@PreAuthorize("isAuthenticated()")
@@ -148,7 +156,7 @@ public class ReviewController {
 
         reviewService.delete(review);
 
-        return "redirect:/review/list";
+        return "redirect:/review/myList";
     }
 
 

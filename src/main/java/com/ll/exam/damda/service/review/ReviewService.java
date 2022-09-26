@@ -9,6 +9,7 @@ import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.search.review.ReviewRepository;
 import com.ll.exam.damda.repository.search.review.ReviewTagRepository;
 import com.ll.exam.damda.repository.search.review.TagRepository;
+import com.ll.exam.damda.service.search.spot.SpotService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +27,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewTagRepository reviewTagRepository;
     private final TagRepository tagRepository;
+    private final SpotService spotService;
 
     public void saveReviewTag(Review review, List<String> tagList){
         for (String _tag : tagList){
@@ -45,6 +47,17 @@ public class ReviewService {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts)); // 한 페이지에 10까지 가능
 
         return this.reviewRepository.findAll(pageable);
+
+    }
+
+    public Page<Review> getListBySpot(Long spotId, int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("firstCreatedDate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts)); // 한 페이지에 10까지 가능
+
+        String name = spotService.findById(spotId).getName();
+
+        return reviewRepository.findBySpot_nameContains(name, pageable);
 
     }
 

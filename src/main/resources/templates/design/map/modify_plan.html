@@ -77,7 +77,7 @@
             <div class="text-center mb-2">채팅방</div>
             <div class="chat" id="app" v-cloak>
                 <div>
-                    <h2 th:text=${room.roomName}></h2>
+                    <h2 class="text-center mb-3" th:text=${room.roomName}></h2>
                     <input type="hidden" id="roomId" th:value=${room.roomId}>
                     <input type="hidden" id="nickName" th:value="${#authentication.principal.nickname}"></input>
                 </div>

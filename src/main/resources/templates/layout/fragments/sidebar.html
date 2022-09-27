@@ -20,19 +20,19 @@
                     </div>
 
                     <ul class="navbar-nav flex-row">
-                        <li class="nav-item" style="padding-top:10px; padding-left: 10px; padding-right: 10px;">
+                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex" style="padding-top:10px; padding-left: 10px; padding-right: 10px;">
                             <a class="nav-link" th:href="@{/spot/show}">
                                 <i class="material-icons">vertical_split</i>
                                 <span>여행지 탐색</span>
                             </a>
                         </li>
-                        <li class="nav-item"style="padding-top:10px; padding-left: 10px; padding-right: 10px;">
+                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex"style="padding-top:10px; padding-left: 10px; padding-right: 10px;">
                             <a class="nav-link " th:href="@{/travel/design/plan/list}">
                                 <i class="material-icons">edit</i>
                                 <span>내 여행 계획</span>
                             </a>
                         </li>
-                        <li class="nav-item"style="padding-top:10px; padding-left: 10px; padding-right: 10px;">
+                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex"style="padding-top:10px; padding-left: 10px; padding-right: 10px;">
                             <a class="nav-link " th:href="@{/travel/design/new}">
                                 <i class="material-icons">edit</i>
                                 <span>여행 계획 세우기</span>
@@ -44,13 +44,13 @@
                                 <span>마이페이지</span>
                             </a>
                         </li>
-                        <li class="nav-item"style="padding-top:10px; adding-left: 10px; padding-right: 10px;">
+                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex" style="padding-top:10px; adding-left: 10px; padding-right: 10px;">
                             <a class="nav-link " th:href="@{/user/my_page_social}" th:if="!${#authentication.principal.method.equals('d')}">
                                 <i class="material-icons">person</i>
                                 <span>마이페이지</span>
                             </a>
                         </li>
-                        <li class="nav-item"style="padding-top:10px; padding-left: 10px; padding-right: 10px;">
+                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex"style="padding-top:10px; padding-left: 10px; padding-right: 10px;">
                             <a class="nav-link " th:href="@{/review/myList}">
                                 <i class="material-icons">person</i>
                                 <span>내 여행 리뷰</span>

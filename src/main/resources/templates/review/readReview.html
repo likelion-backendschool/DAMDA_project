@@ -11,8 +11,8 @@
             <div class="card card-small mb-3">
                 <div class="card-body">
                     <!-- <form class="add-new-post" th:action="@{/review/show}" th:object="${reviewForm}"method="post">-->
-                    <div class="my-3 border-bottom">
-                        <div>
+
+                        <div class="my-3 border-bottom">
                             <h4 th:text="${review.title}"></h4>
                         </div>
                         <div class="d-flex justify-content-end">
@@ -23,33 +23,65 @@
                         <div class="d-flex justify-content-end">
                             <div th:text="${#temporals.format(review.lastModifiedDate, '수정일 yyyy-MM-dd HH:mm')}"></div>
                         </div>
-                    </div>
-
-                    <!-- 선택된 태그 조회 -->
-                    <div th:each="Tag :${review.reviewTags}">
-                        <button th:text="${review.getTag(review,TagStat.index)}"
-                                class="mb-2 btn btn-sm btn-outline-secondary mr-1">
-                                <!--onclick="location.href='링크주소';"-->
-                        </button>
-                    </div>
-                    <hr>
-
-                    <div class="card-body">
-                        <div style="white-space: pre-line;" th:text="${review.content}"></div>
-                    </div>
-                    </table>
                 </div>
             </div>
-
-            <a th:href="@{|/review/modify/${review.id}|}" class="btn btn-outline-primary"
-               sec:authorize="isAuthenticated()"
-               th:if="${review.siteUser != null and #authentication.getPrincipal().getUsername() == review.siteUser.username}"
-               th:text="수정"></a>
-            <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/review/delete/${review.id}|}"
-               class="btn btn-outline-primary" sec:authorize="isAuthenticated()"
-               th:if="${review.siteUser != null and #authentication.getPrincipal().getUsername() == review.siteUser.username}"
-               th:text="삭제"></a>
         </div>
     </div>
+
+
+    <div class="row">
+        <div class="col-lg-3 col-md-12">
+            <!-- 선택된 태그 조회 -->
+            <div class='card card-small mb-3'>
+                <div class="card-header border-bottom">
+                    <h6 class="m-0">Tags</h6>
+                </div>
+                <div class='card-body p-0'>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item p-3">
+                        <span class="d-flex mb-2"th:each="Tag :${review.reviewTags}">
+                          <i class="material-icons mr-1">flag</i>
+                          <strong class="mr-1">Selected:</strong> <stan th:text="${review.getTag(review,TagStat.index)}"></stan>
+                          <a class="ml-auto" href="#">Go!</a>
+                        </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Post Overview -->
+            <div class='card card-small mb-3'>
+                <div class="card-header border-bottom">
+                    <h6 class="m-0">Edit Review</h6>
+                </div>
+                <div class='card-body p-0'>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex px-3">
+                            <a th:href="@{|/review/modify/${review.id}|}" class="btn btn-outline-accent"
+                               sec:authorize="isAuthenticated()"
+                               th:if="${review.siteUser != null and #authentication.getPrincipal().getUsername() == review.siteUser.username}">
+                               <i class="material-icons">save</i> Edit</a>
+                            <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/review/delete/${review.id}|}"
+                               class="btn btn-sm btn-accent ml-auto" sec:authorize="isAuthenticated()"
+                               th:if="${review.siteUser != null and #authentication.getPrincipal().getUsername() == review.siteUser.username}">
+                                <i class="material-icons">file_copy</i> Delete</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- / Post Overview -->
+        </div>
+        <div class="col-lg-9 col-md-12">
+            <!-- Add New Post Form -->
+            <div class="card card-small mb-3">
+                <div class="card-body">
+                    <div style="white-space: pre-line;height:200px;" th:text="${review.content}"></div>
+                </div>
+            </div>
+            <!-- / Add New Post Form -->
+        </div>
+
+    </div>
+
+
 </div>
 </html>

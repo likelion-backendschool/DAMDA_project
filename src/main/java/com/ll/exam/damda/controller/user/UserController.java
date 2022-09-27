@@ -28,6 +28,7 @@ public class UserController {
     private final UserService userService;
     private final MailService mailService;
 
+    // 회원가입
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm) {
         return "user/signup_form";
@@ -61,6 +62,7 @@ public class UserController {
         return "redirect:/user/login";
     }
 
+    // 로그인
     @GetMapping("/login")
     public String login() {
         return "user/login_form";
@@ -72,6 +74,7 @@ public class UserController {
     }
 
 
+    // 정보수정용 마이페이지 (소셜로그인 X)
     @GetMapping("/my_page")
     public String mypage(Principal principal, UserEditForm userEditForm) {
         SiteUser siteUser = userService.getUser(principal.getName());
@@ -111,6 +114,7 @@ public class UserController {
         return showMessageAndRedirect(message, model);
     }
 
+    // 정보수정용 마이페이지 (소셜로그인 O)
     @GetMapping("/my_page_social")
     public String mypage_social(Principal principal, UserEditForm_social userEditForm_social) {
         SiteUser siteUser = userService.getUser(principal.getName());
@@ -140,6 +144,7 @@ public class UserController {
         return showMessageAndRedirect(message, model);
     }
 
+    // 아이디 찾기
     @GetMapping("/find_id")
     public String findid(FindIdForm findIdForm) {
         return "user/find_id_form";
@@ -161,6 +166,7 @@ public class UserController {
         return showMessageAndRedirect(message, model);
     }
 
+    // 비밀번호 찾기
     @GetMapping("/find_pw")
     public String findpw(FindPwForm findPwForm) {
         return "user/find_pw_form";

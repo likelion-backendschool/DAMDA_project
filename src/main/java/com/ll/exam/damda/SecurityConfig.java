@@ -50,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                // csrf 토큰 사용 X (추후 수정 필요)
                 .csrf(
                         csrf -> csrf
                                 .disable()
@@ -69,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin(
                         formLogin -> formLogin
                                 .loginPage("/user/login")
+                                // 로그인 성공 시 호출되는 URL
                                 .defaultSuccessUrl("/travel/design/plan/list")
                 )
 
@@ -98,9 +100,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 .tokenValiditySeconds(7 * 24 * 60 * 60)
                 )
 
+                // 소셜로그인 구현을 위한 Oauth2 설정
                 .oauth2Login(
                         oauth2Login -> oauth2Login
                                 .loginPage("/user/login")
+                                // 로그인 성공 시 호출되는 URL
                                 .defaultSuccessUrl("/travel/design/plan/list")
                                 .userInfoEndpoint(
                                         userInfoEndpoint -> userInfoEndpoint

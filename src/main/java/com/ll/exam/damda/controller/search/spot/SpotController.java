@@ -1,11 +1,11 @@
 package com.ll.exam.damda.controller.search.spot;
 
-import com.ll.exam.damda.HttpUtil;
 import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.dto.user.SiteUserContext;
 import com.ll.exam.damda.entity.user.UserPlan;
 import com.ll.exam.damda.repository.user.UserPlanRepository;
 import com.ll.exam.damda.service.search.spot.SpotService;
+import com.ll.exam.damda.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,7 +30,7 @@ public class SpotController {
     @GetMapping("/detail")
     public String showSpotDetail(@RequestParam("spot") Long spotId, Model model) {
         SpotDto spotDto = spotService.findById(spotId);
-        List<String> spotImgUrls = HttpUtil.getSpotImgUrl(spotDto.getName());
+        List<String> spotImgUrls = Util.getSpotImgUrl(spotDto.getName());
         model.addAttribute("spotDto", spotDto);
         model.addAttribute("imgUrlList", spotImgUrls);
         return "spot/spotDetail";

@@ -46,7 +46,6 @@ public class PlanController {
     private final CourseService courseService;
     private final SpotService spotService;
     private final ChatService chatService;
-    private final UserRepository userRepository;
     private final UserService userService;
 
     //플래너 리스트

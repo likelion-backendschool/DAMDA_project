@@ -12,14 +12,17 @@
                 <div class="card-body">
                     <!-- <form class="add-new-post" th:action="@{/review/show}" th:object="${reviewForm}"method="post">-->
 
-                        <div class="my-3 border-bottom">
-                            <h4 th:text="${review.title}"></h4>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <span th:text="${review.siteUser?.username}"></span></div>
-                        <div class="d-flex justify-content-end">
-                            <div th:text="${#temporals.format(review.firstCreatedDate, '작성일 yyyy-MM-dd HH:mm')}"></div>
-                        </div>
+                    <div class="my-3 border-bottom">
+                        <h4 th:text="${review.title}"></h4>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <span th:text="${review.siteUser?.username}"></span></div>
+                    <div class="d-flex justify-content-end">
+                        <div th:text="${#temporals.format(review.firstCreatedDate, '작성일 yyyy-MM-dd HH:mm')}"></div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <div th:text="${#temporals.format(review.lastModifiedDate, '수정일 yyyy-MM-dd HH:mm')}"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,7 +32,7 @@
     <div class="row">
         <div class="col-lg-3 col-md-12">
             <!-- 선택된 태그 조회 -->
-            <div class='card card-small mb-3'style="height:290px;overflow: scroll;">
+            <div class='card card-small mb-3' style="height:290px;overflow: scroll;">
                 <div class="card-header border-bottom">
                     <h6 class="m-0">
                         <i class="material-icons mr-1">flag</i>Tags</h6>
@@ -37,7 +40,7 @@
                 <div class='card-body p-0'>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item p-3">
-                            <span class="d-flex mb-2"th:each="Tag :${review.reviewTags}">
+                            <span class="d-flex mb-2" th:each="Tag :${review.reviewTags}">
                             <span th:text="${review.getTag(review,TagStat.index)}"></span>
                           <a class="ml-auto" href="#">Go!</a>
                         </span>
@@ -46,7 +49,7 @@
                 </div>
             </div>
             <!-- Post Overview -->
-            <div class='card card-small mb-3'style="height:120px;">
+            <div class='card card-small mb-3' style="height:120px;">
                 <div class="card-header border-bottom">
                     <h6 class="m-0">Edit Review</h6>
                 </div>
@@ -56,8 +59,9 @@
                             <a th:href="@{|/review/modify/${review.id}|}" class="btn btn-outline-accent"
                                sec:authorize="isAuthenticated()"
                                th:if="${review.siteUser != null and #authentication.getPrincipal().getUsername() == review.siteUser.username}">
-                               <i class="material-icons">save</i> Edit</a>
-                            <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;" th:href="@{|/review/delete/${review.id}|}"
+                                <i class="material-icons">save</i> Edit</a>
+                            <a onclick="if ( !confirm('정말로 삭제하시겠습니까?') ) return false;"
+                               th:href="@{|/review/delete/${review.id}|}"
                                class="btn btn-sm btn-accent ml-auto" sec:authorize="isAuthenticated()"
                                th:if="${review.siteUser != null and #authentication.getPrincipal().getUsername() == review.siteUser.username}">
                                 <i class="material-icons">file_copy</i> Delete</a>

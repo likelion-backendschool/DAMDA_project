@@ -171,28 +171,8 @@
 
 
 
-                    var positions = [
-                        // {
-                        //     addressMap: '충남 부여군 부여읍 석탑로 49 문광사서점',
-                        //     title: '문광사서점'
-                        // },
-                        // {
-                        //     addressMap: '충남 부여군 부여읍 성왕로 215 카페써니',
-                        //     title: '카페써니'
-                        // },
-                        // {
-                        //     addressMap: '충남 부여군 부여읍 중앙로 10 추성희헤어스투디오',
-                        //     title: '추성희헤어스투디오'
-                        // }
-                        // , {
-                        //     addressMap: '충남 부여군 부여읍 중앙로 7 리헤어리더',
-                        //     title: '리헤어리더'
-                        // }
-                    ];
+                    var positions = [];
                     spots.forEach(spot => {
-                        // console.log('spotsEach');
-                        // console.log(spot.name);
-                        // console.log(spot.address);
                         positions.push(
                             {
                                 title: spot.name,
@@ -206,7 +186,6 @@
                     var geocoder = new kakao.maps.services.Geocoder();
 
                     positions.forEach(function (position) {
-                        // console.log('positionsEach');
                         // 주소로 좌표를 검색합니다
                         geocoder.addressSearch(position.addressMap, function (result, status) {
 

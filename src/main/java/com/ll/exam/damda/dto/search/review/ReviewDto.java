@@ -18,6 +18,7 @@ public class ReviewDto {
     private String content;
     private LocalDateTime FirstCreatedData;
     private LocalDateTime LastModifiedDate;
+    private List<String> Tags;
 
     public ReviewDto toDto(Review review){
         return ReviewDto.builder()
@@ -26,6 +27,7 @@ public class ReviewDto {
                 .title(review.getTitle())
                 .FirstCreatedData(review.getFirstCreatedDate())
                 .LastModifiedDate(review.getLastModifiedDate())
+                .Tags(review.getTagList(review))
                 .build();
     }
 }

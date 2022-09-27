@@ -25,40 +25,15 @@
                         </div>
                     </div>
 
-                    <!-- 검색 태그 결과 -->
-
-                    <div th:text="${review.getTagList(review)}"></div>
-
-                    <!--<div class="row" th:each="tag:${review.reviewTags}">-->
-                        <div class="col">
-                            <button id="혼자" class="mb-2 btn btn-sm btn-outline-primary mr-1"
-                                    onclick="location.href='링크주소';">혼자
-                            </button>
-                            <button id="연인끼리" th:text="${review.getTagList(review)}" class="mb-2 btn btn-sm btn-outline-secondary mr-1" ></button>
-                            <button id="가족끼리" class="mb-2 btn btn-sm btn-outline-success mr-1">가족끼리</button>
-                            <button id="친구끼리" class="mb-2 btn btn-sm btn-outline-danger mr-1">친구끼리</button>
-
-                        </div>
-                    <div class="row">
-                        <div class="col">
-                            <button id="봄" class="mb-2 btn btn-sm btn-outline-primary mr-1">봄</button>
-                            <button id="여름" class="mb-2 btn btn-sm btn-outline-secondary mr-1">여름</button>
-                            <button id="가을" class="mb-2 btn btn-sm btn-outline-success mr-1">가을</button>
-                            <button id="겨울" class="mb-2 btn btn-sm btn-outline-danger mr-1">겨울</button>
-                        </div>
+                    <!-- 선택된 태그 조회 -->
+                    <div th:each="Tag :${review.reviewTags}">
+                        <button th:text="${review.getTag(review,TagStat.index)}"
+                                class="mb-2 btn btn-sm btn-outline-secondary mr-1">
+                                <!--onclick="location.href='링크주소';"-->
+                        </button>
                     </div>
-                    <div class="row">
-                        <div class="col">
-
-                            <button id="인스타" class="mb-2 btn btn-sm btn-outline-primary mr-1">인스타</button>
-                            <button id="액티비티" class="mb-2 btn btn-sm btn-outline-secondary mr-1">액티비티</button>
-                            <button id="볼거리" class="mb-2 btn btn-sm btn-outline-success mr-1">볼거리</button>
-                            <button id="휴양" class="mb-2 btn btn-sm btn-outline-danger mr-1">휴양</button>
-                        </div>
-                    </div>
-                    <!-- / Small Outline Checkbox -->
-
                     <hr>
+
                     <div class="card-body">
                         <div style="white-space: pre-line;" th:text="${review.content}"></div>
                     </div>

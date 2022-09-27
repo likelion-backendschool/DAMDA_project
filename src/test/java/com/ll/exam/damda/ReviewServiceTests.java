@@ -7,11 +7,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class ReviewServiceTests {
-    private SpotService spotService;
+    /*private SpotService spotService;
 
     @Test
     @DisplayName("리뷰 생성 기능")
     public void t1(){
         Spot spot = spotService.getSpot(1);
-    }
+    }*/
 }

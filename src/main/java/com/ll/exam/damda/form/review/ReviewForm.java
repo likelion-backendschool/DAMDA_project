@@ -1,4 +1,4 @@
-package com.ll.exam.damda.controller.search.review;
+package com.ll.exam.damda.form.review;
 
 import com.ll.exam.damda.entity.search.ReviewTag;
 import lombok.AllArgsConstructor;

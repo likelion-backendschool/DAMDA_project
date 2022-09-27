@@ -3,6 +3,7 @@ package com.ll.exam.damda.controller.search.review;
 import com.ll.exam.damda.entity.search.Review;
 import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.SiteUser;
+import com.ll.exam.damda.form.review.ReviewForm;
 import com.ll.exam.damda.service.review.DataNotFoundException;
 import com.ll.exam.damda.service.review.ReviewService;
 import com.ll.exam.damda.service.search.spot.SpotService;

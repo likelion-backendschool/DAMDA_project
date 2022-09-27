@@ -8,11 +8,16 @@
     <!-- Bootstrap CSS -->
     <!--<link rel="stylesheet" th:href="@{/calendar-15/css/bootstrap.min.css}">-->
     <!-- Style -->
-    <link rel="stylesheet" th:href="@{/calendar-15/css/style.css}">
+<!--    <link rel="stylesheet" th:href="@{/calendar-15/css/style.css}">-->
     <!--캘린더css, js-->
 </head>
-<div layout:fragment="content">
-    <div class="justify-content-center container align-items-center w-75">
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>여행 계획 세우기</h4>
+        </div>
+    </div>
+    <div class="card card-small mb-4">
         <script>
             function submitForm(form) {
                 form.title.value = form.title.value.trim();
@@ -37,24 +42,27 @@
             }
         </script>
         <form onsubmit="submitForm(this); return false;" th:action="@{/travel/design/new}" method="post"
-              class="card card mt-2 w-100">
+        >
             <div class="m-auto w-100">
                 <div class="input-group m-3" style="width:95%;">
                     <span class="input-group-text text-black" id="inputGroup-sizing-lg">여행이름</span>
-                    <input type="text" name="title" id="title" class="form-control" aria-label="Sizing example input"
+                    <input type="text" name="title" id="title" class="form-control"
+                           aria-label="Sizing example input"
                            aria-describedby="inputGroup-sizing-default">
                 </div>
                 <div class="input-group m-3" style="width:95%;">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="input_from">From</label>
-                            <input type="text" class="form-control" id="input_from" name="startDate" placeholder="Start Date">
+                            <input type="text" class="form-control" id="input_from" name="startDate"
+                                   placeholder="Start Date">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="input_from">To</label>
-                            <input type="text" class="form-control" id="input_to" name="endDate" placeholder="End Date">
+                            <input type="text" class="form-control" id="input_to" name="endDate"
+                                   placeholder="End Date">
                         </div>
                     </div>
                     <!--                    <script th:src="@{/calendar-15/js/jquery-3.3.1.min.js}"></script>-->
@@ -73,5 +81,6 @@
             </div>
         </form>
     </div>
+</div>
 </div>
 </html>

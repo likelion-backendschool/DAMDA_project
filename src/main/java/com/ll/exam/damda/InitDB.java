@@ -69,7 +69,7 @@ public class InitDB {
                     , 1890778114, "126.40715814631936", "33.258895288625645", "Y", "/images/thumbnail/연돈.png");
 
             /*여행지 리뷰 생성*/
-            for (Spot spot : spotRepository.findAll()) {
+            /*for (Spot spot : spotRepository.findAll()) {
                 for (int i = 0; i < rand.nextInt(20); i++) {
                     Review review = Review.builder()
                             .title("good")
@@ -80,7 +80,7 @@ public class InitDB {
                     review.setSpot(spot);
                     em.persist(review);
                 }
-            }
+            }*/
 
             /*여행지 태그 생성*/
             String[] tagArr = new String[]{"연인끼리", "가족끼리", "친구끼리", "혼자", "액티비티", "볼거리", "휴양", "인스타", "봄", "여름", "가을", "겨울"};
@@ -92,7 +92,7 @@ public class InitDB {
             }
 
             /*리뷰 & 태그 생성*/
-            for (Review review : reviewRepository.findAll()) {
+            /*for (Review review : reviewRepository.findAll()) {
                 int randIndex = rand.nextInt(11);
                 List<ReviewTag> reviewTagList = new ArrayList<>();
 
@@ -108,10 +108,10 @@ public class InitDB {
                 for (ReviewTag reviewTag : reviewTagList) {
                     em.persist(reviewTag);
                 }
-            }
+            }*/
             /*test 유저 1,2 생성*/
-            userService.create("test1","test1","test1@email.com", "test1");
-            userService.create("test2","test2","test2@email.com", "test2");
+            /*userService.create("test1","test1","test1@email.com", "test1");
+            userService.create("test2","test2","test2@email.com", "test2");*/
 
         }
     }

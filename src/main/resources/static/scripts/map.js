@@ -127,9 +127,9 @@ function getAllCourse(course_id) {
             `;
             });
             $('.course').empty();
-            console.log('empty');
+            console.log('course mpty');
             $('.course').append(html);
-            console.log('append');
+            console.log('course append');
         }
 
     });
@@ -157,26 +157,17 @@ function removeCourse(course_id, spot_id, btn) {
 }
 
 function getAllBusket(plan_id) {
-    // fetch(`/travel/design/getAllBusket?planId=${plan_id}`)
-    //     .then(responseData => {
-    //         for (const spot in responseData.data) {
-    //             console.log(spot);
-    //             // $('.busket').append(`
-    //             //
-    //             // `);
-    //         }
-    //     });
+
     $.ajax({
         url: `/travel/design/getAllBusket`, //url
         data: {
             planId: plan_id
         },  //보낼 파라미터 데이터
         success: function (spots) {
-            console.log(spots);
-            console.log('실행');
+            let html = ``;
             $(spots).each(function () {
-                const html = `
-                            <div class="p-2 border-bottom border-1 my-1">
+                html += `
+                            <div class="p-2 border-bottom border-1 my-1" style="width: 200px">
                             <a class="font-weight-bold" onclick=window.open("http://place.map.kakao.com/${this.urlId}")>${this.name}</a>
                             <br>
                             <span class="mb-1">${this.address}</span>
@@ -197,8 +188,11 @@ function getAllBusket(plan_id) {
                              </div>
                             </div>
                             `;
-                $('.busket').append(html);
             });
+            $('.busket').empty();
+            console.log('busket empty');
+            $('.busket').append(html);
+            console.log('busket append');
         }
     });
 }
@@ -346,20 +340,8 @@ function planInsert(place_name, place_address, place_urlId, place_x, place_y) {
         },  //보낼 파라미터 데이터
         success: function (spot) {
             console.log(spot);
-            getBusket(plan_id);
-            // const html = `
-            // <div class="p-2 border-bottom border-1 my-1">
-            // <a class="font-weight-bold" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>${spot.name}</a>
-            // <br>
-            // <span class="mb-1">${spot.address}</span>
-            // <br>
-            // <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
-            //      <button type="button" class="btn btn-outline-primary">+</button>
-            //      <button type="button" class="btn btn-outline-primary">x</button>
-            //  </div>
-            // </div>
-            // `;
-            // $('.busket').append(html);
+            // getBusket(plan_id);
+            getAllBusket(plan_id);
         }, // ajax성공 후 실행할 함수, 서버에서 response 값을 받아서 처리할 수 있다.
         error: function (error) {
             alert('이미 바구니에 있습니다.');

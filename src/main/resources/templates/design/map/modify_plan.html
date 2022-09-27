@@ -3,10 +3,11 @@
      style="width:95%; height:100%; position:absolute;">
     <script>
         window.onload = function () {
-            // getAllBusket(plan_id);
+            getAllBusket(plan_id);
             getAllCourse(course_id);
         }
-        let timerId = setInterval(() => getAllCourse(course_id), 3000); // 2초마다 출력
+        let timerId = setInterval(() => getAllCourse(course_id), 3000); // 3초마다 출력
+        let timerId2 = setInterval(() => getAllBusket(plan_id), 3000); // 3초마다 출력
     </script>
 
     <style>
@@ -25,32 +26,32 @@
         </div>
         <div class="busket row justify-content-center d-flex align-items-center" style="overflow-y: scroll;">
             <!--여기에 장바구니 목록 들어옴-->
-            <th:block th:if="${spotList.size() > 0}" th:each="spot : ${spotList}">
-                <div class="p-2 border-bottom border-1 my-1" style="width: 200px;">
-                    <a class="font-weight-bold"
-                       th:onclick="'window.open(\'http://place.map.kakao.com/' + ${spot.urlId} + '\')'"
-                       th:text="${spot.name}"></a>
-                    <br>
-                    <span class="mb-1" th:text="${spot.address}"></span>
-                    <br>
-                    <div class="float-right">
-                        <button type="button" class="btn btn-outline-primary" th:onclick="|insertCourse(${spot.id})|">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 class="bi bi-calendar-plus" viewBox="0 0 16 16">
-                                <path d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>
-                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                            </svg>
-                        </button>
-                        <button type="button" class="btn btn-outline-danger"
-                                th:onclick="|removeAtBusket(${spot.id}, this);|">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-x" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M6.146 8.146a.5.5 0 0 1 .708 0L8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 0 1 0-.708z"/>
-                                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </th:block>
+<!--            <th:block th:if="${spotList.size() > 0}" th:each="spot : ${spotList}">-->
+<!--                <div class="p-2 border-bottom border-1 my-1" style="width: 200px;">-->
+<!--                    <a class="font-weight-bold"-->
+<!--                       th:onclick="'window.open(\'http://place.map.kakao.com/' + ${spot.urlId} + '\')'"-->
+<!--                       th:text="${spot.name}"></a>-->
+<!--                    <br>-->
+<!--                    <span class="mb-1" th:text="${spot.address}"></span>-->
+<!--                    <br>-->
+<!--                    <div class="float-right">-->
+<!--                        <button type="button" class="btn btn-outline-primary" th:onclick="|insertCourse(${spot.id})|">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"-->
+<!--                                 class="bi bi-calendar-plus" viewBox="0 0 16 16">-->
+<!--                                <path d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>-->
+<!--                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>-->
+<!--                            </svg>-->
+<!--                        </button>-->
+<!--                        <button type="button" class="btn btn-outline-danger"-->
+<!--                                th:onclick="|removeAtBusket(${spot.id}, this);|">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-x" viewBox="0 0 16 16">-->
+<!--                                <path fill-rule="evenodd" d="M6.146 8.146a.5.5 0 0 1 .708 0L8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 0 1 0-.708z"/>-->
+<!--                                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>-->
+<!--                            </svg>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </th:block>-->
         </div>
     </div>
     <div class="mx-2" style="width: 65%; height: 80%">

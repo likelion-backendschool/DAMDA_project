@@ -9,3 +9,4 @@ spring:
   output:
     ansi:
       enabled: always
+

@@ -43,7 +43,7 @@ public class Review {
 
 
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     @Builder.Default
     private Set<ReviewTag> reviewTags = new LinkedHashSet<>();
 

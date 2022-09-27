@@ -10,6 +10,7 @@ import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -92,7 +93,7 @@ public class ReviewController {
         Page<Review> paging = reviewService.getList(page);
         model.addAttribute("paging", paging);
 
-        return "allReviewList";
+        return "review/allReviewList";
     }
 
     @RequestMapping("/review/spotReviewList/{spotId}")
@@ -136,7 +137,7 @@ public class ReviewController {
       return "redirect:myList";
     }
 
-    //@PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/review/delete/{id}")
     public String reviewDelete(Principal principal, @PathVariable("id") Integer id) {
         Review review = reviewService.getReview(id);

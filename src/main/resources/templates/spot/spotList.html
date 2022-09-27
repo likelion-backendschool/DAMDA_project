@@ -13,7 +13,7 @@
             </div>
         </div>
         <!-- 검색 태그 조건 -->
-        <div class="form-row mx-5">
+        <div class="form-row" style="margin-left: 10%;">
             <span th:if="${param.checkedValue}"></span>
             <fieldset class="col">
                 <strong class="text-muted d-block mb-2">검색 태그 조건</strong>
@@ -123,10 +123,10 @@
                 </a>
             </li>
             <li th:each="page: ${#numbers.sequence(0, spotDtoList.totalPages-1)}"
-                th:if="${page >= spotDtoList.number-5 and page <= spotDtoList.number+5}"
+                th:if="${page >= spotDtoList.number/10*+10 and page <= spotDtoList.number/10*10+9}"
                 th:classappend="${page == spotDtoList.number} ? 'active'"
                 class="page-item">
-                <a th:text="${page}" class="page-link" th:href="@{?(page=${page}, searchWord=${param.searchWord}, checkedValue=${param.checkedValue})}"></a>
+                <a th:text="${page+1}" class="page-link" th:href="@{?(page=${page}, searchWord=${param.searchWord}, checkedValue=${param.checkedValue})}"></a>
             </li>
             <li class="page-item" th:classappend="${!spotDtoList.hasNext} ? 'disabled'">
                 <a class="page-link" th:href="@{?(page=${spotDtoList.number+1}, searchWord=${param.searchWord}, checkedValue=${param.checkedValue})}">

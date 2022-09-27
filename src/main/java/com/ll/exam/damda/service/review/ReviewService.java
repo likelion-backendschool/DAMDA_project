@@ -91,6 +91,8 @@ public class ReviewService {
     public void modify(Review review, String title, String content) {
         review.setTitle(title);
         review.setContent(content);
+        review.setLastModifiedDate(LocalDateTime.now());
+
         reviewRepository.save(review);
     }
 

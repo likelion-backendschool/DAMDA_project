@@ -6,6 +6,7 @@
             // getAllBusket(plan_id);
             getAllCourse(course_id);
         }
+        let timerId = setInterval(() => getAllCourse(course_id), 3000); // 2초마다 출력
     </script>
 
     <style>

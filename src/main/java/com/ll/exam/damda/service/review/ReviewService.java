@@ -94,7 +94,7 @@ public class ReviewService {
         return review;
     }
 
-    public void modify(Review review, String title, String content) {
+    public void modify(Review review, String title, String content, List<String> reviewTag) {
         review.setTitle(title);
         review.setContent(content);
         review.setLastModifiedDate(LocalDateTime.now());

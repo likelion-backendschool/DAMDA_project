@@ -70,7 +70,8 @@ public class ReviewController {
     }
 
     @PostMapping("/review/modify/{id}")
-    public String reviewModify(Principal principal, @Valid ReviewForm reviewForm, BindingResult bindingResult, @PathVariable("id") long id) {
+    public String reviewModify(Principal principal, @Valid ReviewForm reviewForm, BindingResult bindingResult,
+                               @PathVariable("id") long id) {
 
         if (bindingResult.hasErrors()) {
             return "review/createReview";
@@ -85,7 +86,7 @@ public class ReviewController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
 
-        reviewService.modify(review, reviewForm.getTitle(), reviewForm.getContent());
+        reviewService.modify(review, reviewForm.getTitle(), reviewForm.getContent(), reviewForm.getReviewTags());
         reviewService.deleteReviewTag(review);
         reviewService.saveReviewTag(review, reviewForm.getReviewTags());
 

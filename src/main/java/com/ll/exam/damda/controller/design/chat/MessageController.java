@@ -25,7 +25,8 @@ public class MessageController {
     @MessageMapping("/chat/message") //requestMapping과 유사 app/chat 맵핑
     public void enter(ChatMessageDto message) {
         log.debug("message = {}", message);
-        chatService.saveChatMessage(message);
-        sendingOperations.convertAndSend("/topic/chat/room/"+message.getRoomId(), message); // /topic/chat/room/ + 방 번호 브로커로 메시지를 보냄
+        if (chatService.saveChatMessage(message)){
+            sendingOperations.convertAndSend("/topic/chat/room/"+message.getRoomId(), message); // /topic/chat/room/ + 방 번호 브로커로 메시지를 보냄
+        }
     }
 }

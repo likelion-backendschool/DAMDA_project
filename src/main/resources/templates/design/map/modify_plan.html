@@ -72,7 +72,7 @@
              style="height:10%; height: 15%; overflow: auto; white-space: nowrap;"></div>
         <!--지도-->
         <div class="map_wrap">
-            <div id="map" style="width:100%;height:95%;position:absolute;overflow:hidden;"></div>
+            <div id="map" style="width:100%;height:95%; position:absolute;overflow:hidden;"></div>
 
             <div id="menu_wrap" class="bg_white">
                 <div class="option">
@@ -89,7 +89,7 @@
             </div>
         </div>
         <script type="text/javascript"
-                src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c67e5e4d2bd37b972933cf07ff9ec9a7&libraries=services"></script>
+                src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4090d1fa0bb6c1caf12b3ec69597bf5c&libraries=services"></script>
         <!--지도 끝-->
     </div>
     <div style="width:20%; height:80%;">
@@ -103,7 +103,8 @@
                 <div>
                     <h2 class="text-center mb-3" th:text=${room.roomName}></h2>
                     <input type="hidden" id="roomId" th:value=${room.roomId}>
-                    <input type="hidden" id="nickName" th:value="${#authentication.principal.nickname}"></input>
+                    <input type="hidden" id="userName" th:value="${#authentication.principal.username}">
+                    <input type="hidden" id="nickName" th:value="${#authentication.principal.nickname}">
                 </div>
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -114,9 +115,9 @@
                         <button class="btn btn-primary" type="button" @click="sendMessage">보내기</button>
                     </div>
                 </div>
-                <ul style="overflow: scroll; height: 300px" class="list-group">
+                <ul style="overflow: scroll; height: 500px" class="list-group">
                     <li class="list-group-item" v-for="message in messages">
-                        {{message.user}} - {{message.content}}
+                        {{message.nick}} - {{message.content}}
                     </li>
                 </ul>
                 <div></div>
@@ -138,13 +139,14 @@
                         roomId: '',
                         room: {},
                         user: '',
+                        nick: '',
                         content: '',
                         messages: []
                     },
                     created() {
                         this.roomId = document.getElementById("roomId").value;
-                        this.user = document.getElementById("nickName").value;
-                        ;
+                        this.user = document.getElementById("userName").value;
+                        this.nick = document.getElementById("nickName").value;
                         this.findRoom();
                         this.findMessages();
                     },
@@ -163,12 +165,14 @@
                             ws.send("/app/chat/message", {}, JSON.stringify({
                                 roomId: this.roomId,
                                 user: this.user,
-                                content: this.content
+                                nick: this.nick,
+                                content: this.content,
+                                join: 0
                             }));
                             this.content = '';
                         },
                         recvMessage: function (recv) {
-                            this.messages.unshift({"user": recv.user, "content": recv.content})
+                            this.messages.unshift({"user": recv.user, "nick":recv.nick, "content": recv.content})
                         }
                     }
                 });
@@ -183,7 +187,9 @@
                         ws.send("/app/chat/message", {}, JSON.stringify({
                             roomId: vm.$data.roomId,
                             user: vm.$data.user,
-                            content: vm.$data.user + "가 채팅방에 입장했습니다."
+                            nick: vm.$data.nick,
+                            content: vm.$data.user + "가 채팅방에 입장했습니다.",
+                            join: 1
                         }));
                     }, function (error) {
                         if (reconnect++ <= 5) {

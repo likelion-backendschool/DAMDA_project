@@ -78,9 +78,15 @@ public class ChatService {
     }
 
     //채팅 메시지 DB 저장
-    public void saveChatMessage(ChatMessageDto chatMessageDto) {
-        ChatRoom chatRoom = chatRoomRepository.findById(chatMessageDto.getRoomId())
-                .orElseThrow(() -> new NoSuchElementException("채팅방이 존재하지 않습니다."));
-        chatRoom.getChatMessages().add(chatMessageDto.toEntity(chatRoom, userService.getUser(chatMessageDto.getUser())));
+    public Boolean saveChatMessage(ChatMessageDto chatMessageDto) {
+        if (chatMessageDto.getJoin() == 1 && chatMessageRepository.findAllByUser_username(chatMessageDto.getUser()).isPresent()){
+            return false;
+        }
+        else {
+            ChatRoom chatRoom = chatRoomRepository.findById(chatMessageDto.getRoomId())
+                    .orElseThrow(() -> new NoSuchElementException("채팅방이 존재하지 않습니다."));
+            chatRoom.getChatMessages().add(chatMessageDto.toEntity(chatRoom, userService.getUser(chatMessageDto.getUser())));
+            return true;
+        }
     }
 }

@@ -8,6 +8,7 @@ import com.ll.exam.damda.service.search.spot.SpotService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +20,7 @@ public class BusketService {
     public Busket create(Plan plan) {
         Busket busket = new Busket();
         busket.setPlan(plan);
+        busket.setSpotList(new ArrayList<>());
         busketRepository.save(busket);
         return busket;
     }

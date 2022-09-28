@@ -33,7 +33,8 @@ public class ChatMessage {
     public ChatMessageDto toDto() {
         ChatMessageDto message = new ChatMessageDto();
         message.setRoomId(chatRoom.getId());
-        message.setUser(user.getNickname());
+        message.setNick(user.getNickname());
+        message.setUser(user.getUsername());
         message.setContent(content);
         return message;
     }

@@ -167,8 +167,10 @@ function getAllBusket(plan_id) {
             let html = ``;
             $(spots).each(function () {
                 html += `
-                            <div class="p-2 border-bottom border-1 my-1" style="width: 200px">
-                            <a class="font-weight-bold" onclick=window.open("http://place.map.kakao.com/${this.urlId}")>${this.name}</a>
+                            <div class="p-2 border-bottom border-1 my-1" style="width: 80%;">
+                            <a class="font-weight-bold" style="white-space: nowrap;">${this.name}</a>
+                            <br>
+                            <a href="http://place.map.kakao.com/${this.urlId}" target="_blank">kakao map</a>
                             <br>
                             <span class="mb-1">${this.address}</span>
                             <br>

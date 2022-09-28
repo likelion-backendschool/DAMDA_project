@@ -11,6 +11,7 @@ import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
+import com.ll.exam.damda.repository.design.map.PlanRepository;
 import com.ll.exam.damda.repository.user.UserPlanRepository;
 import com.ll.exam.damda.repository.user.UserRepository;
 import com.ll.exam.damda.service.design.chat.ChatService;
@@ -49,6 +50,7 @@ public class PlanController {
     private final SpotService spotService;
     private final ChatService chatService;
     private final UserService userService;
+    private final PlanRepository planRepository;
 
     //플래너 리스트
     @GetMapping("/plan/list")
@@ -166,9 +168,9 @@ public class PlanController {
     @GetMapping("/plan/delete/{planId}")
     public String deletePlan(@PathVariable long planId) {
         Plan plan = planService.getPlan(planId);
-        UserPlan userPlan = userPlanRepository.findByPlan(plan);
-        userPlanRepository.delete(userPlan);
-        planService.delete(plan);
+        List<UserPlan> userPlan = userPlanRepository.findALLByPlan(plan);
+        userPlanRepository.deleteAll(userPlan);
+        planRepository.delete(plan);
         return "redirect:/travel/design/plan/list";
     }
 

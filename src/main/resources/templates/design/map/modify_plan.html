@@ -103,7 +103,8 @@
                 <div>
                     <h2 class="text-center mb-3" th:text=${room.roomName}></h2>
                     <input type="hidden" id="roomId" th:value=${room.roomId}>
-                    <input type="hidden" id="nickName" th:value="${#authentication.principal.nickname}"></input>
+                    <input type="hidden" id="userName" th:value="${#authentication.principal.username}">
+                    <input type="hidden" id="nickName" th:value="${#authentication.principal.nickname}">
                 </div>
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -116,7 +117,7 @@
                 </div>
                 <ul style="overflow: scroll; height: 500px" class="list-group">
                     <li class="list-group-item" v-for="message in messages">
-                        {{message.user}} - {{message.content}}
+                        {{message.nick}} - {{message.content}}
                     </li>
                 </ul>
                 <div></div>
@@ -138,13 +139,14 @@
                         roomId: '',
                         room: {},
                         user: '',
+                        nick: '',
                         content: '',
                         messages: []
                     },
                     created() {
                         this.roomId = document.getElementById("roomId").value;
-                        this.user = document.getElementById("nickName").value;
-                        ;
+                        this.user = document.getElementById("userName").value;
+                        this.nick = document.getElementById("nickName").value;
                         this.findRoom();
                         this.findMessages();
                     },
@@ -163,13 +165,14 @@
                             ws.send("/app/chat/message", {}, JSON.stringify({
                                 roomId: this.roomId,
                                 user: this.user,
+                                nick: this.nick,
                                 content: this.content,
                                 join: 0
                             }));
                             this.content = '';
                         },
                         recvMessage: function (recv) {
-                            this.messages.unshift({"user": recv.user, "content": recv.content})
+                            this.messages.unshift({"user": recv.user, "nick":recv.nick, "content": recv.content})
                         }
                     }
                 });
@@ -184,6 +187,7 @@
                         ws.send("/app/chat/message", {}, JSON.stringify({
                             roomId: vm.$data.roomId,
                             user: vm.$data.user,
+                            nick: vm.$data.nick,
                             content: vm.$data.user + "가 채팅방에 입장했습니다.",
                             join: 1
                         }));

@@ -23,7 +23,7 @@ public class ChatMessage {
     private ChatRoom chatRoom;
 
     //나중에 User객체로 변경하고 연관 맵핑 필요
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private SiteUser user;
 

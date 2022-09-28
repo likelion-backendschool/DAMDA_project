@@ -99,6 +99,10 @@ public class PlanController {
     @GetMapping("/modification/{planId}")
     public String modifyPlan(Model model, @PathVariable("planId") long planId, @RequestParam(value = "order") long order) {
         Plan plan = planService.getPlan(planId);
+
+        if(plan == null) {
+            return "redirect:/travel/design/plan/list";
+        }
         Course course = courseService.getCourse(plan, order);
         ChatRoomDto chatRoomDto = chatService.findByPlan_id(plan);
         Busket busket = busketService.getBusket(plan);
@@ -262,6 +266,10 @@ public class PlanController {
     @GetMapping("/plan/detail/{planId}")
     public String planDetail(Model model, @PathVariable long planId, @RequestParam long order) throws JsonProcessingException {
         Plan plan = planService.getPlan(planId);
+
+        if(plan == null) {
+            return "redirect:/travel/design/plan/list";
+        }
         Course course = courseService.getCourse(plan, order);
         List<Spot> spotList = course.getSpotList();
 //        String spotsString = objectMapper.writeValueAsString(spotList);

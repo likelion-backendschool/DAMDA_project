@@ -114,7 +114,7 @@
                         <button class="btn btn-primary" type="button" @click="sendMessage">보내기</button>
                     </div>
                 </div>
-                <ul style="overflow: scroll; height: 300px" class="list-group">
+                <ul style="overflow: scroll; height: 500px" class="list-group">
                     <li class="list-group-item" v-for="message in messages">
                         {{message.user}} - {{message.content}}
                     </li>

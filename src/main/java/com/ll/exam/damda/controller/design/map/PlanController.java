@@ -74,7 +74,7 @@ public class PlanController {
         Plan plan = planService.create(title, startDate, endDate, memo, principal.getName());
         /* 플래너 생성시 채팅방 생성 */
         chatService.createRoom(plan);
-        return "redirect:travel/design/modification/%d?order=%d".formatted(plan.getId(), 1);
+        return "redirect:/travel/design/modification/%d?order=%d".formatted(plan.getId(), 1);
     }
 
     //플래너 기본 정보 수정
@@ -150,9 +150,9 @@ public class PlanController {
         boolean success = busketService.addSpotAtBusket(spot, plan);
 
         if (success) {
-            return "redirect:plan/list";
+            return "redirect:/travel/design/plan/list";
         } else {
-            return "redirect:plan/list";
+            return "redirect:/travel/design/plan/list";
         }
     }
 
@@ -171,7 +171,7 @@ public class PlanController {
             userPlanRepository.delete(userPlan);
         }
         planService.delete(plan);
-        return "redirect:travel/design/plan/list";
+        return "redirect:/travel/design/plan/list";
     }
 
     @GetMapping("/getBusket")
@@ -294,7 +294,7 @@ public class PlanController {
     @GetMapping("/share/invite/{link}")
     public String planInvite(Model model, Principal principal, @PathVariable String link) {
         String alert = "이미 추가되어 있거나 링크가 유효하지 않습니다";
-        String redirectUri = "travel/design/plan/list";
+        String redirectUri = "/travel/design/plan/list";
 
 
         if (userPlanRepository.findByLink(link) != null) {

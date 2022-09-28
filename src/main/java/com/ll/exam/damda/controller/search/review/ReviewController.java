@@ -86,6 +86,8 @@ public class ReviewController {
         }
 
         reviewService.modify(review, reviewForm.getTitle(), reviewForm.getContent());
+        reviewService.deleteReviewTag(review);
+        reviewService.saveReviewTag(review, reviewForm.getReviewTags());
 
         return String.format("redirect:/review/show/%s", id);
     }

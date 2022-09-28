@@ -69,7 +69,7 @@
                             <div class="blog-comments__content">
                                 <div class="blog-comments__meta text-muted">
                                     <span th:text="|${review.title}|" class="text-secondary"></span>
-                                    <span class="text-muted">– 3 days ago</span>
+                                    <span th:text="${#temporals.format(review.firstCreatedDate, 'yy-MM-dd')}" class="text-muted"></span>
                                 </div>
                                 <p th:text="|${review.content}|" class="m-0 my-1 mb-2 text-muted"></p>
                                 <div class="blog-comments__actions">

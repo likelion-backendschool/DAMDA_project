@@ -50,7 +50,7 @@ public class ReviewController {
         return "review/readReview";
     }
 
-    /*@PreAuthorize("isAuthenticated()")*/
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/review/modify/{id}")
     public String reviewModify(Principal principal, ReviewForm reviewForm, @PathVariable("id") long id) {
         Review review = this.reviewService.getReview(id);

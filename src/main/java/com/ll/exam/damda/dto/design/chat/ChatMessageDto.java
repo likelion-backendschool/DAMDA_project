@@ -18,6 +18,8 @@ public class ChatMessageDto {
     //내용
     private String content;
 
+    private Long join;
+
     public ChatMessage toEntity(ChatRoom chatRoom, SiteUser user) {
         return ChatMessage.builder()
                 .chatRoom(chatRoom)

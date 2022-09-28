@@ -1,6 +1,5 @@
 package com.ll.exam.damda.service.review;
 
-import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.entity.search.Review;
 import com.ll.exam.damda.entity.search.ReviewTag;
 import com.ll.exam.damda.entity.search.Spot;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -28,6 +26,7 @@ public class ReviewService {
     private final ReviewTagRepository reviewTagRepository;
     private final TagRepository tagRepository;
     private final SpotService spotService;
+    private final ReviewTagService reviewTagService;
 
     public void saveReviewTag(Review review, List<String> tagList){
         for (String _tag : tagList){
@@ -39,6 +38,13 @@ public class ReviewService {
             reviewTagRepository.save(reviewTag);
         }
     }
+
+    public void deleteReviewTag(Review review){
+        for (ReviewTag reviewTag : reviewTagService.getReviewTagListByReviewId(review)){
+            reviewTagRepository.deleteById(reviewTagService.getReviewTagId(reviewTag));
+        }
+    }
+
 
     public Page<Review> getList(int page) {
         List<Sort.Order> sorts = new ArrayList<>();

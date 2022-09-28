@@ -140,7 +140,7 @@ public class PlanController {
 
     }
 
-    //장바구니에 여행지 넣기2
+    //장바구니에 여행지 넣기2 - 여행지 탐색에서
     @PostMapping("/insertSpot2")
     public String insertBusket(
             @RequestParam(value = "spotId") long spotId,
@@ -160,11 +160,12 @@ public class PlanController {
         }
     }
 
-    @GetMapping("/getFinalSpot")
-    @ResponseBody
-    public String getFinalSpot() {
-        return "spotJson";
-    }
+
+//    @GetMapping("/getFinalSpot")
+//    @ResponseBody
+//    public String getFinalSpot() {
+//        return "spotJson";
+//    }
 
     //플래너 삭제
     @GetMapping("/plan/delete/{planId}")
@@ -178,6 +179,7 @@ public class PlanController {
         return "redirect:/travel/design/plan/list";
     }
 
+    //가장 최근에 장바구니에 넣은 여행지 정보를 가져옴
     @GetMapping("/getBusket")
     @ResponseBody
     public String getFinalBusket(@RequestParam long planId) throws JsonProcessingException {
@@ -189,6 +191,7 @@ public class PlanController {
         return result;
     }
 
+    //해당 plan에 해당하는 장바구니 목록을 가져옴
     @GetMapping("/getAllBusket")
     @ResponseBody
     public List<Spot> getAllBusket(@RequestParam long planId) throws JsonProcessingException {
@@ -198,19 +201,15 @@ public class PlanController {
         return busketList;
     }
 
+    //장바구니에서 여행지 삭제
     @GetMapping("/removeSpot")
     @ResponseBody
     public String removeSpotAtBusket(@RequestParam long planId, @RequestParam long spotId) {
         Spot spot = spotService.getSpot(spotId);
-        //Busket에서 삭제
         Plan plan = planService.getPlan(planId);
         Busket busket = plan.getBusket();
+
         busketService.removeSpotAtBusket(busket, spot);
-//        busket.getSpotList().remove(spot);
-        //spot삭제
-//        spotService.delete(spot);
-//        System.out.println("삭제는 됨");
-//        if(spot.)
         return "success";
     }
 
@@ -223,6 +222,7 @@ public class PlanController {
         return "success";
     }
 
+    //해당 일차의 모든 여행지를 가져옴
     @GetMapping("/getAllCourse")
     @ResponseBody
     public List<Spot> getAllCourse(@RequestParam long courseId) {
@@ -242,15 +242,16 @@ public class PlanController {
         return spotList;
     }
 
-    @GetMapping("/getFinalSpotAtCourse")
-    @ResponseBody
-    public Spot getFinalSpotAtCourse(@RequestParam long courseId) throws JsonProcessingException {
-        Course course = courseService.getCourseById(courseId);
-        List<Spot> spotList = course.getSpotList();
-        Spot spot = spotList.get(spotList.size() - 1);
-        return spot;
-    }
+//    @GetMapping("/getFinalSpotAtCourse")
+//    @ResponseBody
+//    public Spot getFinalSpotAtCourse(@RequestParam long courseId) throws JsonProcessingException {
+//        Course course = courseService.getCourseById(courseId);
+//        List<Spot> spotList = course.getSpotList();
+//        Spot spot = spotList.get(spotList.size() - 1);
+//        return spot;
+//    }
 
+    //일차별 코스에서 여행지 제거
     @GetMapping("/removeCourse")
     @ResponseBody
     public String removeSpotAtCourse(@RequestParam long planId,
@@ -263,6 +264,7 @@ public class PlanController {
         return "success";
     }
 
+    //플래너 상세 페이지
     @GetMapping("/plan/detail/{planId}")
     public String planDetail(Model model, @PathVariable long planId, @RequestParam long order) throws JsonProcessingException {
         Plan plan = planService.getPlan(planId);
@@ -272,7 +274,7 @@ public class PlanController {
         }
         Course course = courseService.getCourse(plan, order);
         List<Spot> spotList = course.getSpotList();
-//        String spotsString = objectMapper.writeValueAsString(spotList);
+
         model.addAttribute("plan", plan);
         model.addAttribute("course", course);
         model.addAttribute("spotList", spotList);
@@ -280,6 +282,7 @@ public class PlanController {
         return "design/map/plan_detail";
     }
 
+    //planner 공유
     @GetMapping("/share/{planId}")
     public String planShare(Model model, Principal principal, @PathVariable long planId) {
         String alert = "소유자만 공유 가능합니다";

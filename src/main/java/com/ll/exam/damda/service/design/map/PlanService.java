@@ -27,7 +27,7 @@ public class PlanService {
     private final PlanRepository planRepository;
     private final CourseService courseService;
 
-
+    //새로운 플래너 생성
     public Plan create(String title, String startDateString, String endDateString, String memo, String name) {
         LocalDate startDate = LocalDate.parse(startDateString);
         LocalDate endDate = LocalDate.parse(endDateString);
@@ -59,6 +59,7 @@ public class PlanService {
         return plan;
     }
 
+    //planId로 plan을 찾아 반환
     public Plan getPlan(long planId) {
         Optional<Plan> optionalPlan = planRepository.findById(planId);
         if(optionalPlan.isPresent()) {
@@ -68,10 +69,7 @@ public class PlanService {
         }
     }
 
-    public List<Plan> getAllPlan() {
-        return planRepository.findAll();
-    }
-
+    //planList 반환
     public Page<Plan> getPlanList(int page, long siteUserId) {
         List<UserPlan> userPlans = userPlanRepository.findBySiteUserId(siteUserId);
 
@@ -89,10 +87,12 @@ public class PlanService {
         return planPages;
     }
 
+    //플래너 삭제
     public void delete(Plan plan) {
         planRepository.delete(plan);
     }
 
+    //플래너 기본 정보(플래너 이름, 여행 기간, 메모) 수정
     public void modifyBasic(long planId, String title, long size, String memo) {
         Optional<Plan> optionalPlan = planRepository.findById(planId);
         if(optionalPlan.isPresent()) {
@@ -109,6 +109,7 @@ public class PlanService {
     public UserPlan getUserPlan(long planId) {
         return userPlanRepository.findByPlanId(planId);
     }
+
 
     public UserPlan getUserPlan(long siteUserId, long planId) {
         return userPlanRepository.findBySiteUserIdAndPlanId(siteUserId, planId);

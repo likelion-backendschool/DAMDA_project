@@ -56,7 +56,7 @@ public class Util {
 
             conn.setRequestMethod("GET"); // http 메서드
             conn.setRequestProperty("Content-Type", "application/json"); // header Content-Type 정보
-            conn.setRequestProperty("Authorization", "KakaoAK cf370f1373a90b3068542f420c680f61"); // header의 auth 정보
+            conn.setRequestProperty("Authorization", "KakaoAK eca47217b689466a922e370c3a6c9ded"); // header의 auth 정보
             conn.setDoOutput(true); // 서버로부터 받는 값이 있다면 true
 
             // 서버로부터 데이터 읽어오기

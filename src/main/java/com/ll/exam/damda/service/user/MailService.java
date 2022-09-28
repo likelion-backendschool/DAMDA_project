@@ -6,6 +6,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+// 메일을 보내는 서비스
 @Service
 @AllArgsConstructor
 public class MailService {

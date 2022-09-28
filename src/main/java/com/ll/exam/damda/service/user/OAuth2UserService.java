@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
+// 소셜 로그인용 사용자 인증을 관리하는 서비스
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor

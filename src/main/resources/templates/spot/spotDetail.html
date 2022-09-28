@@ -7,7 +7,7 @@
         <!-- Page Header -->
         <div class="page-header row no-gutters py-4">
             <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                <h3 class="page-title">Spot Detail Infomation</h3>
+                <h3 class="page-title" th:text="|${spotDto.name}|">Spot Detail Infomation</h3>
             </div>
         </div>
         <!-- End Page Header -->
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="card card-small mb-4" style="height: 200px;">
+                <div class="card card-small mb-4" style="height: 180px; padding-top: 20px;">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item p-4 text-center">
                             <strong class="text-muted d-block mb-2">Description</strong>

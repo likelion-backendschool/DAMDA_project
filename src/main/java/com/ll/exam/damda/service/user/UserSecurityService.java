@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+// 로그인 서비스
 @RequiredArgsConstructor
 @Service
 public class UserSecurityService implements UserDetailsService {

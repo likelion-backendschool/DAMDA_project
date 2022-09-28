@@ -68,19 +68,6 @@ public class InitDB {
             createSpot("연돈", "제주", "제주특별자치도 서귀포시 일주서로 968-10", "골목식당 돈까스 맛집!"
                     , 1890778114, "126.40715814631936", "33.258895288625645", "Y", "/images/thumbnail/연돈.png");
 
-            /*여행지 리뷰 생성*/
-            /*for (Spot spot : spotRepository.findAll()) {
-                for (int i = 0; i < rand.nextInt(20); i++) {
-                    Review review = Review.builder()
-                            .title("good")
-                            .content("so fun")
-                            .firstCreatedDate(LocalDateTime.of(2022, Month.APRIL, 1, 0, 0))
-                            .lastModifiedDate(LocalDateTime.of(2022, Month.APRIL, 2, 0, 0))
-                            .build();
-                    review.setSpot(spot);
-                    em.persist(review);
-                }
-            }*/
 
             /*여행지 태그 생성*/
             String[] tagArr = new String[]{"연인끼리", "가족끼리", "친구끼리", "혼자", "액티비티", "볼거리", "휴양", "인스타", "봄", "여름", "가을", "겨울"};
@@ -91,24 +78,6 @@ public class InitDB {
                 em.persist(tag);
             }
 
-            /*리뷰 & 태그 생성*/
-            /*for (Review review : reviewRepository.findAll()) {
-                int randIndex = rand.nextInt(11);
-                List<ReviewTag> reviewTagList = new ArrayList<>();
-
-                reviewTagList.add(ReviewTag.builder()
-                        .review(review)
-                        .tag(tagList.get(randIndex))
-                        .build());
-                reviewTagList.add(ReviewTag.builder()
-                        .review(review)
-                        .tag(tagList.get(randIndex + 1))
-                        .build());
-
-                for (ReviewTag reviewTag : reviewTagList) {
-                    em.persist(reviewTag);
-                }
-            }*/
             /*test 유저 1,2 생성*/
             /*userService.create("test1","test1","test1@email.com", "test1");
             userService.create("test2","test2","test2@email.com", "test2");*/

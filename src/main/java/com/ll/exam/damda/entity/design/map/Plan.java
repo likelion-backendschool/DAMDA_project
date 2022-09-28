@@ -48,7 +48,7 @@ public class Plan {
     @OneToOne(cascade = CascadeType.REMOVE)
     private Busket busket;
 
-    @OneToMany(mappedBy = "plan")
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.REMOVE)
     private Set<UserPlan> userPlanSet;
 
     @OneToOne(mappedBy = "plan", cascade = CascadeType.REMOVE)

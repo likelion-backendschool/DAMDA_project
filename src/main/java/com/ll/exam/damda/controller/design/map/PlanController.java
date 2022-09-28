@@ -29,6 +29,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import static com.ll.exam.damda.util.Util.getRandomText;
@@ -46,7 +48,6 @@ public class PlanController {
     private final CourseService courseService;
     private final SpotService spotService;
     private final ChatService chatService;
-    private final UserRepository userRepository;
     private final UserService userService;
 
     //플래너 리스트
@@ -54,7 +55,7 @@ public class PlanController {
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page, @AuthenticationPrincipal SiteUserContext siteUserContext) {
         Page<Plan> paging = planService.getPlanList(page, siteUserContext.getId());
         model.addAttribute("paging", paging);
-        return "/design/map/plan_list";
+        return "design/map/plan_list";
     }
 
     //새로운 플래너
@@ -220,7 +221,19 @@ public class PlanController {
     @ResponseBody
     public List<Spot> getAllCourse(@RequestParam long courseId) {
         Course course = courseService.getCourseById(courseId);
-        return course.getSpotList();
+        List<Spot> spotList = new ArrayList<>();
+        for (Spot spot : course.getSpotList()) {
+            if (spot.getSelfMadeFlag().equals("Y")) {
+                Spot copySpot = spot;
+                copySpot.setReviews(new LinkedHashSet<>());
+                copySpot.setBuskets(new LinkedHashSet<>());
+                copySpot.setSpotImageURLs(new LinkedHashSet<>());
+                spotList.add(copySpot);
+            } else {
+                spotList.add(spot);
+            }
+        }
+        return spotList;
     }
 
     @GetMapping("/getFinalSpotAtCourse")

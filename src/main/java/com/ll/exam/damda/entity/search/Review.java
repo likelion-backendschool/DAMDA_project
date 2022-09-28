@@ -43,7 +43,7 @@ public class Review {
 
 
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     @Builder.Default
     private Set<ReviewTag> reviewTags = new LinkedHashSet<>();
 
@@ -88,9 +88,9 @@ public class Review {
         return tagInfo;
     }
 
-    public String getTagList(Review review) {
-      //List<ReviewTag> tagList = List.copyOf(reviewTags);
-        String tagListString = "";
+
+    public List<String> getTagList(Review review) {
+        List<String> tagNameList = new ArrayList<>();
 
         List<Tag> tagList = getTagMap2(review).entrySet().stream()
                 .sorted(Comparator.comparing(Map.Entry::getValue, Comparator.reverseOrder()))
@@ -98,9 +98,14 @@ public class Review {
                 .collect(Collectors.toList());
 
         for (Tag tag : tagList) {
-            tagListString = tagListString +"" + tag.getName();
+            tagNameList.add(tag.getName());
         }
-        return tagListString;
+        return tagNameList;
     }
 
+    public String getTag(Review review, int num){
+        num+=1;
+        List<String> tagNameList = getTagList(review);
+        return tagNameList.get(num-1);
+    }
    }

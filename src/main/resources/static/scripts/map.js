@@ -1,4 +1,3 @@
-
 var plan_id = $('input[name=plan_id]').val();
 var course_id = $('input[name=course_id]').val();
 // var courseId =
@@ -82,10 +81,11 @@ function insertCourse(spot_id) {
         datatype: "text",
         success: function (messages) {
             console.log('insertCourse success');
-            getFinalSpotAtCourse(course_id);
+            getAllCourse(course_id);
         }
     });
 }
+
 function getFinalSpotAtCourse(course_id) {
     $.ajax({
         url: `/travel/design/getFinalSpotAtCourse`,
@@ -112,23 +112,31 @@ function getAllCourse(course_id) {
             courseId: course_id
         },
         success: function (spots) {
+            let html = ``;
             $(spots).each(function () {
-                const html = `
+                html += `
             <div class="m-2">
-            <span class="p-2 badge rounded-pill badge-secondary">${this.name}
-            <button type="button" class="btn-close" onclick="removeCourse(course_id, ${this.id}, this)" aria-label="Close">X</button></span>
+            <span class="p-2 badge rounded-pill badge-outline-primary">${this.name}
+            <button type="button" class="btn btn-outline-danger" onclick="removeCourse(course_id, ${this.id}, this)" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-x" viewBox="0 0 16 16">
+  <path d="M6.146 7.146a.5.5 0 0 1 .708 0L8 8.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 9l1.147 1.146a.5.5 0 0 1-.708.708L8 9.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 9 6.146 7.854a.5.5 0 0 1 0-.708z"/>
+  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+</svg>
+</button></span>
             </div>
-
             `;
-                $('.course').empty();
-                $('.course').append(html);
             });
+            $('.course').empty();
+            console.log('course mpty');
+            $('.course').append(html);
+            console.log('course append');
         }
 
     });
     console.log('getAllCourse수행');
-    setTimeout(getAllCourse, 3000); //3초 뒤에 수행
+    // setTimeout(getAllCourse, 3000); //3초 뒤에 수행
 }
+
 function removeCourse(course_id, spot_id, btn) {
     $.ajax({
         url: `/travel/design/removeCourse`,
@@ -149,38 +157,44 @@ function removeCourse(course_id, spot_id, btn) {
 }
 
 function getAllBusket(plan_id) {
-    // fetch(`/travel/design/getAllBusket?planId=${plan_id}`)
-    //     .then(responseData => {
-    //         for (const spot in responseData.data) {
-    //             console.log(spot);
-    //             // $('.busket').append(`
-    //             //
-    //             // `);
-    //         }
-    //     });
+
     $.ajax({
         url: `/travel/design/getAllBusket`, //url
         data: {
             planId: plan_id
         },  //보낼 파라미터 데이터
         success: function (spots) {
-            console.log(spots);
-            console.log('실행');
+            let html = ``;
             $(spots).each(function () {
-                const html = `
-                            <div class="p-2 border-bottom border-1 my-1">
-                            <a class="font-weight-bold" onclick=window.open("http://place.map.kakao.com/${this.urlId}")>${this.name}</a>
+                html += `
+                            <div class="p-2 border-bottom border-1 my-1" style="width: 80%;">
+                            <a class="font-weight-bold" style="white-space: nowrap;">${this.name}</a>
+                            <br>
+                            <a href="http://place.map.kakao.com/${this.urlId}" target="_blank">kakao map</a>
                             <br>
                             <span class="mb-1">${this.address}</span>
                             <br>
-                            <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
-                                 <button type="button" class="btn btn-outline-primary" onclick="insertCourse(${this.id})">+</button>
-                                 <button type="button" class="btn btn-outline-primary" onclick="removeAtBusket(${this.id}, this);">x</button>
+                            <div class="float-right">
+                                 <button type="button" class="btn btn-outline-primary" onclick="insertCourse(${this.id})">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-plus" viewBox="0 0 16 16">
+                                 <path d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>
+                                 <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                 </svg>
+                                 </button>
+                                 <button type="button" class="btn btn-outline-danger" onclick="removeAtBusket(${this.id}, this);">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-x" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M6.146 8.146a.5.5 0 0 1 .708 0L8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 0 1 0-.708z"/>
+  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+</svg>
+                                 </button>
                              </div>
                             </div>
                             `;
-                $('.busket').append(html);
             });
+            $('.busket').empty();
+            console.log('busket empty');
+            $('.busket').append(html);
+            console.log('busket append');
         }
     });
 }
@@ -201,9 +215,19 @@ function getBusket(plan_id) {
                         <br>
                         <span class="mb-1">${spot.address}</span>
                         <br>
-                        <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
-                             <button type="button" class="btn btn-outline-primary" onclick="insertCourse(${spot.id})">+</button>
-                             <button type="button" class="btn btn-outline-primary" onclick="removeAtBusket(${spot.id}, this);">x</button>
+                        <div class="float-right">
+                             <button type="button" class="btn btn-outline-primary" onclick="insertCourse(${spot.id})">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-plus" viewBox="0 0 16 16">
+                             <path d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>
+                             <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                             </svg>
+                             </button>
+                             <button type="button" class="btn btn-outline-danger" onclick="removeAtBusket(${spot.id}, this);">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-x" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M6.146 8.146a.5.5 0 0 1 .708 0L8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 0 1 0-.708z"/>
+  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
+</svg>
+                             </button>
                          </div>
                         </div>
                         `;
@@ -289,7 +313,10 @@ function getListItem(index, places) {
     }
 
     itemStr += '  <span class="tel">' + places.phone + '</span>' +
-        '<button class="btn btn-primary p-2 mx-3" style="float:right" onclick="planInsert(\'' + places.place_name + '\',\'' + places.address_name + '\',\'' + places.id + '\',\'' + places.x + '\',\'' + places.y + '\')">담기</input>'
+        '<button class="btn btn-outline-danger p-2 mx-3" style="float:right" onclick="planInsert(\'' + places.place_name + '\',\'' + places.address_name + '\',\'' + places.id + '\',\'' + places.x + '\',\'' + places.y + '\')">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-heart-fill" viewBox="0 0 16 16">\n' +
+        '  <path d="M11.5 4v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5ZM8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1Zm0 6.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>\n' +
+        '</svg> 담기</button>'
     '</div>';
 
     el.innerHTML = itemStr;
@@ -315,20 +342,8 @@ function planInsert(place_name, place_address, place_urlId, place_x, place_y) {
         },  //보낼 파라미터 데이터
         success: function (spot) {
             console.log(spot);
-            getBusket(plan_id);
-            // const html = `
-            // <div class="p-2 border-bottom border-1 my-1">
-            // <a class="font-weight-bold" onclick=window.open("http://place.map.kakao.com/${spot.urlId}")>${spot.name}</a>
-            // <br>
-            // <span class="mb-1">${spot.address}</span>
-            // <br>
-            // <div class="btn-group float-right" role="group" aria-label="Basic outlined example">
-            //      <button type="button" class="btn btn-outline-primary">+</button>
-            //      <button type="button" class="btn btn-outline-primary">x</button>
-            //  </div>
-            // </div>
-            // `;
-            // $('.busket').append(html);
+            // getBusket(plan_id);
+            getAllBusket(plan_id);
         }, // ajax성공 후 실행할 함수, 서버에서 response 값을 받아서 처리할 수 있다.
         error: function (error) {
             alert('이미 바구니에 있습니다.');

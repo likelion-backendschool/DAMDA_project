@@ -61,7 +61,7 @@ public class PlanController {
     //새로운 플래너
     @GetMapping("/new")
     public String createPlan() {
-        return "/design/map/new_plan";
+        return "design/map/new_plan";
     }
 
     @PostMapping("/new")
@@ -74,7 +74,7 @@ public class PlanController {
         Plan plan = planService.create(title, startDate, endDate, memo, principal.getName());
         /* 플래너 생성시 채팅방 생성 */
         chatService.createRoom(plan);
-        return "redirect:/travel/design/modification/%d?order=%d".formatted(plan.getId(), 1);
+        return "redirect:travel/design/modification/%d?order=%d".formatted(plan.getId(), 1);
     }
 
     //플래너 기본 정보 수정
@@ -107,7 +107,7 @@ public class PlanController {
         model.addAttribute("spotList", busket.getSpotList());
         model.addAttribute("room", chatRoomDto);
 
-        return "/design/map/modify_plan";
+        return "design/map/modify_plan";
     }
 
     //장바구니에 여행지 넣기
@@ -166,10 +166,12 @@ public class PlanController {
     @GetMapping("/plan/delete/{planId}")
     public String deletePlan(@PathVariable long planId) {
         Plan plan = planService.getPlan(planId);
-        UserPlan userPlan = userPlanRepository.findByPlan(plan);
-        userPlanRepository.delete(userPlan);
+        List<UserPlan> userPlanList = userPlanRepository.findALLByPlan(plan);
+        for(UserPlan userPlan : userPlanList) {
+            userPlanRepository.delete(userPlan);
+        }
         planService.delete(plan);
-        return "redirect:/travel/design/plan/list";
+        return "redirect:travel/design/plan/list";
     }
 
     @GetMapping("/getBusket")
@@ -243,7 +245,6 @@ public class PlanController {
         List<Spot> spotList = course.getSpotList();
         Spot spot = spotList.get(spotList.size() - 1);
         return spot;
-//        return objectMapper.writeValueAsString(spot);
     }
 
     @GetMapping("/removeCourse")
@@ -293,7 +294,7 @@ public class PlanController {
     @GetMapping("/share/invite/{link}")
     public String planInvite(Model model, Principal principal, @PathVariable String link) {
         String alert = "이미 추가되어 있거나 링크가 유효하지 않습니다";
-        String redirectUri = "/travel/design/plan/list";
+        String redirectUri = "travel/design/plan/list";
 
 
         if (userPlanRepository.findByLink(link) != null) {

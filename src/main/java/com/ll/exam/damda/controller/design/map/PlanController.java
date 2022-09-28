@@ -166,7 +166,7 @@ public class PlanController {
     @GetMapping("/plan/delete/{planId}")
     public String deletePlan(@PathVariable long planId) {
         Plan plan = planService.getPlan(planId);
-        List<UserPlan> userPlanList = userPlanRepository.findByPlan(plan);
+        List<UserPlan> userPlanList = userPlanRepository.findALLByPlan(plan);
         for(UserPlan userPlan : userPlanList) {
             userPlanRepository.delete(userPlan);
         }

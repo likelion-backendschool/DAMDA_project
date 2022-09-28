@@ -1,15 +1,12 @@
 package com.ll.exam.damda.form.review;
 
-import com.ll.exam.damda.entity.search.ReviewTag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @AllArgsConstructor
 @Getter

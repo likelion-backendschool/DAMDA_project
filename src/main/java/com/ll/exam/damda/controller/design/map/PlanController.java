@@ -55,7 +55,7 @@ public class PlanController {
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page, @AuthenticationPrincipal SiteUserContext siteUserContext) {
         Page<Plan> paging = planService.getPlanList(page, siteUserContext.getId());
         model.addAttribute("paging", paging);
-        return "/design/map/plan_list";
+        return "design/map/plan_list";
     }
 
     //새로운 플래너

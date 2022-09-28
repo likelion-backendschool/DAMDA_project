@@ -163,7 +163,8 @@
                             ws.send("/app/chat/message", {}, JSON.stringify({
                                 roomId: this.roomId,
                                 user: this.user,
-                                content: this.content
+                                content: this.content,
+                                join: 0
                             }));
                             this.content = '';
                         },
@@ -183,7 +184,8 @@
                         ws.send("/app/chat/message", {}, JSON.stringify({
                             roomId: vm.$data.roomId,
                             user: vm.$data.user,
-                            content: vm.$data.user + "가 채팅방에 입장했습니다."
+                            content: vm.$data.user + "가 채팅방에 입장했습니다.",
+                            join: 1
                         }));
                     }, function (error) {
                         if (reconnect++ <= 5) {

@@ -1,5 +1,6 @@
 package com.ll.exam.damda.service.design.map;
 
+import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.user.UserPlan;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.design.map.Plan;
@@ -32,7 +33,7 @@ public class PlanService {
         LocalDate startDate = LocalDate.parse(startDateString);
         LocalDate endDate = LocalDate.parse(endDateString);
         Period period = Period.between(startDate, endDate);
-        long size = (long)(period.getDays() + 1);
+        long size = (long) (period.getDays() + 1);
         Plan plan = new Plan();
         plan.setTitle(title);
         plan.setCreatedDate(LocalDateTime.now());
@@ -52,7 +53,7 @@ public class PlanService {
         userPlan.setSiteUser(userService.getUser(name));
         userPlanRepository.save(userPlan);
 
-        for(long i = 1; i <= size; i++) {
+        for (long i = 1; i <= size; i++) {
             courseService.create(plan, i);
         }
         planRepository.save(plan);
@@ -62,7 +63,7 @@ public class PlanService {
     //planId로 plan을 찾아 반환
     public Plan getPlan(long planId) {
         Optional<Plan> optionalPlan = planRepository.findById(planId);
-        if(optionalPlan.isPresent()) {
+        if (optionalPlan.isPresent()) {
             return optionalPlan.get();
         } else {
             return null;
@@ -80,7 +81,7 @@ public class PlanService {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createdDate"));
         Pageable pageable = PageRequest.of(page, 8, Sort.by(sorts));
-        final int start = (int)pageable.getOffset();
+        final int start = (int) pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), plans.size());
         Page<Plan> planPages = new PageImpl<>(plans.subList(start, end), pageable, plans.size());
 
@@ -93,18 +94,36 @@ public class PlanService {
     }
 
     //플래너 기본 정보(플래너 이름, 여행 기간, 메모) 수정
-    public void modifyBasic(long planId, String title, long size, String memo) {
-        Optional<Plan> optionalPlan = planRepository.findById(planId);
-        if(optionalPlan.isPresent()) {
-            Plan plan = optionalPlan.get();
-            plan.setTitle(title);
-            plan.setSize(size);
-            plan.setMemo(memo);
-            planRepository.save(plan);
-        } else {
+    public void modifyBasic(Plan plan, String title, String startDateString, String endDateString, String memo) {
+        long originalSize = plan.getSize();
+
+        LocalDate startDate = LocalDate.parse(startDateString);
+        LocalDate endDate = LocalDate.parse(endDateString);
+        Period period = Period.between(startDate, endDate);
+        long size = (long)(period.getDays() + 1);
+
+        plan.setTitle(title);
+        plan.setStartDate(startDate);
+        plan.setEndDate(endDate);
+        plan.setSize(size);
+        plan.setMemo(memo);
+        planRepository.save(plan);
+
+        List<Course> courseList = plan.getCourseList();
+        if(originalSize < size) {
+            for(long i = originalSize+1; i <= size; i++) {
+                courseService.create(plan, i);
+            }
             return;
         }
-    }
+        if(originalSize > size) {
+            for(long i = size+1; i <= originalSize; i++) {
+                Course course = courseService.getCourse(plan, i);
+                courseList.remove(course);
+                courseService.deleteCourse(plan, i);
+            }
+        }
+}
 
     public UserPlan getUserPlan(long planId) {
         return userPlanRepository.findByPlanId(planId);

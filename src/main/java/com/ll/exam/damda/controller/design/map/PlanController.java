@@ -78,22 +78,26 @@ public class PlanController {
     }
 
     //플래너 기본 정보 수정
-//    @GetMapping("/modification/basic/{planId}")
-//    public String modifyBasicPlan(Model model, @PathVariable long planId) {
-//        Plan plan = planService.getPlan(planId);
-//        model.addAttribute("plan", plan);
-//        return "/design/map/modify_basic";
-//    }
-//
-//    @PostMapping("/modification/basic/{planId}")
-//    public String modifyBasicPlan(@PathVariable long planId,
-//                                  @RequestParam(value = "title") String title,
-//                                  @RequestParam(value = "size") long size,
-//                                  @RequestParam(value = "memo") String memo) {
-//        Plan plan = planService.getPlan(planId);
-//        planService.modifyBasic(planId, title, size, memo);
-//        return "redirect:/travel/design/modification/%d?order=1".formatted(planId);
-//    }
+    @GetMapping("/modification/basic/{planId}")
+    public String modifyBasicPlan(Model model, @PathVariable long planId) {
+        Plan plan = planService.getPlan(planId);
+        model.addAttribute("plan", plan);
+        return "design/map/modify_basic";
+    }
+
+    @PostMapping("/modification/basic/{planId}")
+    public String modifyBasicPlan(@PathVariable long planId,
+                                  @RequestParam(value = "title") String title,
+                                  @RequestParam(value = "startDate") String startDateString,
+                                  @RequestParam(value = "endDate") String endDateString,
+                                  @RequestParam(value = "memo") String memo) {
+        Plan plan = planService.getPlan(planId);
+        if(plan == null) {
+            return "redirect:/travel/design/plan/list";
+        }
+        planService.modifyBasic(plan, title, startDateString, endDateString, memo);
+        return "redirect:/travel/design/modification/%d?order=1".formatted(planId);
+    }
 
     //플래너 수정
     @GetMapping("/modification/{planId}")

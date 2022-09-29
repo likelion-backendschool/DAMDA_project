@@ -3,6 +3,8 @@ package com.ll.exam.damda.controller.design.map;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.exam.damda.config.user.DataNotFoundException;
+import com.ll.exam.damda.dto.DtoUtil;
+import com.ll.exam.damda.dto.design.map.PlanDto;
 import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.dto.user.MessageDto;
 import com.ll.exam.damda.dto.user.SiteUserContext;
@@ -55,7 +57,7 @@ public class PlanController {
     //플래너 리스트
     @GetMapping("/plan/list")
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page, @AuthenticationPrincipal SiteUserContext siteUserContext) {
-        Page<Plan> paging = planService.getPlanList(page, siteUserContext.getId());
+        Page<PlanDto> paging = planService.getPlanList(page, siteUserContext.getId());
         model.addAttribute("paging", paging);
         return "design/map/plan_list";
     }
@@ -232,11 +234,16 @@ public class PlanController {
     //해당 plan에 해당하는 장바구니 목록을 가져옴
     @GetMapping("/getAllBusket")
     @ResponseBody
-    public List<Spot> getAllBusket(@RequestParam long planId) throws JsonProcessingException {
+    public List<SpotDto> getAllBusket(@RequestParam long planId) throws JsonProcessingException {
         Plan plan = planService.getPlan(planId);
         Busket busket = busketService.getBusket(plan);
         List<Spot> busketList = busket.getSpotList();
-        return busketList;
+        List<SpotDto> spotDtos = new ArrayList<>();
+        for (Spot spot : busketList) {
+            spotDtos.add(DtoUtil.toSpotDto(spot));
+        }
+        return spotDtos;
+        //return busketList;
     }
 
     //장바구니에서 여행지 삭제

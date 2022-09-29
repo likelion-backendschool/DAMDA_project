@@ -110,7 +110,7 @@ public class UserController {
             return "user/my_page_form";
         }
 
-        MessageDto message = new MessageDto("정보 변경이 완료되었습니다.", "/user/my_page", RequestMethod.POST, null);
+        MessageDto message = new MessageDto("정보 변경이 완료되었습니다. 다시 로그인해주세요.", "/user/logout", RequestMethod.POST, null);
         return showMessageAndRedirect(message, model);
     }
 
@@ -140,7 +140,7 @@ public class UserController {
             return "user/my_page_form_social";
         }
 
-        MessageDto message = new MessageDto("정보 변경이 완료되었습니다.", "/user/my_page_social", RequestMethod.POST, null);
+        MessageDto message = new MessageDto("정보 변경이 완료되었습니다. 다시 로그인해주세요.", "/user/logout", RequestMethod.POST, null);
         return showMessageAndRedirect(message, model);
     }
 

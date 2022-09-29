@@ -114,6 +114,26 @@ public class PlanController {
         return "design/map/modify_plan";
     }
 
+    //장바구니에 넣는 과정을 거치지 않고 바로 일차별 코스에 넣기
+    @PostMapping("/directAddCourse")
+    @ResponseBody
+    public String directAddCourse(@RequestParam(value = "name") String name,
+                                  @RequestParam(value = "address") String address,
+                                  @RequestParam(value = "urlId") long urlId,
+                                  @RequestParam(value = "x") String x,
+                                  @RequestParam(value = "y") String y,
+                                  @RequestParam(value = "planId") long planId,
+                                  @RequestParam(value = "courseId") long courseId) {
+        Spot spot = spotService.getSpotByUrlId(urlId);
+        if (spot == null) {
+            spot = spotService.create(name, address, urlId, x, y);
+        }
+        Plan plan = planService.getPlan(planId);
+        Course course = courseService.getCourse(plan, courseId);
+        courseService.addSpotAtCourse(course, spot);
+        return "success";
+    }
+
     //장바구니에 여행지 넣기
     @PostMapping("/insertSpot")
     @ResponseBody

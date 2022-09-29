@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.exam.damda.config.user.DataNotFoundException;
 import com.ll.exam.damda.dto.DtoUtil;
+import com.ll.exam.damda.dto.design.map.CourseDto;
 import com.ll.exam.damda.dto.design.map.PlanDto;
 import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.dto.user.MessageDto;
@@ -123,11 +124,11 @@ public class PlanController {
         if(plan == null) {
             return "redirect:/travel/design/plan/list";
         }
-        Course course = courseService.getCourse(plan, order);
+        CourseDto courseDto = courseService.getCourse(plan, order);
         ChatRoomDto chatRoomDto = chatService.findByPlan_id(plan);
         Busket busket = busketService.getBusket(plan);
         model.addAttribute("plan", plan);
-        model.addAttribute("course", course);
+        model.addAttribute("course", courseDto);
         model.addAttribute("spotList", busket.getSpotList());
         model.addAttribute("room", chatRoomDto);
 
@@ -317,11 +318,11 @@ public class PlanController {
         if(plan == null) {
             return "redirect:/travel/design/plan/list";
         }
-        Course course = courseService.getCourse(plan, order);
-        List<Spot> spotList = course.getSpotList();
+        CourseDto courseDto = courseService.getCourse(plan, order);
+        List<SpotDto> spotList = courseDto.getSpotList();
 
         model.addAttribute("plan", plan);
-        model.addAttribute("course", course);
+        model.addAttribute("course", courseDto);
         model.addAttribute("spotList", spotList);
 
         return "design/map/plan_detail";

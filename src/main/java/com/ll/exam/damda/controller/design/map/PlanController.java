@@ -3,6 +3,8 @@ package com.ll.exam.damda.controller.design.map;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.exam.damda.config.user.DataNotFoundException;
+import com.ll.exam.damda.dto.DtoUtil;
+import com.ll.exam.damda.dto.design.map.PlanDto;
 import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.dto.user.MessageDto;
 import com.ll.exam.damda.dto.user.SiteUserContext;
@@ -55,7 +57,7 @@ public class PlanController {
     //플래너 리스트
     @GetMapping("/plan/list")
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page, @AuthenticationPrincipal SiteUserContext siteUserContext) {
-        Page<Plan> paging = planService.getPlanList(page, siteUserContext.getId());
+        Page<PlanDto> paging = planService.getPlanList(page, siteUserContext.getId());
         model.addAttribute("paging", paging);
         return "design/map/plan_list";
     }
@@ -232,11 +234,16 @@ public class PlanController {
     //해당 plan에 해당하는 장바구니 목록을 가져옴
     @GetMapping("/getAllBusket")
     @ResponseBody
-    public List<Spot> getAllBusket(@RequestParam long planId) throws JsonProcessingException {
+    public List<SpotDto> getAllBusket(@RequestParam long planId) throws JsonProcessingException {
         Plan plan = planService.getPlan(planId);
         Busket busket = busketService.getBusket(plan);
         List<Spot> busketList = busket.getSpotList();
-        return busketList;
+        List<SpotDto> spotDtos = new ArrayList<>();
+        for (Spot spot : busketList) {
+            spotDtos.add(DtoUtil.toSpotDto(spot));
+        }
+        return spotDtos;
+        //return busketList;
     }
 
     //장바구니에서 여행지 삭제
@@ -269,6 +276,7 @@ public class PlanController {
         List<SpotDto> spotDtos = new ArrayList<>();
         for (Spot spot : course.getSpotList()) {
             SpotDto spotDto = SpotDto.builder()
+                    .id(spot.getId())
                     .name(spot.getName())
                     .address(spot.getAddress())
                     .urlId(spot.getUrlId())
@@ -293,10 +301,11 @@ public class PlanController {
     public String removeSpotAtCourse(@RequestParam long planId,
                                      @RequestParam long courseId,
                                      @RequestParam long spotId) {
+        System.out.printf("planId : %d, courseId : %d, spotId : %d", planId, courseId, spotId);
         Course course = courseService.getCourseById(courseId);
         Spot spot = spotService.getSpot(spotId);
         courseService.removeSpotAtCourse(course, spot);
-        spotService.removeCloneSpot(spotId);
+//        spotService.removeCloneSpot(spotId);
         return "success";
     }
 
@@ -331,7 +340,7 @@ public class PlanController {
             String tempLink = getRandomText(10);
             planService.invite(userPlan, tempLink);
 
-            alert = "링크를 공유하세요 : " + "http://localhost:8080/travel/design/share/invite/" + tempLink;
+            alert = "링크를 공유하세요 : " + "https://wogus.net/travel/design/share/invite/" + tempLink;
         }
 
         MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.GET, null);

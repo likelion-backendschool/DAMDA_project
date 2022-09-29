@@ -1,5 +1,9 @@
 package com.ll.exam.damda.service.design.map;
 
+import com.ll.exam.damda.dto.DtoUtil;
+import com.ll.exam.damda.dto.design.map.BusketDto;
+import com.ll.exam.damda.dto.design.map.PlanDto;
+import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.UserPlan;
@@ -76,34 +80,37 @@ public class PlanService {
     }
 
     //planList 반환
-    public Page<Plan> getPlanList(int page, long siteUserId) {
+    public Page<PlanDto> getPlanList(int page, long siteUserId) {
         List<UserPlan> userPlans = userPlanRepository.findBySiteUserId(siteUserId);
 
         List<Plan> plans = userPlans.stream()
                 .map(UserPlan::getPlan)
                 .collect(Collectors.toList());
 
-        // 임시 조치, 수정 필요!!!
-        /*for (Plan plan : plans) {
+        // Convert Plan -> PlanDto
+        List<PlanDto> planDtos = new ArrayList<>();
+        for (Plan plan : plans) {
+            PlanDto planDto = DtoUtil.toPlanDto(plan);
+            BusketDto busketDto = DtoUtil.toBusketDto(plan.getBusket());
+
             List<Spot> spots = plan.getBusket().getSpotList();
-            plan.getBusket().setSpotList(new ArrayList<>());
+            List<SpotDto> spotDtos = new ArrayList<>();
             for (Spot spot : spots) {
-                if (spot.getSelfMadeFlag().equals("Y")) {
-                    Spot copySpot = spot;
-                    copySpot.setReviews(new LinkedHashSet<>());
-                    copySpot.setBuskets(new LinkedHashSet<>());
-                    copySpot.setSpotImageURLs(new LinkedHashSet<>());
-                    plan.getBusket().getSpotList().add(copySpot);
-                }
+                spotDtos.add(DtoUtil.toSpotDto(spot));
             }
-        }*/
+
+            planDto.setBusket(busketDto);
+            busketDto.setPlan(planDto);
+            busketDto.setSpotList(spotDtos);
+            planDtos.add(planDto);
+        }
 
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createdDate"));
         Pageable pageable = PageRequest.of(page, 8, Sort.by(sorts));
         final int start = (int) pageable.getOffset();
-        final int end = Math.min((start + pageable.getPageSize()), plans.size());
-        Page<Plan> planPages = new PageImpl<>(plans.subList(start, end), pageable, plans.size());
+        final int end = Math.min((start + pageable.getPageSize()), planDtos.size());
+        Page<PlanDto> planPages = new PageImpl<>(planDtos.subList(start, end), pageable, planDtos.size());
 
         return planPages;
     }

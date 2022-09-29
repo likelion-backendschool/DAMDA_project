@@ -34,7 +34,7 @@ class ChatServiceTest {
 
     @Autowired
     private UserService userService;
-
+    /*
     @Test
     void findAllRoom() {
     }
@@ -42,7 +42,7 @@ class ChatServiceTest {
     @Test
     void findById() {
     }
-    /*
+
     @Test
     @DisplayName("대화방 저장 테스트")
     @Rollback(false)

@@ -11,11 +11,11 @@ public class test {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    @Test
+    /*@Test
     void testJpa() {
         Review review = new Review();
         review.setTitle("재미와 휴식");
         review.setContent("다시 또 가고싶어요!!");
         this.reviewRepository.save(review);
-    }
+    }*/
 }

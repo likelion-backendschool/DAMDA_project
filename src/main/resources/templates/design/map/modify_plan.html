@@ -17,7 +17,7 @@
     </style>
     <input type="hidden" name="plan_id" th:value="${plan.id}">
     <input type="hidden" name="course_id" th:value="${course.id}">
-    <div class="card card py-3" style="width:20%; height:80%;">
+    <div class="card card py-3" style="width:20%; height:75%; margin-top:40px;">
         <div class="text-center mb-3">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                  class="bi bi-bag-heart-fill" viewBox="0 0 16 16">
@@ -26,32 +26,32 @@
         </div>
         <div class="busket row justify-content-center d-flex align-items-center" style="overflow-y: scroll;">
             <!--여기에 장바구니 목록 들어옴-->
-<!--            <th:block th:if="${spotList.size() > 0}" th:each="spot : ${spotList}">-->
-<!--                <div class="p-2 border-bottom border-1 my-1" style="width: 200px;">-->
-<!--                    <a class="font-weight-bold"-->
-<!--                       th:onclick="'window.open(\'http://place.map.kakao.com/' + ${spot.urlId} + '\')'"-->
-<!--                       th:text="${spot.name}"></a>-->
-<!--                    <br>-->
-<!--                    <span class="mb-1" th:text="${spot.address}"></span>-->
-<!--                    <br>-->
-<!--                    <div class="float-right">-->
-<!--                        <button type="button" class="btn btn-outline-primary" th:onclick="|insertCourse(${spot.id})|">-->
-<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"-->
-<!--                                 class="bi bi-calendar-plus" viewBox="0 0 16 16">-->
-<!--                                <path d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>-->
-<!--                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>-->
-<!--                            </svg>-->
-<!--                        </button>-->
-<!--                        <button type="button" class="btn btn-outline-danger"-->
-<!--                                th:onclick="|removeAtBusket(${spot.id}, this);|">-->
-<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-x" viewBox="0 0 16 16">-->
-<!--                                <path fill-rule="evenodd" d="M6.146 8.146a.5.5 0 0 1 .708 0L8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 0 1 0-.708z"/>-->
-<!--                                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>-->
-<!--                            </svg>-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </th:block>-->
+            <!--            <th:block th:if="${spotList.size() > 0}" th:each="spot : ${spotList}">-->
+            <!--                <div class="p-2 border-bottom border-1 my-1" style="width: 200px;">-->
+            <!--                    <a class="font-weight-bold"-->
+            <!--                       th:onclick="'window.open(\'http://place.map.kakao.com/' + ${spot.urlId} + '\')'"-->
+            <!--                       th:text="${spot.name}"></a>-->
+            <!--                    <br>-->
+            <!--                    <span class="mb-1" th:text="${spot.address}"></span>-->
+            <!--                    <br>-->
+            <!--                    <div class="float-right">-->
+            <!--                        <button type="button" class="btn btn-outline-primary" th:onclick="|insertCourse(${spot.id})|">-->
+            <!--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"-->
+            <!--                                 class="bi bi-calendar-plus" viewBox="0 0 16 16">-->
+            <!--                                <path d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>-->
+            <!--                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>-->
+            <!--                            </svg>-->
+            <!--                        </button>-->
+            <!--                        <button type="button" class="btn btn-outline-danger"-->
+            <!--                                th:onclick="|removeAtBusket(${spot.id}, this);|">-->
+            <!--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-x" viewBox="0 0 16 16">-->
+            <!--                                <path fill-rule="evenodd" d="M6.146 8.146a.5.5 0 0 1 .708 0L8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 0 1 0-.708z"/>-->
+            <!--                                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>-->
+            <!--                            </svg>-->
+            <!--                        </button>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </th:block>-->
         </div>
     </div>
     <div class="mx-2" style="width: 65%; height: 80%">
@@ -72,16 +72,18 @@
              style="height:10%; height: 15%; overflow: auto; white-space: nowrap;"></div>
         <!--지도-->
         <div class="map_wrap">
-            <div id="map" style="width:100%;height:95%; position:absolute;overflow:hidden;"></div>
+            <div id="map" style="width:100%;height:100%; position:absolute;overflow:hidden;"></div>
 
             <div id="menu_wrap" class="bg_white">
                 <div class="option">
                     <div>
                         <form onsubmit="searchPlaces(); return false;">
                             <div class="input-group mb-1">
-                                <input type="text" value="이태원 맛집" id="keyword" size="15" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <input type="text" value="이태원 맛집" id="keyword" size="15" class="form-control"
+                                       aria-label="Recipient's username" aria-describedby="basic-addon2">
                                 <button type="submit" class="btn btn-primary p-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                         class="bi bi-search" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                                     </svg>
                                 </button>
@@ -99,9 +101,10 @@
         <!--지도 끝-->
     </div>
     <div style="width:20%; height:80%;">
-        <div class="card card py-3 mb-4" style="width:100%; height:85%;">
+        <div class="card card py-3 mb-4" style="width:100%; height:80%; margin-top:40px;">
             <div class="text-center mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                     class="bi bi-chat-fill" viewBox="0 0 16 16">
                     <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"/>
                 </svg>
             </div>
@@ -178,7 +181,7 @@
                             this.content = '';
                         },
                         recvMessage: function (recv) {
-                            this.messages.unshift({"user": recv.user, "nick":recv.nick, "content": recv.content})
+                            this.messages.unshift({"user": recv.user, "nick": recv.nick, "content": recv.content})
                         }
                     }
                 });

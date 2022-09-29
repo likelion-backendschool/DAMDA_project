@@ -14,8 +14,20 @@ import java.util.List;
 public class ReviewTagService {
     private final ReviewTagRepository reviewTagRepository;
 
-    public List<ReviewTag> getReviewTagListByReviewId(Review review) {
+    public List<ReviewTag> getReviewTagListByReview(Review review) {
         return reviewTagRepository.findAllByReview(review);
+    }
+
+    public List<String> getReviewTagList(List<ReviewTag> reviewTags){
+        List<String> reviewTagList = new ArrayList<>();
+        for(ReviewTag _reviewTag:reviewTags){
+            reviewTagList.add(getTagNameByReviewTag(_reviewTag));
+        }
+        return reviewTagList;
+    }
+
+    public String getTagNameByReviewTag(ReviewTag reviewTag){
+        return reviewTag.getTag().getName();
     }
 
     public long getReviewTagId(ReviewTag reviewTag) {

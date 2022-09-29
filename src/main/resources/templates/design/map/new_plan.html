@@ -8,13 +8,13 @@
     <!-- Bootstrap CSS -->
     <!--<link rel="stylesheet" th:href="@{/calendar-15/css/bootstrap.min.css}">-->
     <!-- Style -->
-<!--    <link rel="stylesheet" th:href="@{/calendar-15/css/style.css}">-->
+    <!--    <link rel="stylesheet" th:href="@{/calendar-15/css/style.css}">-->
     <!--캘린더css, js-->
 </head>
 <div layout:fragment="content" class="container my-3">
     <div class="my-3 border-bottom">
         <div>
-            <h4>여행 계획 세우기</h4>
+            <h4 style="font-family: 'Jua', sans-serif;">여행 계획 세우기</h4>
         </div>
     </div>
     <div class="card card-small mb-4">
@@ -41,8 +41,7 @@
                 form.submit();
             }
         </script>
-        <form onsubmit="submitForm(this); return false;" th:action="@{/travel/design/new}" method="post"
-        >
+        <form onsubmit="submitForm(this); return false;" th:action="@{/travel/design/new}" method="post">
             <div class="m-auto w-100">
                 <div class="input-group m-3" style="width:95%;">
                     <span class="input-group-text text-black" id="inputGroup-sizing-lg">여행이름</span>
@@ -81,6 +80,5 @@
             </div>
         </form>
     </div>
-</div>
 </div>
 </html>

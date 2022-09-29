@@ -312,19 +312,49 @@ function getListItem(index, places) {
         itemStr += '    <span>' + places.address_name + '</span>';
     }
 
-    itemStr += '  <span class="tel">' + places.phone + '</span>' +
-        '<button class="btn btn-outline-danger p-2 mx-3" style="float:right" onclick="planInsert(\'' + places.place_name + '\',\'' + places.address_name + '\',\'' + places.id + '\',\'' + places.x + '\',\'' + places.y + '\')">' +
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-heart-fill" viewBox="0 0 16 16">\n' +
-        '  <path d="M11.5 4v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5ZM8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1Zm0 6.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>\n' +
-        '</svg> 담기</button>'
-    '</div>';
+    // '  <span class="tel">' + places.phone + '</span>' +
+
+    itemStr += '<div style="float: right;">' +
+'<button class="btn btn-outline-primary p-2 mx-3 mr-1" onclick="directAddCourse(\'' + places.place_name + '\',\'' + places.address_name + '\',\'' + places.id + '\',\'' + places.x + '\',\'' + places.y + '\')">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-plus" viewBox="0 0 16 16">' +
+        '<path d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>' +
+        '<path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>' +
+        '</svg> 바로 추가</button>' +
+    '<button class="btn btn-outline-danger p-2 mr-1" onclick="planInsert(\'' + places.place_name + '\',\'' + places.address_name + '\',\'' + places.id + '\',\'' + places.x + '\',\'' + places.y + '\')">' +
+    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-heart-fill" viewBox="0 0 16 16">' +
+      '<path d="M11.5 4v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5ZM8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1Zm0 6.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>' +
+    '</svg> 담기</button>' +
+    '</div>'
+    ;
+
 
     el.innerHTML = itemStr;
     el.className = 'item';
 
     return el;
 }
-
+function directAddCourse(place_name, place_address, place_urlId, place_x, place_y) {
+    $.ajax({
+        type: "post", //요청타입
+        url: `/travel/design/directAddCourse`, //url
+        data: {
+            name: place_name,
+            address: place_address,
+            urlId: place_urlId,
+            x: place_x,
+            y: place_y,
+            planId: plan_id,
+            courseId: course_id
+        },  //보낼 파라미터 데이터
+        success: function (success) {
+            console.log(success);
+            getAllCourse(course_id);
+        }, // ajax성공 후 실행할 함수, 서버에서 response 값을 받아서 처리할 수 있다.
+        error: function (error) {
+            alert('예기치 못한 오류가 발생했습니다.');
+        }
+    });
+}
 function planInsert(place_name, place_address, place_urlId, place_x, place_y) {
     console.log("name : " + place_name, "address : " + place_address, "urlId : " + place_urlId);
     console.log(plan_id);

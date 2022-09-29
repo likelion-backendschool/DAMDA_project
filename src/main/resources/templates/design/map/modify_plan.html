@@ -1,5 +1,5 @@
 <html layout:decorate="~{layout/layout}">
-<div layout:fragment="content" class="d-flex justify-content-center mt-3"
+<div layout:fragment="content" class="d-flex container-fluid mt-3"
      style="width:95%; height:100%; position:absolute;">
     <script>
         window.onload = function () {
@@ -78,8 +78,14 @@
                 <div class="option">
                     <div>
                         <form onsubmit="searchPlaces(); return false;">
-                            키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15">
-                            <button type="submit">검색하기</button>
+                            <div class="input-group mb-1">
+                                <input type="text" value="이태원 맛집" id="keyword" size="15" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <button type="submit" class="btn btn-primary p-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                    </svg>
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

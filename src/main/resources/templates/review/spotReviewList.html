@@ -21,7 +21,7 @@
                 <a th:href="@{|/review/show/${review.id}|}" th:text="${review.title}"></a>
             </td>
             <td>
-                <span th:text="${review.siteUser?.username}"></span>
+                <span th:text="${review.siteUser?.nickname}"></span>
             </td>
             <td th:text="${#temporals.format(review.firstCreatedDate, 'yy-MM-dd')}"></td>
         </tr>

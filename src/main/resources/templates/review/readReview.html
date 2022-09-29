@@ -16,7 +16,7 @@
                         <h4 th:text="${review.title}"></h4>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <span th:text="${review.siteUser?.username}"></span></div>
+                        <span th:text="${review.siteUser?.nickname}"></span></div>
                     <div class="d-flex justify-content-end">
                         <div th:text="${#temporals.format(review.firstCreatedDate, '작성일 yyyy-MM-dd HH:mm')}"></div>
                     </div>

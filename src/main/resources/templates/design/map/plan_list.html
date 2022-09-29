@@ -8,7 +8,7 @@
                 <div class="card card-small card-post h-100 mt-3">
                     <div class="card-post__image" th:style="'background-image: url(https://picsum.photos/800);'"></div>
                     <div class="card-footer text-muted border-top py-3">
-                        <h5>플래너를 추가해보세요!</h5>
+                        <h5  style="font-family: 'Jua', sans-serif;">플래너를 추가해보세요!</h5>
                     </div>
                 </div>
             </a>
@@ -38,24 +38,24 @@
                             var bounds = new kakao.maps.LatLngBounds();
 
                             console.log('positions생성 및 여행지 정보 push');
-                            var positions = [];
-                            planBusket.forEach(spot => {
-                                positions.push(
-                                    {
-                                        title: spot.name,
-                                        addressMap: spot.address
-                                    }
-                                );
-                            });
+                            // var positions = [];
+                            // planBusket.forEach(spot => {
+                            //     positions.push(
+                            //         {
+                            //             title: spot.name,
+                            //             addressMap: spot.address
+                            //         }
+                            //     );
+                            // });
 
-
+                            var markers2 = [];
                             // 주소-좌표 변환 객체를 생성합니다
                             var geocoder = new kakao.maps.services.Geocoder();
 
                             console.log('주소로 좌표검색해 마커표시');
-                            positions.forEach(function (position) {
+                            planBusket.forEach(function (position) {
                                 // 주소로 좌표를 검색합니다
-                                geocoder.addressSearch(position.addressMap, function (result, status) {
+                                geocoder.addressSearch(position.address, function (result, status) {
 
                                     // 정상적으로 검색이 완료됐으면
                                     if (status === kakao.maps.services.Status.OK) {
@@ -67,7 +67,7 @@
                                         var marker = new kakao.maps.Marker({
                                             map: map,
                                             position: coords
-                                        });
+                                        })
                                         marker.setMap(map);
 
 
@@ -76,19 +76,18 @@
 
 
                                         // 인포윈도우로 장소에 대한 설명을 표시합니다
-                                        var infowindow = new kakao.maps.InfoWindow({
-                                            content: '<div style="width:150px;text-align:center;padding:6px 0;">' + position.title + '</div>'
-                                        });
-                                        infowindow.open(map, marker);
+                                        // var infowindow = new kakao.maps.InfoWindow({
+                                        //     content: '<div style="width:150px;text-align:center;padding:6px 0;">' + position.title + '</div>'
+                                        // });
+                                        // infowindow.open(map, marker);
 
                                         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                                        // map.setCenter(coords);
-                                        setBounds()
+                                        setBounds(bounds)
                                     }
                                 });
                             });
                             console.log('마커에 따라 범위 재설정');
-                            function setBounds() {
+                            function setBounds(bounds) {
                                 // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
                                 // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
                                 map.setBounds(bounds);
@@ -125,6 +124,12 @@
                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                         </svg> 수정</a></li>
+                                    <li><a class="dropdown-item"
+                                           th:href="@{|/travel/design/modification/basic/${plan.id}|}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                        </svg> 기본 정보 수정</a></li>
                                     <li><a class="dropdown-item"
                                            th:href="@{|/travel/design/plan/detail/${plan.id}?order=1|}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">

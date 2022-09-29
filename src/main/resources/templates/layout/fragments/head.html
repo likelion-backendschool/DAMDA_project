@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lagn="ko" xmlns:th="http://www.thymeleaf.org">
+    <!-- OPENGRAPH -->
+    <meta property="og:site_name" content="Damda" />
+    <meta property="og:type" content="Website" />
+    <meta property="og:title" content="여행을 담아 떠나보아요!" />
+    <meta property="og:image" content="/images/damda_logo.png" />
+    <meta property="og:url" content="https://" />
+
     <!-- Head -->
     <th:block th:fragment="headFragment">
         <head>
@@ -14,8 +21,15 @@
             <link rel="stylesheet" id="main-stylesheet" data-version="1.1.0" th:href="@{/styles/shards-dashboards.1.1.0.min.css}">
             <link rel="stylesheet" th:href="@{/styles/extras.1.1.0.min.css}">
             <link rel="stylesheet" th:href="@{/map.css}" type="text/css">
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+                * {
+                    font-family:  'Jua', sans-serif; !important;
+                }
+            </style>
 
             <title>DAMDA</title>
+            <link rel ="icon" href="/images/damda_icon.png">
             <script async defer src="https://buttons.github.io/buttons.js"></script>
             <!-- 제이쿼리 불러오기 -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

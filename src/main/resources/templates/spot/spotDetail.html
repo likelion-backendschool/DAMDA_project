@@ -7,7 +7,7 @@
         <!-- Page Header -->
         <div class="page-header row no-gutters py-4">
             <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-                <h3 class="page-title" th:text="|${spotDto.name}|">Spot Detail Infomation</h3>
+                <h3 class="page-title"style="font-family: 'Jua', sans-serif;">Spot Detail Infomation</h3>
             </div>
         </div>
         <!-- End Page Header -->
@@ -36,9 +36,10 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="card card-small mb-4" style="height: 180px; padding-top: 20px;">
+                <div class="card card-small mb-4" style="height: 180px;">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item p-4 text-center">
+                            <strong class="page-title" th:text="|${spotDto.name}|"style="font-size:xx-large; font-family: 'Jua', sans-serif;"></strong>
                             <strong class="text-muted d-block mb-2">Description</strong>
                             <span th:text="|${spotDto.description}|"></span>
                             <br/>
@@ -58,7 +59,7 @@
                         <form action="/review/create" method="get">
                             <input type="hidden" name="spotId" th:value="${spotDto.id}">
                             <button type="submit" formaction="/review/create" class="mt-2 mb-2 btn btn-sm btn-pill btn-outline-primary mx-auto" style="width: 70px;">
-                                리뷰 작성
+                                리뷰작성
                             </button>
                         </form>
 
@@ -69,7 +70,7 @@
                             <div class="blog-comments__content">
                                 <div class="blog-comments__meta text-muted">
                                     <span th:text="|${review.title}|" class="text-secondary"></span>
-                                    <span class="text-muted">– 3 days ago</span>
+                                    <span th:text="${#temporals.format(review.firstCreatedDate, 'yy-MM-dd')}" class="text-muted"></span>
                                 </div>
                                 <p th:text="|${review.content}|" class="m-0 my-1 mb-2 text-muted"></p>
                                 <div class="blog-comments__actions">

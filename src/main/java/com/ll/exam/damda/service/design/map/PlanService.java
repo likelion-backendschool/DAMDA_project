@@ -146,7 +146,7 @@ public class PlanService {
         }
         if(originalSize > size) {
             for(long i = size+1; i <= originalSize; i++) {
-                Course course = courseService.getCourse(plan, i);
+                Course course = courseService.getCourse(plan, i, true);
                 courseList.remove(course);
                 courseService.deleteCourse(course);
             }

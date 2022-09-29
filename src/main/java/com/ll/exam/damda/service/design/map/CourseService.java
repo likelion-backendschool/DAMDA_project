@@ -1,5 +1,8 @@
 package com.ll.exam.damda.service.design.map;
 
+import com.ll.exam.damda.dto.DtoUtil;
+import com.ll.exam.damda.dto.design.map.CourseDto;
+import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
@@ -8,6 +11,7 @@ import com.ll.exam.damda.service.search.spot.SpotService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,12 +28,29 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public Course getCourse(Plan plan, long order) {
+    public CourseDto getCourse(Plan plan, long order) {
         List<Course> courseList = plan.getCourseList();
         for(Course course : courseList) {
             if(course.getOrders() == order) {
-                return course;
+                CourseDto courseDto = DtoUtil.toCourseDto(course);
+
+                List<SpotDto> spotDtoList = new ArrayList<>();
+                for (Spot spot : course.getSpotList()) {
+                    spotDtoList.add(DtoUtil.toSpotDto(spot));
+                }
+
+                courseDto.setSpotList(spotDtoList);
+
+                return courseDto;
             }
+        }
+        return null;
+    }
+
+    public Course getCourse(Plan plan, long order, Boolean isEntity) {
+        List<Course> courseList = plan.getCourseList();
+        for (Course course : courseList) {
+            if (course.getOrders() == order) return course;
         }
         return null;
     }
@@ -59,9 +80,10 @@ public class CourseService {
     }
 
     public void deleteCourse(Plan plan, long i) {
-        Course course = getCourse(plan, i);
-        courseRepository.delete(course);
+        CourseDto courseDto = getCourse(plan, i);
+        courseRepository.deleteById(courseDto.getId());
     }
+
     public void deleteCourse(Course course) {
         courseRepository.delete(course);
     }

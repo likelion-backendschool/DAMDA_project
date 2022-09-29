@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/damda?useUnicode=true&characterEncoding=utf8&serverTimeZone=Asia/Seoul
+    url: jdbc:mariadb://172.17.0.1:3306/damda?useUnicode=true&characterEncoding=utf8&serverTimeZone=Asia/Seoul
     driverClassName: org.mariadb.jdbc.Driver
-    username: root
-    password: ''
+    username: jealocal
+    password: '1234'
   jpa:
     properties:
       hibernate:

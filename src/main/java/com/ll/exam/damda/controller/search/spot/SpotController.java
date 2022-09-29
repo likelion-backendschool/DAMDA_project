@@ -30,7 +30,7 @@ public class SpotController {
     @GetMapping("/detail")
     public String showSpotDetail(@RequestParam("spot") Long spotId, Model model) {
         SpotDto spotDto = spotService.findById(spotId);
-        List<String> spotImgUrls = Util.getSpotImgUrl(spotDto.getName());
+        List<String> spotImgUrls = Util.getSpotImgUrl(spotDto.getName(), spotDto.getCity());
         model.addAttribute("spotDto", spotDto);
         model.addAttribute("imgUrlList", spotImgUrls);
         return "spot/spotDetail";

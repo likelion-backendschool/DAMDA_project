@@ -47,50 +47,52 @@ public class Util {
         return str.replaceAll("(?<=.{3}).(?=.*)", "*");
     }
 
-    public static List<String> getSpotImgUrl(String spotName) {
+    public static List<String> getSpotImgUrl(String spotName, String city) {
         List<String> imgUrlList = new ArrayList<>();
 
-        try {
-            URL url = new URL("https://dapi.kakao.com/v2/search/image?query=" + URLEncoder.encode(spotName, "UTF-8"));
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+        for (int i = 1; i <= 10; i++) {
+            try {
+                URL url = new URL("https://dapi.kakao.com/v2/search/image?query=" + URLEncoder.encode(spotName + " " + city, "UTF-8") + "&page=" + i);
+                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 
-            conn.setRequestMethod("GET"); // http 메서드
-            conn.setRequestProperty("Content-Type", "application/json"); // header Content-Type 정보
-            conn.setRequestProperty("Authorization", "KakaoAK eca47217b689466a922e370c3a6c9ded"); // header의 auth 정보
-            conn.setDoOutput(true); // 서버로부터 받는 값이 있다면 true
+                conn.setRequestMethod("GET"); // http 메서드
+                conn.setRequestProperty("Content-Type", "application/json"); // header Content-Type 정보
+                conn.setRequestProperty("Authorization", "KakaoAK eca47217b689466a922e370c3a6c9ded"); // header의 auth 정보
+                conn.setDoOutput(true); // 서버로부터 받는 값이 있다면 true
 
-            // 서버로부터 데이터 읽어오기
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            String line = null;
+                // 서버로부터 데이터 읽어오기
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = null;
 
-            while((line = br.readLine()) != null) { // 읽을 수 있을 때 까지 반복
-                sb.append(line);
-            }
-
-            JSONObject obj = new JSONObject(sb.toString()); // json으로 변경 (역직렬화)
-
-            /* CORS 없는 이미지 url만 거름 */
-            JSONArray documents = obj.getJSONArray("documents");
-
-            String[] goodUrls = {"kakaocdn"};
-            boolean CORS = true;
-
-            for (int i = 0; i < documents.length(); i++) {
-                JSONObject element = (JSONObject) documents.opt(i);
-                String imgUrl = (String) element.getString("image_url");
-
-                for (String goodUrl : goodUrls) {
-                    if (imgUrl.contains(goodUrl)) CORS = false;
+                while((line = br.readLine()) != null) { // 읽을 수 있을 때 까지 반복
+                    sb.append(line);
                 }
 
-                if (CORS == false) imgUrlList.add(imgUrl);
+                JSONObject obj = new JSONObject(sb.toString()); // json으로 변경 (역직렬화)
 
-                CORS = true;
+                /* CORS 없는 이미지 url만 거름 */
+                JSONArray documents = obj.getJSONArray("documents");
+
+                String[] goodUrls = {"kakaocdn"};
+                boolean CORS = true;
+
+                for (int j = 0; j < documents.length(); j++) {
+                    JSONObject element = (JSONObject) documents.opt(j);
+                    String imgUrl = (String) element.getString("image_url");
+
+                    for (String goodUrl : goodUrls) {
+                        if (imgUrl.contains(goodUrl)) CORS = false;
+                    }
+
+                    if (CORS == false) imgUrlList.add(imgUrl);
+
+                    CORS = true;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         return imgUrlList;

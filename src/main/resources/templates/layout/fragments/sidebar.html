@@ -20,22 +20,22 @@
                     </div>
 
                     <ul class="navbar-nav flex-row">
-                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex" style="padding-top:10px; padding-left: 10px; padding-right: 10px;">
+                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex" style="padding-top:8px; padding-left: 10px; padding-right: 10px;">
                             <a class="nav-link" th:href="@{/spot/show}">
                                 <i class="material-icons">vertical_split</i>
-                                <span>여행지 탐색</span>
+                                <span style="font-size:large;">여행지 탐색</span>
                             </a>
                         </li>
-                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex"style="padding-top:10px; padding-left: 10px; padding-right: 10px;">
+                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex"style="padding-top:8px; padding-left: 10px; padding-right: 10px;">
                             <a class="nav-link " th:href="@{/travel/design/plan/list}">
                                 <i class="material-icons">edit</i>
-                                <span>내 여행 계획</span>
+                                <span style="font-size:large;">내 여행 계획</span>
                             </a>
                         </li>
-                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex"style="padding-top:10px; padding-left: 10px; padding-right: 10px;">
+                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex"style="padding-top:8px; padding-left: 10px; padding-right: 10px;">
                             <a class="nav-link " th:href="@{/travel/design/new}">
                                 <i class="material-icons">edit</i>
-                                <span>여행 계획 세우기</span>
+                                <span style="font-size:large;">여행 계획 세우기</span>
                             </a>
                         </li>
                         <li class="nav-item w-200 d-none d-md-flex d-lg-flex" style="padding-top:10px; adding-left: 10px; padding-right: 10px;" th:if="${#authentication.principal.method.equals('d')}">
@@ -44,16 +44,16 @@
                                 <span>마이페이지</span>
                             </a>
                         </li>
-                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex" style="padding-top:10px; adding-left: 10px; padding-right: 10px;" th:if="!${#authentication.principal.method.equals('d')}">
+                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex" style="padding-top:8px; padding-left: 10px; padding-right: 10px;" th:if="!${#authentication.principal.method.equals('d')}">
                             <a class="nav-link " th:href="@{/user/my_page_social}">
                                 <i class="material-icons">person</i>
-                                <span>마이페이지</span>
+                                <span style="font-size:large;">마이페이지</span>
                             </a>
                         </li>
-                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex"style="padding-top:10px; padding-left: 10px; padding-right: 10px;">
+                        <li class="nav-item w-200 d-none d-md-flex d-lg-flex"style="padding-top:8px; padding-left: 10px; padding-right: 10px;">
                             <a class="nav-link " th:href="@{/review/myList}">
                                 <i class="material-icons">person</i>
-                                <span>내 여행 리뷰</span>
+                                <span style="font-size:large;">내 여행 리뷰</span>
                             </a>
                         </li>
                         <!-- 비로그인 렌더링-->
@@ -66,7 +66,7 @@
                         <li class="nav-item dropdown p-2" sec:authorize="isAuthenticated()">
                             <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons account_circle">&#xe853;</i>
-                                <span class="d-none d-md-inline-block" th:text="${#authentication.principal.nickname}"></span>
+                                <span style="font-size:large;" class="d-none d-md-inline-block" th:text="${#authentication.principal.nickname}"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-small">
 <!--                                <a class="dropdown-item" href="user-profile-lite.html">-->

@@ -146,7 +146,7 @@ function removeCourse(course_id, spot_id, btn) {
             spotId: spot_id
         },
         datatype: "text",
-        success: function (btn) {
+        success: function () {
             console.log('엘리먼트 삭제');
         },
         error: function () {

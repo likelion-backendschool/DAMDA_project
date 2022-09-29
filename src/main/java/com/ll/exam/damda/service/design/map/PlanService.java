@@ -45,6 +45,8 @@ public class PlanService {
         plan.setEndDate(endDate);
         plan.setSize(size);
         plan.setMemo(memo);
+        plan.setStartDateString(startDateString);
+        plan.setEndDateString(endDateString);
         planRepository.save(plan);
 
         Busket busket = busketService.create(plan);
@@ -125,6 +127,8 @@ public class PlanService {
         plan.setEndDate(endDate);
         plan.setSize(size);
         plan.setMemo(memo);
+        plan.setStartDateString(startDateString);
+        plan.setEndDateString(endDateString);
         planRepository.save(plan);
 
         List<Course> courseList = plan.getCourseList();
@@ -132,14 +136,16 @@ public class PlanService {
             for(long i = originalSize+1; i <= size; i++) {
                 courseService.create(plan, i);
             }
+            planRepository.save(plan);
             return;
         }
         if(originalSize > size) {
             for(long i = size+1; i <= originalSize; i++) {
                 Course course = courseService.getCourse(plan, i);
                 courseList.remove(course);
-                courseService.deleteCourse(plan, i);
+                courseService.deleteCourse(course);
             }
+            planRepository.save(plan);
         }
 }
 

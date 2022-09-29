@@ -25,9 +25,6 @@ public class ChatRoom {
     @JoinColumn(nullable = false, name = "plan_id")
     private Plan plan;
 
-    @Column(nullable = false)
-    private String roomTitle;
-
     @Builder.Default
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
     private List<ChatMessage> chatMessages = new ArrayList<>();
@@ -35,7 +32,7 @@ public class ChatRoom {
     public ChatRoomDto toDto() {
         ChatRoomDto room = new ChatRoomDto();
         room.setRoomId(id);
-        room.setRoomName(roomTitle);
+        room.setRoomName(plan.getTitle());
         return room;
     }
 }

@@ -68,7 +68,6 @@ public class ChatService {
     public ChatRoomDto createRoom(Plan plan) {
         ChatRoom chatRoom = ChatRoom.builder()
                 .plan(plan)
-                .roomTitle(plan.getTitle())
                 .build();
 
         chatRoom = chatRoomRepository.save(chatRoom);

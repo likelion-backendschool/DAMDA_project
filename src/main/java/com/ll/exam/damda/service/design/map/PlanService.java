@@ -1,6 +1,7 @@
 package com.ll.exam.damda.service.design.map;
 
 import com.ll.exam.damda.entity.design.map.Course;
+import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.UserPlan;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.design.map.Plan;
@@ -9,12 +10,14 @@ import com.ll.exam.damda.repository.user.UserPlanRepository;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -77,6 +80,21 @@ public class PlanService {
         List<Plan> plans = userPlans.stream()
                 .map(UserPlan::getPlan)
                 .collect(Collectors.toList());
+
+        // 임시 조치, 수정 필요!!!
+        /*for (Plan plan : plans) {
+            List<Spot> spots = plan.getBusket().getSpotList();
+            plan.getBusket().setSpotList(new ArrayList<>());
+            for (Spot spot : spots) {
+                if (spot.getSelfMadeFlag().equals("Y")) {
+                    Spot copySpot = spot;
+                    copySpot.setReviews(new LinkedHashSet<>());
+                    copySpot.setBuskets(new LinkedHashSet<>());
+                    copySpot.setSpotImageURLs(new LinkedHashSet<>());
+                    plan.getBusket().getSpotList().add(copySpot);
+                }
+            }
+        }*/
 
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createdDate"));

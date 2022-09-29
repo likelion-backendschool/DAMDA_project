@@ -62,4 +62,7 @@ public class CourseService {
         Course course = getCourse(plan, i);
         courseRepository.delete(course);
     }
+    public void deleteCourse(Course course) {
+        courseRepository.delete(course);
+    }
 }

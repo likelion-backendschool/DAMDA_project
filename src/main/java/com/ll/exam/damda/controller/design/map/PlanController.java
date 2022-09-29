@@ -29,6 +29,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -81,15 +82,27 @@ public class PlanController {
     @GetMapping("/modification/basic/{planId}")
     public String modifyBasicPlan(Model model, @PathVariable long planId) {
         Plan plan = planService.getPlan(planId);
+
+        LocalDate startDate = plan.getStartDate();
+        LocalDate endDate = plan.getEndDate();
+        String startDateString = startDate.toString();
+        String endDateString = endDate.toString();
+        System.out.println(startDate);
+        System.out.println(endDate);
+        System.out.println(startDateString);
+        System.out.println(endDateString);
+
         model.addAttribute("plan", plan);
+        model.addAttribute("startDateString", startDateString);
+        model.addAttribute("endDateString", endDateString);
         return "design/map/modify_basic";
     }
 
     @PostMapping("/modification/basic/{planId}")
     public String modifyBasicPlan(@PathVariable long planId,
                                   @RequestParam(value = "title") String title,
-                                  @RequestParam(value = "startDate") String startDateString,
-                                  @RequestParam(value = "endDate") String endDateString,
+                                  @RequestParam(value = "startDateString") String startDateString,
+                                  @RequestParam(value = "endDateString") String endDateString,
                                   @RequestParam(value = "memo") String memo) {
         Plan plan = planService.getPlan(planId);
         if(plan == null) {

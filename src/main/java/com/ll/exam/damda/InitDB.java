@@ -59,13 +59,13 @@ public class InitDB {
             Random rand = new Random();
 
             /*여행지 & 여행지 이미지 생성*/
-            createSpot("원앤온리", "제주", "제주특별자치도 서귀포시 안덕면 산방로 141", "아메리카노가 맛있는 카페!"
+            createSpot("원앤온리", "제주", "제주특별자치도 서귀포시 안덕면 산방로 141", "제주에서 가장 길고 고요한 황우치해변을 홀로 품고 명승 산방산을 지붕삼은 유일한 곳"
                     , 217787831, "126.319192490757", "33.2392223486155", "Y", "/images/thumbnail/원앤온리.png");
 
-            createSpot("올래국수", "제주", "제주특별자치도 제주시 귀아랑길 24", "제주 국수 맛집!"
+            createSpot("올래국수", "제주", "제주특별자치도 제주시 귀아랑길 24", "제주에서만 맛볼 수 있는 국수!"
                     , 1387964178, "126.49726716501328", "33.49152862178827", "Y", "/images/thumbnail/올래국수.png");
 
-            createSpot("연돈", "제주", "제주특별자치도 서귀포시 일주서로 968-10", "골목식당 돈까스 맛집!"
+            createSpot("연돈", "제주", "제주특별자치도 서귀포시 일주서로 968-10", "골목식당에 나온 돈까스 맛집!"
                     , 1890778114, "126.40715814631936", "33.258895288625645", "Y", "/images/thumbnail/연돈.png");
 
             createSpot("숙성도 노형점", "제주", "제주특별자치도 제주시 원노형로 41", "숙성 돼지고기 맛집! 줄서서 먹는 집!"
@@ -85,10 +85,10 @@ public class InitDB {
                 tagList.add(tag);
                 em.persist(tag);
             }
-            
+
             /*test 유저 1,2 생성*/
-            userService.create("test1","test1","test1@email.com", "test1");
-            userService.create("test2","test2","test2@email.com", "test2");
+            /*userService.create("test1","test1","test1@email.com", "test1");
+            userService.create("test2","test2","test2@email.com", "test2");*/
 
         }
     }

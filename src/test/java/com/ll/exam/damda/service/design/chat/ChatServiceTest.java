@@ -35,7 +35,7 @@ class ChatServiceTest {
     @Autowired
     private UserService userService;
 
-    @Test
+    /*@Test
     void findAllRoom() {
     }
 

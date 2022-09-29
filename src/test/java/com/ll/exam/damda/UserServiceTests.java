@@ -17,7 +17,7 @@ public class UserServiceTests {
     @Autowired
     private UserRepository userRepository;
 
-    //    @BeforeEach
+    /*//    @BeforeEach
     private void beforeEach(){
         userRepository.truncate();
     }
@@ -48,5 +48,5 @@ public class UserServiceTests {
     public void t3(){
         SiteUser user = userService.getUser("user1");
         userService.edit(user,"user1_1","user1_1@email.com", "1234");
-    }
+    }*/
 }

@@ -1,12 +1,7 @@
 package com.ll.exam.damda;
 
-import com.ll.exam.damda.config.user.SignupNicknameDuplicatedException;
-import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.user.UserRepository;
 import com.ll.exam.damda.service.user.UserService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

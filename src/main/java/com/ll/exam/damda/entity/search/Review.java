@@ -4,7 +4,6 @@ import com.ll.exam.damda.entity.user.SiteUser;
 import lombok.*;
 
 import javax.persistence.*;
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;

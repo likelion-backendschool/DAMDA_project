@@ -57,4 +57,9 @@ public class CourseService {
         spotList.remove(spot);
         courseRepository.save(course);
     }
+
+    public void deleteCourse(Plan plan, long i) {
+        Course course = getCourse(plan, i);
+        courseRepository.delete(course);
+    }
 }

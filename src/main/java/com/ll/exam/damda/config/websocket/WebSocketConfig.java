@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Configuration
@@ -22,6 +23,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         //websocket handshake를 위한 공통 주소, 일반 websocket처럼 handler별로 설정해줄 필요 없음
-        registry.addEndpoint("/ws/chat").withSockJS();
+        registry.addEndpoint("/ws/chat")
+                .setAllowedOrigins("*")
+                .withSockJS();
     }
 }

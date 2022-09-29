@@ -1,10 +1,9 @@
 package com.ll.exam.damda;
 
-import com.ll.exam.damda.entity.search.*;
-import com.ll.exam.damda.entity.user.SiteUser;
+import com.ll.exam.damda.entity.search.Spot;
+import com.ll.exam.damda.entity.search.Tag;
 import com.ll.exam.damda.repository.search.review.ReviewRepository;
 import com.ll.exam.damda.repository.search.spot.SpotRepository;
-import com.ll.exam.damda.repository.user.UserRepository;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

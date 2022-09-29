@@ -1,9 +1,9 @@
 package com.ll.exam.damda.service.search.spot;
 
+import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.entity.search.Review;
 import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.search.Tag;
-import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.repository.search.spot.SpotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;

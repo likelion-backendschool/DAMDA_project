@@ -1,18 +1,17 @@
 package com.ll.exam.damda.service.user;
 
 import com.ll.exam.damda.config.user.DataNotFoundException;
-import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.config.user.SignupEmailDuplicatedException;
 import com.ll.exam.damda.config.user.SignupNicknameDuplicatedException;
 import com.ll.exam.damda.config.user.SignupUsernameDuplicatedException;
+import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.user.UserRepository;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 

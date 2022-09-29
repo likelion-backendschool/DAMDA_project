@@ -1,14 +1,12 @@
 package com.ll.exam.damda.controller.design.chat;
 
 import com.ll.exam.damda.dto.design.chat.ChatMessageDto;
-import com.ll.exam.damda.dto.user.SiteUserContext;
 import com.ll.exam.damda.service.design.chat.ChatService;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 
 @Controller

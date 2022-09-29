@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/damda?useUnicode=true&characterEncoding=utf8&serverTimeZone=Asia/Seoul
+    url: jdbc:mariadb://localhost:3307/damda?useUnicode=true&characterEncoding=utf8&serverTimeZone=Asia/Seoul
     driverClassName: org.mariadb.jdbc.Driver
-    username: root
-    password: 'root'
+    username: testuser
+    password: '5678'
   jpa:
     properties:
       hibernate:
@@ -11,7 +11,7 @@ spring:
         use_sql_comments: 'true'
         show_sql: 'true'
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
   mail:
     host: smtp.gmail.com
     port: 587

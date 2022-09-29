@@ -1,7 +1,6 @@
 package com.ll.exam.damda.controller.search.review;
 
 import com.ll.exam.damda.entity.search.Review;
-import com.ll.exam.damda.entity.search.ReviewTag;
 import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.form.review.ReviewForm;

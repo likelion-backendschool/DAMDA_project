@@ -3,9 +3,7 @@ package com.ll.exam.damda.entity.search;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity

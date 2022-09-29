@@ -1,7 +1,5 @@
 package com.ll.exam.damda.entity.search;
 
-import com.sun.istack.NotNull;
-
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,11 +1,5 @@
 package com.ll.exam.damda;
 
-import com.ll.exam.damda.entity.search.Spot;
-import com.ll.exam.damda.entity.user.SiteUser;
-import com.ll.exam.damda.service.search.spot.SpotService;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 public class ReviewServiceTests {
     /*private SpotService spotService;
 

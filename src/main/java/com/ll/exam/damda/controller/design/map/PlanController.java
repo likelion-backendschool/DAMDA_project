@@ -133,7 +133,7 @@ public class PlanController {
             spot = spotService.create(name, address, urlId, x, y);
         }
         Plan plan = planService.getPlan(planId);
-        Course course = courseService.getCourse(plan, courseId);
+        Course course = courseService.getCourseById(courseId);
         courseService.addSpotAtCourse(course, spot);
         return "success";
     }

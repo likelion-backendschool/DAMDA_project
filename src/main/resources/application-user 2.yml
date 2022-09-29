@@ -1,0 +1,18 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            clientId: 7cc12d30b0349331f6bf867a8bfdb8d6
+            scope: profile_nickname, account_email
+            client-name: Kakao
+            authorization-grant-type: authorization_code
+            redirect-uri: https://wogus.net/login/oauth2/code/kakao
+            client-authentication-method: POST
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id

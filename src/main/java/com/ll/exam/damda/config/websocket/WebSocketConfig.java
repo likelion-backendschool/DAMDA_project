@@ -24,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         //websocket handshake를 위한 공통 주소, 일반 websocket처럼 handler별로 설정해줄 필요 없음
         registry.addEndpoint("/ws/chat")
-                .setAllowedOrigins("*")
+                .setAllowedOriginPatterns("*")
                 .withSockJS();
     }
 }

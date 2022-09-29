@@ -1,9 +1,11 @@
 package com.ll.exam.damda.dto;
 
 import com.ll.exam.damda.dto.design.map.BusketDto;
+import com.ll.exam.damda.dto.design.map.CourseDto;
 import com.ll.exam.damda.dto.design.map.PlanDto;
 import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.entity.design.map.Busket;
+import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
 
@@ -45,5 +47,14 @@ public class DtoUtil {
                 .thumbNailImgPath(spot.getThumbNailImgPath())
                 .build();
         return spotDto;
+    }
+
+    public static CourseDto toCourseDto(Course course) {
+        CourseDto courseDto = CourseDto.builder()
+                .Id(course.getId())
+                .orders(course.getOrders())
+                .travelDate(course.getTravelDate())
+                .build();
+        return courseDto;
     }
 }

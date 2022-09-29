@@ -34,7 +34,7 @@ class ChatServiceTest {
 
     @Autowired
     private UserService userService;
-
+    /*
     @Test
     void findAllRoom() {
     }
@@ -80,5 +80,5 @@ class ChatServiceTest {
                 .build());
         ChatRoom chatRoom = chatRoomRepository.findByPlan_id(plan.getId()).orElseThrow(() -> new NoSuchElementException("채팅방이 존재하지 않습니다."));
         assertThat(chatRoom.getPlan().getTitle()).isEqualTo("테스트 계획");
-    }
+    }*/
 }

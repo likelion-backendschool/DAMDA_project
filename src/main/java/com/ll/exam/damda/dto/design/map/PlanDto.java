@@ -1,16 +1,11 @@
 package com.ll.exam.damda.dto.design.map;
 
 import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
-import com.ll.exam.damda.entity.design.chat.ChatRoom;
-import com.ll.exam.damda.entity.design.map.Busket;
-import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.user.UserPlan;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;

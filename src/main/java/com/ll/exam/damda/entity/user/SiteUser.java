@@ -1,11 +1,10 @@
 package com.ll.exam.damda.entity.user;
 
-import javax.persistence.*;
-
 import com.ll.exam.damda.entity.search.Review;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 

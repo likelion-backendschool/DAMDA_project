@@ -35,7 +35,7 @@ class ChatServiceTest {
     @Autowired
     private UserService userService;
 
-    /*@Test
+    @Test
     void findAllRoom() {
     }
 
@@ -50,7 +50,6 @@ class ChatServiceTest {
         Plan plan = planService.create("테스트 계획", "2022-10-10", "2022-10-15", "테스트", "사용자");
         chatRoomRepository.save(ChatRoom.builder()
                 .plan(plan)
-                .roomTitle("테스트 대화방")
                 .build());
     }
 
@@ -61,7 +60,6 @@ class ChatServiceTest {
         Plan plan = planService.create("테스트 계획", "2022-10-10", "2022-10-15", "테스트", "사용자");
         ChatRoom chatRoom = chatRoomRepository.save(ChatRoom.builder()
                 .plan(plan)
-                .roomTitle("테스트 대화방")
                 .build());
 
         SiteUser siteUser = userService.create("user4", "nick4", "user4@email.com", "1234");
@@ -79,9 +77,8 @@ class ChatServiceTest {
         Plan plan = planService.create("테스트 계획", "2022-10-10", "2022-10-15", "테스트", "사용자");
         chatRoomRepository.save(ChatRoom.builder()
                 .plan(plan)
-                .roomTitle(plan.getTitle())
                 .build());
         ChatRoom chatRoom = chatRoomRepository.findByPlan_id(plan.getId()).orElseThrow(() -> new NoSuchElementException("채팅방이 존재하지 않습니다."));
-        assertThat(chatRoom.getRoomTitle()).isEqualTo("테스트 계획");
-    }*/
+        assertThat(chatRoom.getPlan().getTitle()).isEqualTo("테스트 계획");
+    }
 }

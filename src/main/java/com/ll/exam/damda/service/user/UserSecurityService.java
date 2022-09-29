@@ -1,9 +1,9 @@
 package com.ll.exam.damda.service.user;
 
+import com.ll.exam.damda.config.user.UserRole;
 import com.ll.exam.damda.dto.user.SiteUserContext;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.repository.user.UserRepository;
-import com.ll.exam.damda.config.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

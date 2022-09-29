@@ -11,13 +11,13 @@
     <link rel="stylesheet" th:href="@{/calendar-19/css/style.css}">
 </head>
 <div layout:fragment="content" class="mt-3 container justify-content-around"
-     style="width: 95%; min-height: 100%; position:relative;">
+     style="width: 95%; min-height: 100%; position:relative; margin-top:70px !important;">
     <input type="hidden" name="plan_id" th:value="${plan.id}">
     <input type="hidden" name="plan_size" th:value="${plan.size}">
     <input type="hidden" name="course" th:value="${course}">
     <!--제목과 수정, 삭제 버튼-->
     <div class="justify-content-between d-flex mb-2" style="height: 10%;">
-        <h1 th:text="${plan.title}"></h1>
+        <h1 style="font-family: 'Jua', sans-serif; " th:text="${plan.title}"></h1>
         <div class="d-flex w-25" style="align-items: center; text-align: center;">
             <a class="w-50 h-100 btn btn-outline-secondary mr-2 fs-4" style="align-items: center; font-family: 'Jua', sans-serif;"
                th:href="@{|/travel/design/modification/basic/${plan.id}|}">
@@ -47,19 +47,11 @@
             </a>
         </div>
     </div>
-    <!--일차 이동 바-->
-    <!--    <div class="w-100 d-flex mb-2 justify-content-start" style="height: 10%; white-space: nowrap; overflow: auto;">-->
-    <!--        <div class="card card py-3 px-5 mr-2" th:each="courses : ${plan.courseList}">-->
-    <!--            <a th:if="${courses.id != course.id}"-->
-    <!--               th:href="@{|/travel/design/plan/detail/${plan.id}?order=${courses.orders}|}"-->
-    <!--               th:text="|${courses.orders}일차|"></a>-->
-    <!--            <a class="font-weight-bold" th:if="${courses.id == course.id}" th:text="|${courses.orders}일차|"></a>-->
-    <!--        </div>-->
-    <!--    </div>-->
+
     <!--여행지 코스 정보 / 지도 + 캘린터-->
     <div class="justify-content-around d-flex" style="max-height: 80%;">
-        <!--        <div class="content">-->
-        <div style="width: 40%;" id='calendar'></div>
+        <!--캘린더-->
+        <div style="width: 40%; margin-left:0" id='calendar'></div>
 
         <!--            <script th:src="@{/calendar-19/js/jquery-3.3.1.min.js}"></script>-->
         <script th:src="@{/calendar-19/js/popper.min.js}"></script>
@@ -123,6 +115,7 @@
         </script>
 
         <script th:src="@{/calendar-19/js/main.js}"></script>
+        <!--캘린더 끝-->
 
 
         <div style="width: 50%; height: 100%;">
@@ -141,8 +134,6 @@
                     <a class="btn btn-outline-primary mr-2" th:href="@{|http://place.map.kakao.com/${spot.urlId}|}" style="white-space: nowrap;"
                        target="_blank" th:text="|${spot.name}|"></a>
                 </div>
-                    <!--지도-->
-                    <!--지도 끝-->
             </div>
             <div class="card card container">
                 <!--지도-->
@@ -151,12 +142,6 @@
                 <script type="text/javascript"
                         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4090d1fa0bb6c1caf12b3ec69597bf5c&libraries=services"></script>
                 <script th:inline="javascript">
-                    // window.onload = setBounds();
-                    // var plan_id = $('input[name=plan_id]').val();
-                    // var plan_size = $('input[name=plan_size]').val();
-                    // var spots = [[${spotList}]];
-                    // var size = plan_size;
-                    // var plan_startDate = [[${plan.startDate}]];
 
                     var mapContainer = document.getElementById('mapTotal'), // 지도를 표시할 div
                         mapOption = {

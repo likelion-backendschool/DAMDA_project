@@ -30,6 +30,9 @@ public class Plan {
 
     private LocalDate endDate;
 
+    private String startDateString;
+    private String endDateString;
+
     @CreatedDate
     private LocalDateTime createdDate;
 

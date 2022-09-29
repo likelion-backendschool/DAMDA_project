@@ -1,6 +1,7 @@
 package com.ll.exam.damda.service.design.map;
 
 import com.ll.exam.damda.entity.design.map.Course;
+import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.UserPlan;
 import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.design.map.Plan;
@@ -9,12 +10,14 @@ import com.ll.exam.damda.repository.user.UserPlanRepository;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,6 +45,8 @@ public class PlanService {
         plan.setEndDate(endDate);
         plan.setSize(size);
         plan.setMemo(memo);
+        plan.setStartDateString(startDateString);
+        plan.setEndDateString(endDateString);
         planRepository.save(plan);
 
         Busket busket = busketService.create(plan);
@@ -78,6 +83,21 @@ public class PlanService {
                 .map(UserPlan::getPlan)
                 .collect(Collectors.toList());
 
+        // 임시 조치, 수정 필요!!!
+        /*for (Plan plan : plans) {
+            List<Spot> spots = plan.getBusket().getSpotList();
+            plan.getBusket().setSpotList(new ArrayList<>());
+            for (Spot spot : spots) {
+                if (spot.getSelfMadeFlag().equals("Y")) {
+                    Spot copySpot = spot;
+                    copySpot.setReviews(new LinkedHashSet<>());
+                    copySpot.setBuskets(new LinkedHashSet<>());
+                    copySpot.setSpotImageURLs(new LinkedHashSet<>());
+                    plan.getBusket().getSpotList().add(copySpot);
+                }
+            }
+        }*/
+
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createdDate"));
         Pageable pageable = PageRequest.of(page, 8, Sort.by(sorts));
@@ -107,6 +127,8 @@ public class PlanService {
         plan.setEndDate(endDate);
         plan.setSize(size);
         plan.setMemo(memo);
+        plan.setStartDateString(startDateString);
+        plan.setEndDateString(endDateString);
         planRepository.save(plan);
 
         List<Course> courseList = plan.getCourseList();
@@ -114,14 +136,16 @@ public class PlanService {
             for(long i = originalSize+1; i <= size; i++) {
                 courseService.create(plan, i);
             }
+            planRepository.save(plan);
             return;
         }
         if(originalSize > size) {
             for(long i = size+1; i <= originalSize; i++) {
                 Course course = courseService.getCourse(plan, i);
                 courseList.remove(course);
-                courseService.deleteCourse(plan, i);
+                courseService.deleteCourse(course);
             }
+            planRepository.save(plan);
         }
 }
 

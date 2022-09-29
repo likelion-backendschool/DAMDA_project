@@ -3,6 +3,7 @@ package com.ll.exam.damda.controller.design.map;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.exam.damda.config.user.DataNotFoundException;
+import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.dto.user.MessageDto;
 import com.ll.exam.damda.dto.user.SiteUserContext;
 import com.ll.exam.damda.entity.user.UserPlan;
@@ -29,6 +30,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -81,15 +83,27 @@ public class PlanController {
     @GetMapping("/modification/basic/{planId}")
     public String modifyBasicPlan(Model model, @PathVariable long planId) {
         Plan plan = planService.getPlan(planId);
+
+        LocalDate startDate = plan.getStartDate();
+        LocalDate endDate = plan.getEndDate();
+        String startDateString = startDate.toString();
+        String endDateString = endDate.toString();
+        System.out.println(startDate);
+        System.out.println(endDate);
+        System.out.println(startDateString);
+        System.out.println(endDateString);
+
         model.addAttribute("plan", plan);
+        model.addAttribute("startDateString", startDateString);
+        model.addAttribute("endDateString", endDateString);
         return "design/map/modify_basic";
     }
 
     @PostMapping("/modification/basic/{planId}")
     public String modifyBasicPlan(@PathVariable long planId,
                                   @RequestParam(value = "title") String title,
-                                  @RequestParam(value = "startDate") String startDateString,
-                                  @RequestParam(value = "endDate") String endDateString,
+                                  @RequestParam(value = "startDateString") String startDateString,
+                                  @RequestParam(value = "endDateString") String endDateString,
                                   @RequestParam(value = "memo") String memo) {
         Plan plan = planService.getPlan(planId);
         if(plan == null) {
@@ -133,7 +147,7 @@ public class PlanController {
             spot = spotService.create(name, address, urlId, x, y);
         }
         Plan plan = planService.getPlan(planId);
-        Course course = courseService.getCourse(plan, courseId);
+        Course course = courseService.getCourseById(courseId);
         courseService.addSpotAtCourse(course, spot);
         return "success";
     }
@@ -247,23 +261,21 @@ public class PlanController {
     }
 
     //해당 일차의 모든 여행지를 가져옴
+    // 임시 조치, 수정 필요!!!
     @GetMapping("/getAllCourse")
     @ResponseBody
-    public List<Spot> getAllCourse(@RequestParam long courseId) {
+    public List<SpotDto> getAllCourse(@RequestParam long courseId) {
         Course course = courseService.getCourseById(courseId);
-        List<Spot> spotList = new ArrayList<>();
+        List<SpotDto> spotDtos = new ArrayList<>();
         for (Spot spot : course.getSpotList()) {
-            if (spot.getSelfMadeFlag().equals("Y")) {
-                Spot copySpot = spot;
-                copySpot.setReviews(new LinkedHashSet<>());
-                copySpot.setBuskets(new LinkedHashSet<>());
-                copySpot.setSpotImageURLs(new LinkedHashSet<>());
-                spotList.add(copySpot);
-            } else {
-                spotList.add(spot);
-            }
+            SpotDto spotDto = SpotDto.builder()
+                    .name(spot.getName())
+                    .address(spot.getAddress())
+                    .urlId(spot.getUrlId())
+                    .build();
+            spotDtos.add(spotDto);
         }
-        return spotList;
+        return spotDtos;
     }
 
 //    @GetMapping("/getFinalSpotAtCourse")

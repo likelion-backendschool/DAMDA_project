@@ -28,6 +28,7 @@ public class ReviewService {
     private final SpotService spotService;
     private final ReviewTagService reviewTagService;
 
+
     public void saveReviewTag(Review review, List<String> tagList){
         for (String _tag : tagList){
             Tag tag = tagRepository.findByName(_tag);
@@ -40,7 +41,7 @@ public class ReviewService {
     }
 
     public void deleteReviewTag(Review review){
-        for (ReviewTag reviewTag : reviewTagService.getReviewTagListByReviewId(review)){
+        for (ReviewTag reviewTag : reviewTagService.getReviewTagListByReview(review)){
             reviewTagRepository.deleteById(reviewTagService.getReviewTagId(reviewTag));
         }
     }
@@ -98,7 +99,8 @@ public class ReviewService {
         review.setTitle(title);
         review.setContent(content);
         review.setLastModifiedDate(LocalDateTime.now());
-
+        deleteReviewTag(review);
+        saveReviewTag(review,reviewTag);
         reviewRepository.save(review);
     }
 

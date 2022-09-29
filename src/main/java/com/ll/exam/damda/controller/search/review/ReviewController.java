@@ -1,11 +1,13 @@
 package com.ll.exam.damda.controller.search.review;
 
 import com.ll.exam.damda.entity.search.Review;
+import com.ll.exam.damda.entity.search.ReviewTag;
 import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.SiteUser;
 import com.ll.exam.damda.form.review.ReviewForm;
 import com.ll.exam.damda.service.review.DataNotFoundException;
 import com.ll.exam.damda.service.review.ReviewService;
+import com.ll.exam.damda.service.review.ReviewTagService;
 import com.ll.exam.damda.service.search.spot.SpotService;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final UserService userService;
     private final SpotService spotService;
+    private final ReviewTagService reviewTagService;
 
     @RequestMapping("/review")
     public String createReview() {
@@ -65,6 +68,8 @@ public class ReviewController {
 
         reviewForm.setTitle(review.getTitle());
         reviewForm.setContent(review.getContent());
+        // 수정 시 초기화 없애는 작업 중
+        reviewForm.setReviewTags(reviewTagService.getReviewTagList(reviewTagService.getReviewTagListByReview(review)));
 
         return "review/createReview";
     }
@@ -87,8 +92,6 @@ public class ReviewController {
         }
 
         reviewService.modify(review, reviewForm.getTitle(), reviewForm.getContent(), reviewForm.getReviewTags());
-        reviewService.deleteReviewTag(review);
-        reviewService.saveReviewTag(review, reviewForm.getReviewTags());
 
         return String.format("redirect:/review/show/%s", id);
     }

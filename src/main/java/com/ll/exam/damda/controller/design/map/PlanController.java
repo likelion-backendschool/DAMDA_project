@@ -318,7 +318,7 @@ public class PlanController {
             String tempLink = getRandomText(10);
             planService.invite(userPlan, tempLink);
 
-            alert = "링크를 공유하세요 : " + "http://localhost:8080/travel/design/share/invite/" + tempLink;
+            alert = "링크를 공유하세요 : " + "https://wogus.net/travel/design/share/invite/" + tempLink;
         }
 
         MessageDto message = new MessageDto(alert, redirectUri, RequestMethod.GET, null);

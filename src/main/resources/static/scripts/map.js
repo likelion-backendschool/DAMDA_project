@@ -303,7 +303,9 @@ function getListItem(index, places) {
     var el = document.createElement('li'),
         itemStr = '<span class="markerbg marker_' + (index + 1) + '"></span>' +
             '<div class="info">' +
-            '   <h5>' + places.place_name + '</h5>';
+             '   <h5>' + places.place_name + '</h5>' +
+            '<a href="http://place.map.kakao.com/' + places.id + '" target="_blank" style="text-decoration-color: #0a53be;">kakao map</a>'
+    ;
 
     if (places.road_address_name) {
         itemStr += '    <span>' + places.road_address_name + '</span>' +

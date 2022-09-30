@@ -378,7 +378,7 @@ function planInsert(place_name, place_address, place_urlId, place_x, place_y) {
             getAllBusket(plan_id);
         }, // ajax성공 후 실행할 함수, 서버에서 response 값을 받아서 처리할 수 있다.
         error: function (error) {
-            alert('이미 바구니에 있습니다.');
+            //alert('이미 바구니에 있습니다.');
         }
     });
 }

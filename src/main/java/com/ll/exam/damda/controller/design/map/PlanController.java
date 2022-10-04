@@ -10,14 +10,12 @@ import com.ll.exam.damda.dto.design.map.PlanDto;
 import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.dto.user.MessageDto;
 import com.ll.exam.damda.dto.user.SiteUserContext;
-import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
 import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.UserPlan;
 import com.ll.exam.damda.repository.user.UserPlanRepository;
 import com.ll.exam.damda.service.design.chat.ChatService;
-import com.ll.exam.damda.service.design.map.BusketService;
 import com.ll.exam.damda.service.design.map.CourseService;
 import com.ll.exam.damda.service.design.map.PlanService;
 import com.ll.exam.damda.service.search.spot.SpotService;
@@ -44,7 +42,6 @@ import static com.ll.exam.damda.util.Util.showMessageAndRedirect;
 @RequestMapping("/travel/design")
 public class PlanController {
     private final UserPlanRepository userPlanRepository;
-    private final BusketService busketService;
     private final ObjectMapper objectMapper;
     private final PlanService planService;
     private final CourseService courseService;
@@ -117,16 +114,16 @@ public class PlanController {
     @GetMapping("/modification/{planId}")
     public String modifyPlan(Model model, @PathVariable("planId") long planId, @RequestParam(value = "order") long order) {
         Plan plan = planService.getPlan(planId);
+        List<SpotDto> spotDtos = planService.getSpotDtos(plan.getId());
 
         if(plan == null) {
             return "redirect:/travel/design/plan/list";
         }
         CourseDto courseDto = courseService.getCourse(plan, order);
         ChatRoomDto chatRoomDto = chatService.findByPlan_id(plan);
-        Busket busket = busketService.getBusket(plan);
         model.addAttribute("plan", plan);
         model.addAttribute("course", courseDto);
-        model.addAttribute("spotList", busket.getSpotList());
+        model.addAttribute("spotList", spotDtos);
         model.addAttribute("room", chatRoomDto);
 
         return "design/map/modify_plan";
@@ -155,27 +152,23 @@ public class PlanController {
     //장바구니에 여행지 넣기
     @PostMapping("/insertSpot")
     @ResponseBody
-    public Spot insertBusket(
+    public SpotDto insertBusket(
             @RequestParam(value = "name") String name,
             @RequestParam(value = "address") String address,
             @RequestParam(value = "urlId") long urlId,
             @RequestParam(value = "x") String x,
             @RequestParam(value = "y") String y,
             @RequestParam(value = "planId") long planId) throws JsonProcessingException {
-        System.out.println("insertBusket 수행");
         Spot spot = spotService.getSpotByUrlId(urlId);
         if (spot == null) {
             spot = spotService.create(name, address, urlId, x, y);
         }
-        Plan plan = planService.getPlan(planId);
 
-        boolean success = busketService.addSpotAtBusket(spot, plan);
-        //장바구니에 추가
-        if (success) {
-            return spot;
+        Plan plan = planService.getPlan(planId);
+        if (planService.addSpot(plan, spot)) {
+            return DtoUtil.toSpotDto(spot);
         }
         throw new DataNotFoundException("error");
-
     }
 
     //장바구니에 여행지 넣기2 - 여행지 탐색에서
@@ -183,19 +176,13 @@ public class PlanController {
     public String insertBusket(
             @RequestParam(value = "spotId") long spotId,
             @RequestParam(value = "planId") long planId) throws JsonProcessingException {
-        System.out.println("insertBusket 수행");
-
         Spot spot = spotService.getSpot(spotId);
         Plan plan = planService.getPlan(planId);
 
         //장바구니에 추가
-        boolean success = busketService.addSpotAtBusket(spot, plan);
+        planService.addSpot(plan, spot);
 
-        if (success) {
-            return "redirect:/travel/design/plan/list";
-        } else {
-            return "redirect:/travel/design/plan/list";
-        }
+        return "redirect:/travel/design/plan/list";
     }
 
 
@@ -221,10 +208,8 @@ public class PlanController {
     @GetMapping("/getBusket")
     @ResponseBody
     public String getFinalBusket(@RequestParam long planId) throws JsonProcessingException {
-        Plan plan = planService.getPlan(planId);
-        Busket busket = busketService.getBusket(plan);
-        List<Spot> busketList = busket.getSpotList();
-        String result = objectMapper.writeValueAsString(busketList.get(busketList.size() - 1));
+        List<SpotDto> spotDtos = planService.getSpotDtos(planId);
+        String result = objectMapper.writeValueAsString(spotDtos.get(spotDtos.size() - 1));
         System.out.println(result);
         return result;
     }
@@ -233,26 +218,14 @@ public class PlanController {
     @GetMapping("/getAllBusket")
     @ResponseBody
     public List<SpotDto> getAllBusket(@RequestParam long planId) throws JsonProcessingException {
-        Plan plan = planService.getPlan(planId);
-        Busket busket = busketService.getBusket(plan);
-        List<Spot> busketList = busket.getSpotList();
-        List<SpotDto> spotDtos = new ArrayList<>();
-        for (Spot spot : busketList) {
-            spotDtos.add(DtoUtil.toSpotDto(spot));
-        }
-        return spotDtos;
-        //return busketList;
+        return planService.getSpotDtos(planId);
     }
 
     //장바구니에서 여행지 삭제
     @GetMapping("/removeSpot")
     @ResponseBody
     public String removeSpotAtBusket(@RequestParam long planId, @RequestParam long spotId) {
-        Spot spot = spotService.getSpot(spotId);
-        Plan plan = planService.getPlan(planId);
-        Busket busket = plan.getBusket();
-
-        busketService.removeSpotAtBusket(busket, spot);
+        planService.removePlanSpot(planId, spotId);
         return "success";
     }
 

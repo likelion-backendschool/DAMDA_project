@@ -3,10 +3,11 @@ package com.ll.exam.damda.dto;
 import com.ll.exam.damda.dto.design.map.BusketDto;
 import com.ll.exam.damda.dto.design.map.CourseDto;
 import com.ll.exam.damda.dto.design.map.PlanDto;
+import com.ll.exam.damda.dto.design.map.PlanSpotDto;
 import com.ll.exam.damda.dto.search.spot.SpotDto;
-import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
+import com.ll.exam.damda.entity.design.map.PlanSpot;
 import com.ll.exam.damda.entity.search.Spot;
 
 /*연관 관계를 제외한 정보만 가지고 있는 dto 반환*/
@@ -24,13 +25,6 @@ public class DtoUtil {
                 .memo(plan.getMemo())
                 .build();
         return planDto;
-    }
-
-    public static BusketDto toBusketDto(Busket busket) {
-        BusketDto busketDto = BusketDto.builder()
-                .Id(busket.getId())
-                .build();
-        return busketDto;
     }
 
     public static SpotDto toSpotDto(Spot spot) {
@@ -56,5 +50,12 @@ public class DtoUtil {
                 .travelDate(course.getTravelDate())
                 .build();
         return courseDto;
+    }
+
+    public static PlanSpotDto toPlanSpotDto(PlanSpot planSpot) {
+        PlanSpotDto planSpotDto = PlanSpotDto.builder()
+                .id(planSpot.getId())
+                .build();
+        return planSpotDto;
     }
 }

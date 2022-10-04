@@ -3,13 +3,16 @@ package com.ll.exam.damda.service.design.map;
 import com.ll.exam.damda.dto.DtoUtil;
 import com.ll.exam.damda.dto.design.map.BusketDto;
 import com.ll.exam.damda.dto.design.map.PlanDto;
+import com.ll.exam.damda.dto.design.map.PlanSpotDto;
 import com.ll.exam.damda.dto.search.spot.SpotDto;
-import com.ll.exam.damda.entity.design.map.Busket;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
+import com.ll.exam.damda.entity.design.map.PlanSpot;
 import com.ll.exam.damda.entity.search.Spot;
 import com.ll.exam.damda.entity.user.UserPlan;
 import com.ll.exam.damda.repository.design.map.PlanRepository;
+import com.ll.exam.damda.repository.design.map.PlanSpotRepository;
+import com.ll.exam.damda.repository.search.spot.SpotRepository;
 import com.ll.exam.damda.repository.user.UserPlanRepository;
 import com.ll.exam.damda.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +22,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,8 +30,9 @@ import java.util.stream.Collectors;
 public class PlanService {
     private final UserService userService;
     private final UserPlanRepository userPlanRepository;
-    private final BusketService busketService;
     private final PlanRepository planRepository;
+    private final PlanSpotRepository planSpotRepository;
+    private final SpotRepository spotRepository;
     private final CourseService courseService;
 
     //새로운 플래너 생성
@@ -51,8 +53,6 @@ public class PlanService {
         plan.setEndDateString(endDateString);
         planRepository.save(plan);
 
-        Busket busket = busketService.create(plan);
-        plan.setBusket(busket);
         planRepository.save(plan);
 
         UserPlan userPlan = new UserPlan();
@@ -89,20 +89,23 @@ public class PlanService {
         List<PlanDto> planDtos = new ArrayList<>();
         for (Plan plan : plans) {
             PlanDto planDto = DtoUtil.toPlanDto(plan);
-            BusketDto busketDto = DtoUtil.toBusketDto(plan.getBusket());
 
-            List<Spot> spots = plan.getBusket().getSpotList();
+            List<PlanSpot> planSpots = planSpotRepository.findAllByPlanId(plan.getId());
             List<SpotDto> spotDtos = new ArrayList<>();
-            for (Spot spot : spots) {
-                spotDtos.add(DtoUtil.toSpotDto(spot));
+            for (PlanSpot planSpot : planSpots) {
+                Spot spot = planSpot.getSpot();
+
+                SpotDto spotDto = DtoUtil.toSpotDto(spot);
+
+                spotDtos.add(spotDto);
             }
 
-            planDto.setBusket(busketDto);
-            busketDto.setPlan(planDto);
-            busketDto.setSpotList(spotDtos);
+            planDto.setSpotDtos(spotDtos);
+
             planDtos.add(planDto);
         }
 
+        // Convert List<PlanDto> -> Page<PlanDto>
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createdDate"));
         Pageable pageable = PageRequest.of(page, 8, Sort.by(sorts));
@@ -174,5 +177,35 @@ public class PlanService {
         userPlan.setPlan(userPlan1.getPlan());
         userPlan.setSiteUser(userService.getUser(name));
         userPlanRepository.save(userPlan);
+    }
+
+    public List<SpotDto> getSpotDtos(Long planId) {
+        List<SpotDto> spotDtos = new ArrayList<>();
+
+        List<PlanSpot> planSpots = planSpotRepository.findAllByPlanId(planId);
+        for (PlanSpot planSpot : planSpots) {
+            Spot spot = planSpot.getSpot();
+            spotDtos.add(DtoUtil.toSpotDto(spot));
+        }
+
+        return spotDtos;
+    }
+
+    public Boolean addSpot(Plan plan, Spot spot) {
+        Optional<PlanSpot> _planSpot = planSpotRepository.findByPlanIdAndSpotId(plan.getId(), spot.getId());
+        if (_planSpot.isPresent()) {
+            return false;
+        }
+
+        PlanSpot planSpot = new PlanSpot();
+        planSpot.setPlanSpot(plan, spot);
+        planSpotRepository.save(planSpot);
+
+        return true;
+    }
+
+    public void removePlanSpot(long planId, long spotId) {
+        Optional<PlanSpot> _planSpot = planSpotRepository.findByPlanIdAndSpotId(planId, spotId);
+        planSpotRepository.deleteById(_planSpot.get().getId());
     }
 }

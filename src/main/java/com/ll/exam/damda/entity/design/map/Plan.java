@@ -48,14 +48,14 @@ public class Plan {
     @OneToMany(mappedBy = "plan", cascade = CascadeType.REMOVE)
     private List<Course> courseList;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    private Busket busket;
-
     @OneToMany(mappedBy = "plan", cascade = CascadeType.REMOVE)
     private Set<UserPlan> userPlanSet;
 
     @OneToOne(mappedBy = "plan", cascade = CascadeType.REMOVE)
     private ChatRoom chatRoom;
+
+    @OneToMany(mappedBy = "plan")
+    private Set<PlanSpot> planSpots;
 
 //    @ManyToOne
 //    private SiteUser siteUser;

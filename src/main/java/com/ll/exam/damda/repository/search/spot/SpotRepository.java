@@ -1,5 +1,6 @@
 package com.ll.exam.damda.repository.search.spot;
 
+import com.ll.exam.damda.entity.design.map.PlanSpot;
 import com.ll.exam.damda.entity.search.Spot;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,4 +32,5 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
     List<Spot> findAllEntityGraph();
 
     Optional<Spot> findByUrlId(long urlId);
+
 }

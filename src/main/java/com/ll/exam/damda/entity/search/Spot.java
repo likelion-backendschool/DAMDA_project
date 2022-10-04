@@ -1,6 +1,6 @@
 package com.ll.exam.damda.entity.search;
 
-import com.ll.exam.damda.entity.design.map.Busket;
+import com.ll.exam.damda.entity.design.map.PlanSpot;
 import lombok.*;
 
 import javax.persistence.*;
@@ -40,9 +40,9 @@ public class Spot {
     @Builder.Default
     private Set<Review> reviews = new LinkedHashSet<>();
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "spot")
     @Builder.Default
-    private Set<Busket> buskets = new LinkedHashSet<>();
+    private Set<PlanSpot> planSpots = new LinkedHashSet<>();
 
     @Column(name = "spot_review_cnt", nullable = false)
     private int reviewCnt = 0;

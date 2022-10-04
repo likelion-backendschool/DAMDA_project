@@ -1,6 +1,9 @@
 package com.ll.exam.damda.dto.design.map;
 
 import com.ll.exam.damda.dto.design.chat.ChatRoomDto;
+import com.ll.exam.damda.dto.search.spot.SpotDto;
+import com.ll.exam.damda.entity.design.map.Plan;
+import com.ll.exam.damda.entity.design.map.PlanSpot;
 import com.ll.exam.damda.entity.user.UserPlan;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +30,8 @@ public class PlanDto {
     private String lastModifier;
     private String memo;
     private List<CourseDto> courseList;
-    private BusketDto busket;
+    private List<PlanSpotDto> planSpotDtos;
+    private List<SpotDto> spotDtos;
     private Set<UserPlan> userPlanSet;
     private ChatRoomDto chatRoom;
 

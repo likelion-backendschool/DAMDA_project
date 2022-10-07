@@ -1,5 +1,8 @@
 package com.ll.exam.damda.entity.search;
 
+import com.ll.exam.damda.dto.design.map.PlanSpotDto;
+import com.ll.exam.damda.dto.search.review.ReviewDto;
+import com.ll.exam.damda.entity.design.map.PlanSpot;
 import com.ll.exam.damda.entity.user.SiteUser;
 import lombok.*;
 
@@ -18,6 +21,7 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
     private Long id;
 
     @Column(name = "review_title", nullable = false)
@@ -29,7 +33,7 @@ public class Review {
     @Column(name = "review_first_created_date")
     private LocalDateTime firstCreatedDate;
 
-    @Column(name = "review_last_created_date")
+    @Column(name = "review_last_modified_date")
     private LocalDateTime lastModifiedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,18 +44,26 @@ public class Review {
     @JoinColumn(name = "siteUser_id")
     private SiteUser siteUser;
 
-
-
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     @Builder.Default
     private Set<ReviewTag> reviewTags = new LinkedHashSet<>();
+
+    public ReviewDto toDto(Review review) {
+        ReviewDto reviewDto = ReviewDto.builder()
+                .id(review.getId())
+                .title(review.getTitle())
+                .content(review.getContent())
+                .firstCreatedData(review.getFirstCreatedDate())
+                .lastModifiedDate(review.getLastModifiedDate())
+                .build();
+        return reviewDto;
+    }
 
     //==연관관계 메서드==//
     public void setSpot(Spot spot) {
         this.spot = spot;
         spot.setReviewCnt(spot.getReviewCnt() + 1);
     }
-
 
     //==조회 로직==//
     public Map<Tag, Integer> getTagInfo() {
@@ -70,10 +82,8 @@ public class Review {
         return tagInfo;
     }
 
-
     public Map<Tag, Integer> getTagMap2(Review review) {
         Map<Tag, Integer> tagInfo = new HashMap<>();
-
 
             for (Map.Entry<Tag, Integer> entry : review.getTagInfo().entrySet()) {
                 if (!tagInfo.containsKey(entry.getKey())) {
@@ -83,10 +93,8 @@ public class Review {
                 }
             }
 
-
         return tagInfo;
     }
-
 
     public List<String> getTagList(Review review) {
         List<String> tagNameList = new ArrayList<>();
@@ -107,4 +115,4 @@ public class Review {
         List<String> tagNameList = getTagList(review);
         return tagNameList.get(num-1);
     }
-   }
+}

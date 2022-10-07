@@ -245,7 +245,7 @@ public class PlanController {
     public List<SpotDto> getAllCourse(@RequestParam long courseId) {
         Course course = courseService.getCourseById(courseId);
         List<SpotDto> spotDtos = new ArrayList<>();
-        for (Spot spot : course.getSpotList()) {
+        for (Spot spot : course.getSpots()) {
             SpotDto spotDto = SpotDto.builder()
                     .id(spot.getId())
                     .name(spot.getName())

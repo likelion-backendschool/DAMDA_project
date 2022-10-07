@@ -18,6 +18,7 @@ public class ChatRoom {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "chat_room_id")
     private Long id;
     
     //여행 계획과 OneToOne 맵핑

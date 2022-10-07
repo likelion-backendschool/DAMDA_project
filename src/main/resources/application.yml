@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active:
+    active: init
     include: db, user
   devtools:
     livereload:

@@ -15,18 +15,7 @@ public class ReviewDto {
     private Long id;
     private String title;
     private String content;
-    private LocalDateTime FirstCreatedData;
-    private LocalDateTime LastModifiedDate;
-    private List<String> Tags;
-
-    public ReviewDto toDto(Review review){
-        return ReviewDto.builder()
-                .id(review.getId())
-                .content(review.getContent())
-                .title(review.getTitle())
-                .FirstCreatedData(review.getFirstCreatedDate())
-                .LastModifiedDate(review.getLastModifiedDate())
-                .Tags(review.getTagList(review))
-                .build();
-    }
+    private LocalDateTime firstCreatedData;
+    private LocalDateTime lastModifiedDate;
+    private List<String> tags;
 }

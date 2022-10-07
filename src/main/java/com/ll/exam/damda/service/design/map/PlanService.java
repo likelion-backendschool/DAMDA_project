@@ -1,9 +1,7 @@
 package com.ll.exam.damda.service.design.map;
 
 import com.ll.exam.damda.dto.DtoUtil;
-import com.ll.exam.damda.dto.design.map.BusketDto;
 import com.ll.exam.damda.dto.design.map.PlanDto;
-import com.ll.exam.damda.dto.design.map.PlanSpotDto;
 import com.ll.exam.damda.dto.search.spot.SpotDto;
 import com.ll.exam.damda.entity.design.map.Course;
 import com.ll.exam.damda.entity.design.map.Plan;
@@ -139,7 +137,7 @@ public class PlanService {
         plan.setEndDateString(endDateString);
         planRepository.save(plan);
 
-        List<Course> courseList = plan.getCourseList();
+        Set<Course> courseList = plan.getCourses();
         if(originalSize < size) {
             for(long i = originalSize+1; i <= size; i++) {
                 courseService.create(plan, i);

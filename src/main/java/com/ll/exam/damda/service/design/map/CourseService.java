@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -24,18 +25,18 @@ public class CourseService {
     public void create(Plan plan, long i) {
         Course course = new Course();
         course.setPlan(plan);
-        course.setOrders(i);
+        course.setOrder(i);
         courseRepository.save(course);
     }
 
     public CourseDto getCourse(Plan plan, long order) {
-        List<Course> courseList = plan.getCourseList();
+        Set<Course> courseList = plan.getCourses();
         for(Course course : courseList) {
-            if(course.getOrders() == order) {
+            if(course.getOrder() == order) {
                 CourseDto courseDto = DtoUtil.toCourseDto(course);
 
                 List<SpotDto> spotDtoList = new ArrayList<>();
-                for (Spot spot : course.getSpotList()) {
+                for (Spot spot : course.getSpots()) {
                     spotDtoList.add(DtoUtil.toSpotDto(spot));
                 }
 
@@ -48,9 +49,9 @@ public class CourseService {
     }
 
     public Course getCourse(Plan plan, long order, Boolean isEntity) {
-        List<Course> courseList = plan.getCourseList();
+        Set<Course> courseList = plan.getCourses();
         for (Course course : courseList) {
-            if (course.getOrders() == order) return course;
+            if (course.getOrder() == order) return course;
         }
         return null;
     }
@@ -65,7 +66,7 @@ public class CourseService {
     }
 
     public void addSpotAtCourse(Course course, Spot spot) {
-        List<Spot> spotList = course.getSpotList();
+        Set<Spot> spotList = course.getSpots();
 //        Spot spot = spotService.getSpot(spot.getId());
 
 //        Spot spotClone = spotService.cloneSpot(spot);
@@ -74,7 +75,7 @@ public class CourseService {
     }
 
     public void removeSpotAtCourse(Course course, Spot spot) {
-        List<Spot> spotList = course.getSpotList();
+        Set<Spot> spotList = course.getSpots();
         spotList.remove(spot);
         courseRepository.save(course);
     }

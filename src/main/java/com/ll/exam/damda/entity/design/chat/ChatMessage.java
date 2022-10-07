@@ -16,9 +16,10 @@ public class ChatMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "chat_message_id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id", nullable = false)
     private ChatRoom chatRoom;
 
@@ -27,7 +28,7 @@ public class ChatMessage {
     @JoinColumn(name = "user_id", nullable = false)
     private SiteUser user;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(name = "chat_message_content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
     public ChatMessageDto toDto() {

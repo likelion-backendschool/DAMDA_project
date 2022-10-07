@@ -36,12 +36,6 @@ public class Plan {
     @CreatedDate
     private LocalDateTime createdDate;
 
-    private LocalDateTime lastModifiedDate;
-
-    private String firstCreator;
-
-    private String lastModifier;
-
     @Column(columnDefinition = "TEXT")
     private String memo;
 

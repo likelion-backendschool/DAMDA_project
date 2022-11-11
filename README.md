@@ -65,7 +65,8 @@
 - 참고 자료: https://jason-api.tistory.com/89
 
 ## ERD
-
+https://www.erdcloud.com/d/bf5syqucdbTAtntsq
+![image](https://user-images.githubusercontent.com/86871368/201333693-322699c7-7bee-4198-a309-fe67af77c207.png)
 ## 핵심 기능
 
 ### 1. 로그인 및 회원 가입
